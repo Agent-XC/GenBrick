@@ -93,6 +93,7 @@ def stage(staging: Path, *, real_renderer: bool) -> Path:
         owned_box_photos_path=REPO_ROOT / "data" / "owned_box_photos.csv",
         ldraw_parts_crosswalk_path=REPO_ROOT / "data" / "ldraw_parts_crosswalk.csv",
         ldraw_colors_crosswalk_path=REPO_ROOT / "data" / "ldraw_colors_crosswalk.csv",
+        ldraw_omr_crosswalk_path=REPO_ROOT / "data" / "ldraw_omr_crosswalk.csv",
         render_dir=staging / "assets" / "ldraw-renders",
         intermediate_dir=work / "02_intermediate",
         primary_dir=work / "03_primary",
