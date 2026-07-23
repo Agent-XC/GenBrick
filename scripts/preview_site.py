@@ -98,6 +98,7 @@ def stage(staging: Path, *, real_renderer: bool) -> Path:
         intermediate_dir=work / "02_intermediate",
         primary_dir=work / "03_primary",
         db_path=db_path,
+        exports_dir=work / "exports",
         render=render_with_ldview if real_renderer else _placeholder_render,
     )
     (staging / "data").mkdir()
