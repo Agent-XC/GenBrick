@@ -49,6 +49,14 @@ def test_home_page_lists_owned_boxes_newest_first_with_links_to_box_detail(page:
     falcon_link = boxes.nth(0).locator("a.box-name")
     expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
 
+    # 75192-1 has an uploaded photo (see tests/fixtures/owned_box_photos.csv);
+    # 10281-1 doesn't, so it shows the no-broken-image placeholder instead.
+    expect(boxes.nth(0).locator("img.box-photo")).to_have_attribute(
+        "src", "assets/owned-photos/75192-1/falcon.jpg"
+    )
+    expect(boxes.nth(1).locator(".box-photo-placeholder")).to_have_text("No photo yet")
+    expect(boxes.nth(1).locator("img.box-photo")).to_have_count(0)
+
     falcon_link.click()
     expect(page.locator("#box-name")).to_have_text("Millennium Falcon")
 
@@ -58,6 +66,9 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
 
     expect(page.locator("#box-name")).to_have_text("Millennium Falcon")
     expect(page.locator("#box-meta")).to_have_text("75192-1 · 2017")
+    expect(page.locator("#box-photo img.box-detail-photo")).to_have_attribute(
+        "src", "assets/owned-photos/75192-1/falcon.jpg"
+    )
     expect(page.locator("#box-official-link a")).to_have_text("Official page")
     expect(page.locator("#box-official-link a")).to_have_attribute(
         "href", "https://www.lego.com/en-us/product/75192"
@@ -73,6 +84,16 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
     # "4" alone would trivially match "Plate 2 x 4" too, so assert on the
     # quantity cell specifically rather than the row's full text.
     expect(parts.filter(has_text="Blue").locator("td").nth(2)).to_have_text("4")
+
+
+def test_box_detail_page_shows_a_placeholder_when_no_photo_is_uploaded(page: Page, site_url: str):
+    # 10281-1 is owned but has no row in tests/fixtures/owned_box_photos.csv —
+    # set_renders.image_source is 'none', so the page must show the explicit
+    # placeholder rather than an <img> with a missing/broken src.
+    page.goto(f"{site_url}/box.html?set_num=10281-1")
+
+    expect(page.locator("#box-photo .box-detail-photo-placeholder")).to_have_text("No photo yet")
+    expect(page.locator("#box-photo img")).to_have_count(0)
 
 
 def test_box_detail_page_reports_not_found_for_a_set_num_that_isnt_owned(page: Page, site_url: str):

@@ -3,12 +3,13 @@ import sqlite3
 import pytest
 
 from pipeline.run import run_pipeline
-from tests.conftest import FIXTURE_OWNED_SETS, FIXTURE_RAW, _fake_resolve_official_link
+from tests.conftest import FIXTURE_OWNED_BOX_PHOTOS, FIXTURE_OWNED_SETS, FIXTURE_RAW, _fake_resolve_official_link
 
 
 def _run(
     tmp_path,
     owned_sets_path=FIXTURE_OWNED_SETS,
+    owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS,
     resolve_official_link=_fake_resolve_official_link,
     universe_scope="owned_themes",
 ):
@@ -16,6 +17,7 @@ def _run(
     run_pipeline(
         raw_dir=FIXTURE_RAW,
         owned_sets_path=owned_sets_path,
+        owned_box_photos_path=owned_box_photos_path,
         intermediate_dir=tmp_path / "02_intermediate",
         primary_dir=tmp_path / "03_primary",
         db_path=db_path,
@@ -276,3 +278,68 @@ def test_owned_sets_seed_referencing_an_unknown_set_num_is_rejected(tmp_path):
 
     with pytest.raises(ValueError, match="99999-1"):
         _run(tmp_path, owned_sets_path=bad_owned_sets)
+
+
+def test_owned_box_photos_are_seeded_from_csv(tmp_path):
+    """See tests/fixtures/owned_box_photos.csv: 75192-1 has an uploaded photo,
+    10281-1 doesn't (covered by test_set_renders_* below).
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute(
+        "SELECT set_num, filename, caption, uploaded_at FROM owned_box_photos ORDER BY set_num"
+    ).fetchall()
+    conn.close()
+
+    assert rows == [("75192-1", "falcon.jpg", "My own copy", "2024-01-01T00:00:00Z")]
+
+
+def test_owned_box_photos_seed_referencing_a_set_num_that_isnt_owned_is_rejected(tmp_path):
+    """A photo is only meaningful for a Box you actually own (INITIAL_PROJECT_SPEC.md
+    §10: "User's own photo (owned sets only)") — 21331-1 exists in the catalog
+    and is even a Candidate under owned_themes, but it isn't owned.
+    """
+    bad_owned_box_photos = tmp_path / "owned_box_photos.csv"
+    bad_owned_box_photos.write_text("set_num,filename,caption,uploaded_at\n21331-1,ship.jpg,,2024-01-01T00:00:00Z\n")
+
+    with pytest.raises(ValueError, match="21331-1"):
+        _run(tmp_path, owned_box_photos_path=bad_owned_box_photos)
+
+
+def test_set_renders_records_user_photo_as_the_image_source_when_a_photo_exists(tmp_path):
+    conn = sqlite3.connect(_run(tmp_path))
+    row = conn.execute(
+        "SELECT image_source, image_path, render_coverage_pct FROM set_renders WHERE set_num = '75192-1'"
+    ).fetchone()
+    conn.close()
+
+    # 100% render_coverage_pct for a user photo — nothing was procedurally
+    # resolved/omitted, per INITIAL_PROJECT_SPEC.md §9's set_renders comment
+    # ("100 for user_photo / ldraw_omr").
+    assert row == ("user_photo", "assets/owned-photos/75192-1/falcon.jpg", pytest.approx(100.0))
+
+
+def test_set_renders_records_none_for_an_owned_box_without_a_photo(tmp_path):
+    """10281-1 is owned but has no row in tests/fixtures/owned_box_photos.csv —
+    later image-priority stages (LDraw OMR/procedural render) aren't built
+    yet, so 'none' plus null path/coverage is the honest current state, not
+    a broken image.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    row = conn.execute(
+        "SELECT image_source, image_path, render_coverage_pct FROM set_renders WHERE set_num = '10281-1'"
+    ).fetchone()
+    conn.close()
+
+    assert row == ("none", None, None)
+
+
+def test_set_renders_has_no_row_for_a_candidate_set(tmp_path):
+    """User photos are owned-sets-only (see above) and later render stages
+    aren't implemented yet, so set_renders — unlike buildability/similarity_topk
+    — doesn't cover Candidates at this stage; 21331-1 is a Candidate here.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    row = conn.execute("SELECT * FROM set_renders WHERE set_num = '21331-1'").fetchone()
+    conn.close()
+
+    assert row is None

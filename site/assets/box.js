@@ -5,9 +5,10 @@ function getSetNumFromUrl() {
 function renderBox(db, setNum) {
   const boxResult = db.exec(
     `
-    SELECT sets.name, sets.year, sets.official_url, sets.official_url_status
+    SELECT sets.name, sets.year, sets.official_url, sets.official_url_status, set_renders.image_path
     FROM owned_boxes
     JOIN sets ON sets.set_num = owned_boxes.set_num
+    LEFT JOIN set_renders ON set_renders.set_num = owned_boxes.set_num
     WHERE owned_boxes.set_num = ?
   `,
     [setNum]
@@ -19,9 +20,10 @@ function renderBox(db, setNum) {
     return;
   }
 
-  const [name, year, officialUrl, officialUrlStatus] = boxResult[0].values[0];
+  const [name, year, officialUrl, officialUrlStatus, imagePath] = boxResult[0].values[0];
   document.getElementById("box-name").textContent = name;
   document.getElementById("box-meta").textContent = `${setNum} · ${year}`;
+  document.getElementById("box-photo").innerHTML = boxPhotoMarkup(imagePath, name, "box-detail-photo");
   document.getElementById("box-official-link").innerHTML = officialLinkMarkup(officialUrl, officialUrlStatus);
 
   renderMinifigs(db, setNum);

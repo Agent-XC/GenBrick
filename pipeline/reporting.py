@@ -46,6 +46,27 @@ CREATE TABLE owned_boxes (
     notes TEXT
 );
 
+-- No id/PRIMARY KEY: current pipeline logic (intermediate_to_primary) only
+-- ever seeds one photo per set_num (last one in the manually-maintained CSV
+-- wins), but the schema itself doesn't forbid more if that changes later.
+CREATE TABLE owned_box_photos (
+    set_num TEXT NOT NULL REFERENCES owned_boxes (set_num),
+    filename TEXT NOT NULL,
+    caption TEXT,
+    uploaded_at TEXT NOT NULL
+);
+
+-- The resolved "what to actually display" row per Set — see CONTEXT.md's
+-- Render coverage definition. image_path/render_coverage_pct are nullable:
+-- 'none' (no photo yet, and later render stages not built) has neither.
+CREATE TABLE set_renders (
+    set_num TEXT PRIMARY KEY REFERENCES sets (set_num),
+    image_source TEXT NOT NULL,
+    image_path TEXT,
+    render_coverage_pct REAL,
+    rendered_at TEXT NOT NULL
+);
+
 CREATE TABLE inventories (
     id INTEGER PRIMARY KEY,
     version INTEGER NOT NULL,
@@ -164,6 +185,26 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
             table="owned_boxes",
             columns=["set_num", "date_acquired", "notes"],
             to_row=lambda r: (r["set_num"], r["date_acquired"], r["notes"]),
+        )
+        _insert_csv(
+            conn,
+            primary_dir / "owned_box_photos.csv",
+            table="owned_box_photos",
+            columns=["set_num", "filename", "caption", "uploaded_at"],
+            to_row=lambda r: (r["set_num"], r["filename"], r["caption"], r["uploaded_at"]),
+        )
+        _insert_csv(
+            conn,
+            primary_dir / "set_renders.csv",
+            table="set_renders",
+            columns=["set_num", "image_source", "image_path", "render_coverage_pct", "rendered_at"],
+            to_row=lambda r: (
+                r["set_num"],
+                r["image_source"],
+                r["image_path"] or None,
+                float(r["render_coverage_pct"]) if r["render_coverage_pct"] else None,
+                r["rendered_at"],
+            ),
         )
         _insert_csv(
             conn,

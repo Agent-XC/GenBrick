@@ -12,6 +12,7 @@ from pipeline.scope import load_universe_scope
 def run_pipeline(
     raw_dir: Path,
     owned_sets_path: Path,
+    owned_box_photos_path: Path,
     intermediate_dir: Path,
     primary_dir: Path,
     db_path: Path,
@@ -22,6 +23,7 @@ def run_pipeline(
     intermediate_to_primary(
         intermediate_dir,
         owned_sets_path,
+        owned_box_photos_path,
         primary_dir,
         resolve_official_link=resolve_official_link,
         universe_scope=universe_scope,
@@ -35,6 +37,7 @@ if __name__ == "__main__":
     run_pipeline(
         raw_dir=repo_root / "data" / "01_raw",
         owned_sets_path=repo_root / "data" / "owned_sets.txt",
+        owned_box_photos_path=repo_root / "data" / "owned_box_photos.csv",
         intermediate_dir=repo_root / "data" / "02_intermediate",
         primary_dir=repo_root / "data" / "03_primary",
         db_path=db_path,

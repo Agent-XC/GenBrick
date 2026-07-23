@@ -12,11 +12,16 @@ from pipeline.similarity import compute_similarity_topk
 def intermediate_to_primary(
     intermediate_dir: Path,
     owned_sets_path: Path,
+    owned_box_photos_path: Path,
     primary_dir: Path,
     resolve_official_link: Callable[[str], tuple[str, str]] = _resolve_official_link,
     universe_scope: str = "owned_themes",
 ) -> None:
     primary_dir.mkdir(parents=True, exist_ok=True)
+    # Shared by every derived table below that stamps when it was computed —
+    # buildability/similarity_topk's computed_at and set_renders' rendered_at
+    # column alike.
+    computed_at = datetime.now(UTC).isoformat()
 
     themes_rows = read_csv(intermediate_dir / "themes.csv")
     write_csv(primary_dir / "themes.csv", ["id", "name", "parent_id"], themes_rows)
@@ -51,6 +56,56 @@ def intermediate_to_primary(
             )
     write_csv(primary_dir / "owned_boxes.csv", ["set_num", "date_acquired", "notes"], owned_rows)
     owned_set_nums = {row["set_num"] for row in owned_rows}
+
+    owned_box_photos_rows = read_csv(owned_box_photos_path)
+    for row in owned_box_photos_rows:
+        if row["set_num"] not in owned_set_nums:
+            raise ValueError(
+                f"owned_box_photos seed references set_num {row['set_num']!r}, which isn't an owned Box"
+            )
+    write_csv(
+        primary_dir / "owned_box_photos.csv",
+        ["set_num", "filename", "caption", "uploaded_at"],
+        owned_box_photos_rows,
+    )
+
+    # A Set can only have one row in owned_box_photos here (see reporting.py's
+    # schema comment) — last one in the seed wins if the same set_num were
+    # ever repeated, mirroring the seed's own manually-maintained-CSV nature.
+    photo_by_set_num = {row["set_num"]: row for row in owned_box_photos_rows}
+    set_renders_rows = []
+    for set_num in sorted(owned_set_nums):
+        photo = photo_by_set_num.get(set_num)
+        if photo is not None:
+            set_renders_rows.append(
+                {
+                    "set_num": set_num,
+                    "image_source": "user_photo",
+                    "image_path": f"assets/owned-photos/{set_num}/{photo['filename']}",
+                    # 100%: a user photo isn't a partial procedural render, so
+                    # nothing was omitted the way ldraw_procedural's coverage tracks.
+                    "render_coverage_pct": 100.0,
+                    "rendered_at": computed_at,
+                }
+            )
+        else:
+            # Later image-priority stages (LDraw OMR / procedural render)
+            # aren't built yet — 'none' is the honest current state, not a
+            # placeholder for a bug.
+            set_renders_rows.append(
+                {
+                    "set_num": set_num,
+                    "image_source": "none",
+                    "image_path": None,
+                    "render_coverage_pct": None,
+                    "rendered_at": computed_at,
+                }
+            )
+    write_csv(
+        primary_dir / "set_renders.csv",
+        ["set_num", "image_source", "image_path", "render_coverage_pct", "rendered_at"],
+        set_renders_rows,
+    )
 
     candidate_set_nums = determine_candidate_set_nums(universe_scope, sets_rows, owned_set_nums)
 
@@ -96,7 +151,6 @@ def intermediate_to_primary(
         inventory_id = inventory_id_by_set_num.get(set_num)
         return pool_quantities(inventory_parts_by_inventory_id.get(inventory_id, []))
 
-    computed_at = datetime.now(UTC).isoformat()
     buildability_rows = []
     for set_num in sorted(candidate_set_nums):
         buildability_rows.append(
