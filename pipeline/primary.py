@@ -6,6 +6,7 @@ from pipeline.buildability import compute_coverage_pct, pool_quantities
 from pipeline.csvutil import read_csv, write_csv
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.scope import determine_candidate_set_nums
+from pipeline.similarity import compute_similarity_topk
 
 
 def intermediate_to_primary(
@@ -86,19 +87,48 @@ def intermediate_to_primary(
         row for inventory_id in owned_inventory_ids for row in inventory_parts_by_inventory_id.get(inventory_id, [])
     )
 
+    def _own_pool(set_num: str) -> dict[tuple[str, int], int]:
+        """A Set's own (part_num, color_id) quantities, via its materialized
+        inventory — the two-hop set_num -> inventory_id -> parts lookup
+        shared by both Buildability's required-quantities below and
+        Similarity's per-set pools further down.
+        """
+        inventory_id = inventory_id_by_set_num.get(set_num)
+        return pool_quantities(inventory_parts_by_inventory_id.get(inventory_id, []))
+
     computed_at = datetime.now(UTC).isoformat()
     buildability_rows = []
     for set_num in sorted(candidate_set_nums):
-        inventory_id = inventory_id_by_set_num.get(set_num)
-        required = pool_quantities(inventory_parts_by_inventory_id.get(inventory_id, []))
         buildability_rows.append(
             {
                 "set_num": set_num,
-                "coverage_pct": compute_coverage_pct(required, owned_pool),
+                "coverage_pct": compute_coverage_pct(_own_pool(set_num), owned_pool),
                 "computed_at": computed_at,
             }
         )
     write_csv(primary_dir / "buildability.csv", ["set_num", "coverage_pct", "computed_at"], buildability_rows)
+
+    # Similarity is symmetric and independent of ownership, so it's computed
+    # across owned ∪ Candidate sets (materialized_set_nums) rather than
+    # owned-pool-vs-candidate like Buildability above.
+    pools_by_set_num = {set_num: _own_pool(set_num) for set_num in materialized_set_nums}
+    similarity_topk_rows = []
+    for set_num, topk in compute_similarity_topk(pools_by_set_num).items():
+        for rank, (other_set_num, score) in enumerate(topk, start=1):
+            similarity_topk_rows.append(
+                {
+                    "set_num": set_num,
+                    "other_set_num": other_set_num,
+                    "rank": rank,
+                    "score": score,
+                    "computed_at": computed_at,
+                }
+            )
+    write_csv(
+        primary_dir / "similarity_topk.csv",
+        ["set_num", "other_set_num", "rank", "score", "computed_at"],
+        similarity_topk_rows,
+    )
 
 
 def _rows_for_inventories(rows: list[dict], inventory_ids: set[str]) -> list[dict]:

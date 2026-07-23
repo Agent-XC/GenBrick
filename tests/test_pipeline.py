@@ -229,6 +229,47 @@ def test_owned_minifigs_sums_inventory_minifigs_across_boxes_sharing_the_same_fi
     ]
 
 
+def test_similarity_topk_is_computed_across_owned_and_candidate_sets_ranked_by_score(tmp_path):
+    """Under the default owned_themes scope the materialized universe is
+    75192-1, 10281-1 (both owned) and 21331-1 (Candidate) — 42100-1 sits
+    outside scope entirely and never gets its inventory materialized (see
+    test_inventory_parts_and_minifigs_are_materialized_for_owned_and_candidate_sets_only),
+    so it can have no similarity_topk rows either. Similarity is symmetric
+    and independent of ownership: 21331-1 (not owned) gets full anchor rows
+    just like the owned sets do, unlike buildability which only scores
+    Candidates.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute(
+        "SELECT set_num, other_set_num, rank, score FROM similarity_topk ORDER BY set_num, rank"
+    ).fetchall()
+    conn.close()
+
+    # Weighted Jaccard over each set's own (part_num, color_id) quantities:
+    # 75192-1 {(3001,0):10, (3020,1):4}, 10281-1 {(3001,15):25, (3001,0):15},
+    # 21331-1 {(3020,1):10, (3001,71):5, (3001,0):5}.
+    assert rows == [
+        ("10281-1", "75192-1", 1, pytest.approx(10 / 44 * 100)),
+        ("10281-1", "21331-1", 2, pytest.approx(5 / 55 * 100)),
+        ("21331-1", "75192-1", 1, pytest.approx(9 / 25 * 100)),
+        ("21331-1", "10281-1", 2, pytest.approx(5 / 55 * 100)),
+        ("75192-1", "21331-1", 1, pytest.approx(9 / 25 * 100)),
+        ("75192-1", "10281-1", 2, pytest.approx(10 / 44 * 100)),
+    ]
+
+
+def test_widening_universe_scope_adds_the_newly_materialized_set_to_similarity_topk(tmp_path):
+    """Moving from owned_themes to all picks up 42100-1 — Similarity widens
+    with the same materialized-set universe Buildability uses, with no
+    schema change (mirrors test_widening_universe_scope_grows_the_candidate_set_with_no_schema_change).
+    """
+    conn = sqlite3.connect(_run(tmp_path, universe_scope="all"))
+    rows = conn.execute("SELECT DISTINCT set_num FROM similarity_topk ORDER BY set_num").fetchall()
+    conn.close()
+
+    assert rows == [("10281-1",), ("21331-1",), ("42100-1",), ("75192-1",)]
+
+
 def test_owned_sets_seed_referencing_an_unknown_set_num_is_rejected(tmp_path):
     bad_owned_sets = tmp_path / "owned_sets.csv"
     bad_owned_sets.write_text("set_num,date_acquired,notes\n99999-1,2024-01-01,\n")

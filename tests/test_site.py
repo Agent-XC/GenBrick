@@ -18,7 +18,14 @@ def console_errors(page: Page) -> list[str]:
 
 @pytest.mark.parametrize(
     "path",
-    ["/index.html", "/collection.html", "/figurines.html", "/discover.html", "/box.html?set_num=75192-1"],
+    [
+        "/index.html",
+        "/collection.html",
+        "/figurines.html",
+        "/discover.html",
+        "/similarity.html",
+        "/box.html?set_num=75192-1",
+    ],
 )
 def test_page_loads_without_console_errors(page: Page, site_url: str, console_errors: list[str], path: str):
     page.goto(f"{site_url}{path}")
@@ -109,6 +116,29 @@ def test_discover_page_ranks_candidate_sets_by_buildability_with_a_link_to_its_o
 
     official_link = candidates.nth(0).locator("a.box-link")
     expect(official_link).to_have_attribute("href", "https://www.lego.com/en-us/product/21331")
+
+
+def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: Page, site_url: str):
+    page.goto(f"{site_url}/similarity.html")
+
+    # Under the default owned_themes scope the materialized universe is
+    # 75192-1, 10281-1 (both owned) and 21331-1 (a Candidate, not owned) —
+    # Similarity gets a row for all three alike, unlike Discover/Buildability
+    # which only ranks Candidates.
+    rows = page.locator("#similarity-list .similarity-set")
+    expect(rows).to_have_count(3)
+
+    # Filtered on .box-name specifically, not the row's full text — "Millennium
+    # Falcon" also appears inside 10281-1's and 21331-1's own matches lists.
+    falcon_row = rows.filter(has=page.locator(".box-name", has_text="Millennium Falcon"))
+    falcon_matches = falcon_row.locator(".similarity-matches li")
+    expect(falcon_matches).to_have_count(2)
+    # 75192-1 vs 21331-1: min(4,10)+min(10,5)+min(0,5) = 9, over max(10,5)+
+    # max(4,10)+max(0,5) = 25 -> 36.0%, the closer match than 10281-1's 22.7%.
+    expect(falcon_matches.nth(0)).to_contain_text("Ship in a Bottle")
+    expect(falcon_matches.nth(0)).to_contain_text("36.0%")
+    expect(falcon_matches.nth(1)).to_contain_text("Bonsai Tree")
+    expect(falcon_matches.nth(1)).to_contain_text("22.7%")
 
 
 def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url: str):

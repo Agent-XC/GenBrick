@@ -75,6 +75,18 @@ CREATE TABLE buildability (
     computed_at TEXT NOT NULL
 );
 
+-- Sparse top-10-per-set, not a full dense matrix (see CONTEXT.md's
+-- Similarity definition). Symmetric and independent of ownership, so unlike
+-- buildability this holds rows for owned Sets too, not just Candidates.
+CREATE TABLE similarity_topk (
+    set_num TEXT NOT NULL REFERENCES sets (set_num),
+    other_set_num TEXT NOT NULL REFERENCES sets (set_num),
+    rank INTEGER NOT NULL,
+    score REAL NOT NULL,
+    computed_at TEXT NOT NULL,
+    PRIMARY KEY (set_num, other_set_num)
+);
+
 -- inventory_parts/inventory_minifigs are materialized for owned ∪ Candidate
 -- sets (see intermediate_to_primary), so the Owned brick pool and Figurines
 -- totals must filter through owned_boxes rather than pooling the whole
@@ -186,6 +198,19 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
             table="buildability",
             columns=["set_num", "coverage_pct", "computed_at"],
             to_row=lambda r: (r["set_num"], float(r["coverage_pct"]), r["computed_at"]),
+        )
+        _insert_csv(
+            conn,
+            primary_dir / "similarity_topk.csv",
+            table="similarity_topk",
+            columns=["set_num", "other_set_num", "rank", "score", "computed_at"],
+            to_row=lambda r: (
+                r["set_num"],
+                r["other_set_num"],
+                int(r["rank"]),
+                float(r["score"]),
+                r["computed_at"],
+            ),
         )
 
         conn.commit()
