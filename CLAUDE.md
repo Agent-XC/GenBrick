@@ -11,3 +11,7 @@ Default five-role vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `
 ### Domain docs
 
 Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Local site preview
+
+To look at `site/` in a browser, run `.venv/bin/python scripts/preview_site.py` — don't re-derive the staging/serving steps by hand. See `docs/agents/local-preview.md`.

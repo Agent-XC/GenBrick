@@ -8,3 +8,6 @@ __pycache__/
 data/02_intermediate/
 data/03_primary/
 data/08_reporting/
+
+# scripts/preview_site.py's staging output — see docs/agents/local-preview.md
+.preview/
