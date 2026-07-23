@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Regenerable pipeline layers — not source, not the served artifact.
+data/02_intermediate/
+data/03_primary/
+data/08_reporting/
