@@ -11,17 +11,25 @@ CREATE TABLE themes (
     parent_id INTEGER
 );
 
+-- ldraw_color_id: opportunistic crosswalk to LDraw's own color numbering
+-- (see parts.ldraw_part_id below) — NULL wherever the crosswalk misses.
 CREATE TABLE colors (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     rgb TEXT NOT NULL,
-    is_trans INTEGER NOT NULL
+    is_trans INTEGER NOT NULL,
+    ldraw_color_id INTEGER
 );
 
+-- ldraw_part_id: opportunistic crosswalk to LDraw's part-library numbering
+-- (INITIAL_PROJECT_SPEC.md §13), populated wherever data/ldraw_parts_crosswalk.csv
+-- has an entry, NULL otherwise. Nothing reads this outside the procedural
+-- renderer (pipeline/ldraw.py) — see set_renders' image_source below.
 CREATE TABLE parts (
     part_num TEXT PRIMARY KEY,
     name TEXT NOT NULL,
-    part_cat_id INTEGER NOT NULL
+    part_cat_id INTEGER NOT NULL,
+    ldraw_part_id TEXT
 );
 
 CREATE TABLE minifigs (
@@ -58,7 +66,9 @@ CREATE TABLE owned_box_photos (
 
 -- The resolved "what to actually display" row per Set — see CONTEXT.md's
 -- Render coverage definition. image_path/render_coverage_pct are nullable:
--- 'none' (no photo yet, and later render stages not built) has neither.
+-- 'none' (no photo, zero parts resolved via the LDraw crosswalk, or the
+-- renderer failed) has neither. image_source: 'user_photo' | 'ldraw_procedural'
+-- | 'none' (LDraw OMR isn't built yet — see INITIAL_PROJECT_SPEC.md §10).
 CREATE TABLE set_renders (
     set_num TEXT PRIMARY KEY REFERENCES sets (set_num),
     image_source TEXT NOT NULL,
@@ -147,15 +157,21 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
             conn,
             primary_dir / "colors.csv",
             table="colors",
-            columns=["id", "name", "rgb", "is_trans"],
-            to_row=lambda r: (int(r["id"]), r["name"], r["rgb"], int(parse_bool(r["is_trans"]))),
+            columns=["id", "name", "rgb", "is_trans", "ldraw_color_id"],
+            to_row=lambda r: (
+                int(r["id"]),
+                r["name"],
+                r["rgb"],
+                int(parse_bool(r["is_trans"])),
+                int(r["ldraw_color_id"]) if r["ldraw_color_id"] else None,
+            ),
         )
         _insert_csv(
             conn,
             primary_dir / "parts.csv",
             table="parts",
-            columns=["part_num", "name", "part_cat_id"],
-            to_row=lambda r: (r["part_num"], r["name"], int(r["part_cat_id"])),
+            columns=["part_num", "name", "part_cat_id", "ldraw_part_id"],
+            to_row=lambda r: (r["part_num"], r["name"], int(r["part_cat_id"]), r["ldraw_part_id"] or None),
         )
         _insert_csv(
             conn,

@@ -4,6 +4,8 @@ site_url fixture). See docs/agents/frontend-testing.md for how this harness
 works and what it can't catch.
 """
 
+import re
+
 import pytest
 from playwright.sync_api import Page, expect
 
@@ -50,12 +52,16 @@ def test_home_page_lists_owned_boxes_newest_first_with_links_to_box_detail(page:
     expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
 
     # 75192-1 has an uploaded photo (see tests/fixtures/owned_box_photos.csv);
-    # 10281-1 doesn't, so it shows the no-broken-image placeholder instead.
+    # 10281-1 doesn't, so it falls through to its LDraw procedural render
+    # instead of the no-photo placeholder (see test_pipeline.py's
+    # test_set_renders_falls_through_to_ldraw_procedural_for_an_owned_box_without_a_photo).
     expect(boxes.nth(0).locator("img.box-photo")).to_have_attribute(
         "src", "assets/owned-photos/75192-1/falcon.jpg"
     )
-    expect(boxes.nth(1).locator(".box-photo-placeholder")).to_have_text("No photo yet")
-    expect(boxes.nth(1).locator("img.box-photo")).to_have_count(0)
+    expect(boxes.nth(1).locator("img.box-photo")).to_have_attribute(
+        "src", re.compile(r"^assets/ldraw-renders/10281-1/")
+    )
+    expect(boxes.nth(1).locator(".box-photo-placeholder")).to_have_count(0)
 
     falcon_link.click()
     expect(page.locator("#box-name")).to_have_text("Millennium Falcon")
@@ -86,14 +92,21 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
     expect(parts.filter(has_text="Blue").locator("td").nth(2)).to_have_text("4")
 
 
-def test_box_detail_page_shows_a_placeholder_when_no_photo_is_uploaded(page: Page, site_url: str):
-    # 10281-1 is owned but has no row in tests/fixtures/owned_box_photos.csv —
-    # set_renders.image_source is 'none', so the page must show the explicit
-    # placeholder rather than an <img> with a missing/broken src.
+def test_box_detail_page_shows_the_procedural_render_and_its_coverage_when_no_photo_is_uploaded(
+    page: Page, site_url: str
+):
+    # 10281-1 is owned but has no row in tests/fixtures/owned_box_photos.csv,
+    # so it falls through to set_renders.image_source 'ldraw_procedural' (see
+    # test_set_renders_falls_through_to_ldraw_procedural_for_an_owned_box_without_a_photo
+    # in test_pipeline.py for the exact 37.5% render_coverage_pct math).
     page.goto(f"{site_url}/box.html?set_num=10281-1")
 
-    expect(page.locator("#box-photo .box-detail-photo-placeholder")).to_have_text("No photo yet")
-    expect(page.locator("#box-photo img")).to_have_count(0)
+    expect(page.locator("#box-photo img.box-detail-photo")).to_have_attribute(
+        "src", re.compile(r"^assets/ldraw-renders/10281-1/")
+    )
+    expect(page.locator("#box-photo-caption .render-caption")).to_have_text(
+        "Procedural LDraw render — 37.5% of parts resolved"
+    )
 
 
 def test_box_detail_page_reports_not_found_for_a_set_num_that_isnt_owned(page: Page, site_url: str):

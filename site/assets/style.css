@@ -75,6 +75,12 @@ body {
   color: #999;
 }
 
+.render-caption {
+  margin: -0.5rem 0 1rem;
+  color: #777;
+  font-size: 0.85rem;
+}
+
 .box-year {
   color: #777;
 }

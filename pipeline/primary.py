@@ -4,6 +4,8 @@ from pathlib import Path
 
 from pipeline.buildability import compute_coverage_pct, pool_quantities
 from pipeline.csvutil import read_csv, write_csv
+from pipeline.ldraw import render_with_ldview as _render_with_ldview
+from pipeline.ldraw import resolve_ldraw_procedural_render
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.scope import determine_candidate_set_nums
 from pipeline.similarity import compute_similarity_topk
@@ -13,8 +15,12 @@ def intermediate_to_primary(
     intermediate_dir: Path,
     owned_sets_path: Path,
     owned_box_photos_path: Path,
+    ldraw_parts_crosswalk_path: Path,
+    ldraw_colors_crosswalk_path: Path,
+    render_dir: Path,
     primary_dir: Path,
     resolve_official_link: Callable[[str], tuple[str, str]] = _resolve_official_link,
+    render: Callable[[Path, Path], None] = _render_with_ldview,
     universe_scope: str = "owned_themes",
 ) -> None:
     primary_dir.mkdir(parents=True, exist_ok=True)
@@ -28,11 +34,27 @@ def intermediate_to_primary(
 
     # Metadata tables are loaded in full regardless of universe_scope — only
     # per-set inventory data below is materialized for owned ∪ Candidate sets.
+    # ldraw_part_id / ldraw_color_id are populated opportunistically from a
+    # separately-maintained crosswalk (INITIAL_PROJECT_SPEC.md §13 flags that
+    # whether Rebrickable's own dump carries this in bulk is still unconfirmed),
+    # left NULL wherever that crosswalk has no entry — nothing in Phase 1 reads
+    # these columns except the procedural renderer below.
+    ldraw_color_id_by_color_id = {
+        int(row["color_id"]): int(row["ldraw_color_id"]) for row in read_csv(ldraw_colors_crosswalk_path)
+    }
+    ldraw_part_id_by_part_num = {
+        row["part_num"]: row["ldraw_part_id"] for row in read_csv(ldraw_parts_crosswalk_path)
+    }
+
     colors_rows = read_csv(intermediate_dir / "colors.csv")
-    write_csv(primary_dir / "colors.csv", ["id", "name", "rgb", "is_trans"], colors_rows)
+    for row in colors_rows:
+        row["ldraw_color_id"] = ldraw_color_id_by_color_id.get(int(row["id"]))
+    write_csv(primary_dir / "colors.csv", ["id", "name", "rgb", "is_trans", "ldraw_color_id"], colors_rows)
 
     parts_rows = read_csv(intermediate_dir / "parts.csv")
-    write_csv(primary_dir / "parts.csv", ["part_num", "name", "part_cat_id"], parts_rows)
+    for row in parts_rows:
+        row["ldraw_part_id"] = ldraw_part_id_by_part_num.get(row["part_num"])
+    write_csv(primary_dir / "parts.csv", ["part_num", "name", "part_cat_id", "ldraw_part_id"], parts_rows)
 
     minifigs_rows = read_csv(intermediate_dir / "minifigs.csv")
     write_csv(primary_dir / "minifigs.csv", ["fig_num", "name", "num_parts"], minifigs_rows)
@@ -73,39 +95,6 @@ def intermediate_to_primary(
     # schema comment) — last one in the seed wins if the same set_num were
     # ever repeated, mirroring the seed's own manually-maintained-CSV nature.
     photo_by_set_num = {row["set_num"]: row for row in owned_box_photos_rows}
-    set_renders_rows = []
-    for set_num in sorted(owned_set_nums):
-        photo = photo_by_set_num.get(set_num)
-        if photo is not None:
-            set_renders_rows.append(
-                {
-                    "set_num": set_num,
-                    "image_source": "user_photo",
-                    "image_path": f"assets/owned-photos/{set_num}/{photo['filename']}",
-                    # 100%: a user photo isn't a partial procedural render, so
-                    # nothing was omitted the way ldraw_procedural's coverage tracks.
-                    "render_coverage_pct": 100.0,
-                    "rendered_at": computed_at,
-                }
-            )
-        else:
-            # Later image-priority stages (LDraw OMR / procedural render)
-            # aren't built yet — 'none' is the honest current state, not a
-            # placeholder for a bug.
-            set_renders_rows.append(
-                {
-                    "set_num": set_num,
-                    "image_source": "none",
-                    "image_path": None,
-                    "render_coverage_pct": None,
-                    "rendered_at": computed_at,
-                }
-            )
-    write_csv(
-        primary_dir / "set_renders.csv",
-        ["set_num", "image_source", "image_path", "render_coverage_pct", "rendered_at"],
-        set_renders_rows,
-    )
 
     candidate_set_nums = determine_candidate_set_nums(universe_scope, sets_rows, owned_set_nums)
 
@@ -135,6 +124,45 @@ def intermediate_to_primary(
     )
 
     inventory_parts_by_inventory_id = _group_by_inventory_id(materialized_inventory_parts_rows)
+
+    # Image priority order (INITIAL_PROJECT_SPEC.md §10): a user photo always
+    # wins outright (no LDraw OMR stage built yet); everything else falls
+    # through to the procedural renderer, which itself falls back to 'none'
+    # when zero parts resolve via the crosswalk or the renderer fails.
+    set_renders_rows = []
+    for set_num in sorted(owned_set_nums):
+        photo = photo_by_set_num.get(set_num)
+        if photo is not None:
+            set_renders_rows.append(
+                {
+                    "set_num": set_num,
+                    "image_source": "user_photo",
+                    "image_path": f"assets/owned-photos/{set_num}/{photo['filename']}",
+                    # 100%: a user photo isn't a partial procedural render, so
+                    # nothing was omitted the way ldraw_procedural's coverage tracks.
+                    "render_coverage_pct": 100.0,
+                    "rendered_at": computed_at,
+                }
+            )
+        else:
+            inventory_id = inventory_id_by_set_num.get(set_num)
+            set_renders_rows.append(
+                resolve_ldraw_procedural_render(
+                    set_num,
+                    inventory_parts_by_inventory_id.get(inventory_id, []),
+                    ldraw_part_id_by_part_num,
+                    ldraw_color_id_by_color_id,
+                    render_dir,
+                    computed_at,
+                    render=render,
+                )
+            )
+    write_csv(
+        primary_dir / "set_renders.csv",
+        ["set_num", "image_source", "image_path", "render_coverage_pct", "rendered_at"],
+        set_renders_rows,
+    )
+
     owned_inventory_ids = {
         inventory_id_by_set_num[set_num] for set_num in owned_set_nums if set_num in inventory_id_by_set_num
     }

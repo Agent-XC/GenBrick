@@ -3,14 +3,25 @@ import sqlite3
 import pytest
 
 from pipeline.run import run_pipeline
-from tests.conftest import FIXTURE_OWNED_BOX_PHOTOS, FIXTURE_OWNED_SETS, FIXTURE_RAW, _fake_resolve_official_link
+from tests.conftest import (
+    FIXTURE_LDRAW_COLORS_CROSSWALK,
+    FIXTURE_LDRAW_PARTS_CROSSWALK,
+    FIXTURE_OWNED_BOX_PHOTOS,
+    FIXTURE_OWNED_SETS,
+    FIXTURE_RAW,
+    _fake_render,
+    _fake_resolve_official_link,
+)
 
 
 def _run(
     tmp_path,
     owned_sets_path=FIXTURE_OWNED_SETS,
     owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS,
+    ldraw_parts_crosswalk_path=FIXTURE_LDRAW_PARTS_CROSSWALK,
+    ldraw_colors_crosswalk_path=FIXTURE_LDRAW_COLORS_CROSSWALK,
     resolve_official_link=_fake_resolve_official_link,
+    render=_fake_render,
     universe_scope="owned_themes",
 ):
     db_path = tmp_path / "lego.sqlite"
@@ -18,10 +29,14 @@ def _run(
         raw_dir=FIXTURE_RAW,
         owned_sets_path=owned_sets_path,
         owned_box_photos_path=owned_box_photos_path,
+        ldraw_parts_crosswalk_path=ldraw_parts_crosswalk_path,
+        ldraw_colors_crosswalk_path=ldraw_colors_crosswalk_path,
+        render_dir=tmp_path / "ldraw-renders",
         intermediate_dir=tmp_path / "02_intermediate",
         primary_dir=tmp_path / "03_primary",
         db_path=db_path,
         resolve_official_link=resolve_official_link,
+        render=render,
         universe_scope=universe_scope,
     )
     return db_path
@@ -318,11 +333,12 @@ def test_set_renders_records_user_photo_as_the_image_source_when_a_photo_exists(
     assert row == ("user_photo", "assets/owned-photos/75192-1/falcon.jpg", pytest.approx(100.0))
 
 
-def test_set_renders_records_none_for_an_owned_box_without_a_photo(tmp_path):
-    """10281-1 is owned but has no row in tests/fixtures/owned_box_photos.csv —
-    later image-priority stages (LDraw OMR/procedural render) aren't built
-    yet, so 'none' plus null path/coverage is the honest current state, not
-    a broken image.
+def test_set_renders_falls_through_to_ldraw_procedural_for_an_owned_box_without_a_photo(tmp_path):
+    """10281-1 is owned but has no row in tests/fixtures/owned_box_photos.csv,
+    so it falls through to the procedural renderer (LDraw OMR isn't built
+    yet). Its latest inventory (id 4) is (3001, 15, qty 25) + (3001, 0, qty
+    15) — tests/fixtures/ldraw_colors_crosswalk.csv deliberately omits color
+    15, so only the qty-15 row resolves: 15 / 40 = 37.5% render_coverage_pct.
     """
     conn = sqlite3.connect(_run(tmp_path))
     row = conn.execute(
@@ -330,7 +346,48 @@ def test_set_renders_records_none_for_an_owned_box_without_a_photo(tmp_path):
     ).fetchone()
     conn.close()
 
+    assert row[0] == "ldraw_procedural"
+    assert row[1].startswith("assets/ldraw-renders/10281-1/")
+    assert row[2] == pytest.approx(37.5)
+
+
+def test_set_renders_falls_back_to_none_when_zero_parts_resolve_via_the_crosswalk(tmp_path):
+    """With an empty LDraw crosswalk, nothing resolves for any owned Box
+    without a user photo — 10281-1 must fall all the way through to 'none'
+    rather than a broken or empty image.
+    """
+    empty_parts_crosswalk = tmp_path / "empty_ldraw_parts_crosswalk.csv"
+    empty_parts_crosswalk.write_text("part_num,ldraw_part_id\n")
+    empty_colors_crosswalk = tmp_path / "empty_ldraw_colors_crosswalk.csv"
+    empty_colors_crosswalk.write_text("color_id,ldraw_color_id\n")
+
+    conn = sqlite3.connect(
+        _run(
+            tmp_path,
+            ldraw_parts_crosswalk_path=empty_parts_crosswalk,
+            ldraw_colors_crosswalk_path=empty_colors_crosswalk,
+        )
+    )
+    row = conn.execute(
+        "SELECT image_source, image_path, render_coverage_pct FROM set_renders WHERE set_num = '10281-1'"
+    ).fetchone()
+    conn.close()
+
     assert row == ("none", None, None)
+
+
+def test_ldraw_crosswalk_is_populated_opportunistically_and_null_where_missing(tmp_path):
+    """tests/fixtures/ldraw_colors_crosswalk.csv deliberately omits color 15
+    (White) to exercise the "NULL where not available" half of
+    INITIAL_PROJECT_SPEC.md §9's crosswalk note; every fixture part has an entry.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    colors = dict(conn.execute("SELECT id, ldraw_color_id FROM colors").fetchall())
+    parts = dict(conn.execute("SELECT part_num, ldraw_part_id FROM parts").fetchall())
+    conn.close()
+
+    assert colors == {0: 0, 1: 1, 15: None, 71: 71}
+    assert parts == {"3001": "3001", "3020": "3020"}
 
 
 def test_set_renders_has_no_row_for_a_candidate_set(tmp_path):

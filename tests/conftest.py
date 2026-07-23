@@ -12,8 +12,17 @@ from pipeline.run import run_pipeline
 FIXTURE_RAW = Path(__file__).parent / "fixtures" / "raw"
 FIXTURE_OWNED_SETS = Path(__file__).parent / "fixtures" / "owned_sets.csv"
 FIXTURE_OWNED_BOX_PHOTOS = Path(__file__).parent / "fixtures" / "owned_box_photos.csv"
+FIXTURE_LDRAW_PARTS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_parts_crosswalk.csv"
+FIXTURE_LDRAW_COLORS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_colors_crosswalk.csv"
 FIXTURE_PHOTO = Path(__file__).parent / "fixtures" / "photos" / "falcon.jpg"
 SITE_DIR = Path(__file__).parent.parent / "site"
+
+
+def _fake_render(ldr_path: Path, png_path: Path) -> None:
+    """Stands in for the real (subprocess/LDView) renderer in tests that
+    aren't about the renderer seam itself — see test_ldraw.py for that.
+    """
+    png_path.write_bytes(b"fake-png-bytes")
 
 # Served files whose extension isn't reliably mapped to the right MIME type
 # by every OS's mimetypes database — most importantly .wasm, which needs
@@ -75,14 +84,19 @@ def site_url(tmp_path_factory):
             shutil.copy(src, dst)
 
     db_path = tmp_path_factory.mktemp("db") / "lego.sqlite"
+    render_dir = staging / "assets" / "ldraw-renders"
     run_pipeline(
         raw_dir=FIXTURE_RAW,
         owned_sets_path=FIXTURE_OWNED_SETS,
         owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS,
+        ldraw_parts_crosswalk_path=FIXTURE_LDRAW_PARTS_CROSSWALK,
+        ldraw_colors_crosswalk_path=FIXTURE_LDRAW_COLORS_CROSSWALK,
+        render_dir=render_dir,
         intermediate_dir=tmp_path_factory.mktemp("intermediate"),
         primary_dir=tmp_path_factory.mktemp("primary"),
         db_path=db_path,
         resolve_official_link=_fake_resolve_official_link,
+        render=_fake_render,
     )
     (staging / "data").mkdir()
     shutil.copyfile(db_path, staging / "data" / "lego.sqlite")
@@ -90,7 +104,9 @@ def site_url(tmp_path_factory):
     # tests/fixtures/owned_box_photos.csv points 75192-1 at this filename —
     # staged separately from the real site/assets/owned-photos/ (which would
     # only ever hold the collector's actual photos), so the fixture DB's
-    # image_path resolves to a real file instead of a broken image.
+    # image_path resolves to a real file instead of a broken image. 10281-1's
+    # procedural render was written straight into render_dir (staging's own
+    # assets/ldraw-renders/) by run_pipeline above, so it's already in place.
     photo_dir = staging / "assets" / "owned-photos" / "75192-1"
     photo_dir.mkdir(parents=True)
     shutil.copyfile(FIXTURE_PHOTO, photo_dir / "falcon.jpg")

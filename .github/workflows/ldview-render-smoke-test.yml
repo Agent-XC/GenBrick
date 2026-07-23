@@ -1,0 +1,100 @@
+name: LDView render smoke test
+
+# Proves the LDraw procedural renderer (pipeline/ldraw.py's render_with_ldview,
+# used by set_renders' image_source = 'ldraw_procedural' — see issue #10)
+# actually produces a PNG on a real ubuntu-latest runner, not just against a
+# faked renderer callable in pytest.
+#
+# Uses LDView's official `ldview-osmesa` build (github.com/tcobbs/ldview
+# releases), which is linked against OSMesa and renders fully offscreen with
+# no X server / GPU needed — a better fit for CI than the Xvfb + Mesa
+# llvmpipe approach INITIAL_PROJECT_SPEC.md §10 originally proposed for the
+# regular Qt/OpenGL build. If this OSMesa build ever proves troublesome, the
+# documented fallback is L3P (LDraw -> POV-Ray) + POV-Ray (same §10).
+#
+# Unverified end-to-end until it actually runs on GitHub's infra — the LDView
+# CLI flags and the LDraw library URL below were checked against LDView's own
+# Help.html and a live HEAD request as of 2026-07-23, but the first real run
+# here may still need follow-up fixes.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "pipeline/ldraw.py"
+      - ".github/workflows/ldview-render-smoke-test.yml"
+  workflow_dispatch:
+
+jobs:
+  ldview-render-smoke-test:
+    runs-on: ubuntu-latest
+    env:
+      # Bump alongside the .deb asset name below — see
+      # https://github.com/tcobbs/ldview/releases for newer builds.
+      LDVIEW_VERSION: "4.7"
+      LDVIEW_DEB: "ldview-osmesa_4.7-ubuntu-24.04.amd64.deb"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LDView (ldview-osmesa)
+        run: |
+          curl -sL -o ldview-osmesa.deb \
+            "https://github.com/tcobbs/ldview/releases/download/v${LDVIEW_VERSION}/${LDVIEW_DEB}"
+          sudo apt-get update
+          sudo apt-get install -y ./ldview-osmesa.deb
+          which ldview  # confirm the package actually installed the CLI before relying on it below
+
+      - name: Cache the LDraw parts library
+        id: ldraw-cache
+        uses: actions/cache@v4
+        with:
+          path: ldraw
+          # Static key: this ~140MB library changes rarely and complete.zip
+          # has no version in its URL to key off. Bump the suffix (v2, v3,
+          # ...) to force a refresh if the smoke test needs a newer part.
+          key: ldraw-complete-library-v1
+
+      - name: Download the LDraw parts library
+        if: steps.ldraw-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sL -o complete.zip https://library.ldraw.org/library/updates/complete.zip
+          unzip -q complete.zip
+          rm complete.zip
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Render a known synthetic layout and check the PNG comes out
+        env:
+          LDRAWDIR: ${{ github.workspace }}/ldraw
+        run: |
+          python3 - <<'EOF'
+          from pathlib import Path
+
+          from pipeline.ldraw import build_ldr_layout, render_with_ldview
+
+          # A part/color pair guaranteed present in the LDraw library
+          # (parts/3001.dat, LDConfig.ldr color 0 "Black") — not resolved
+          # from any real Set, just enough to prove the renderer works.
+          ldr_text = build_ldr_layout([("3001", 0, 1)])
+          ldr_path = Path("smoke-test.ldr")
+          ldr_path.write_text(ldr_text)
+
+          png_path = Path("smoke-test.png")
+          render_with_ldview(ldr_path, png_path)
+
+          assert png_path.exists(), "LDView did not produce a PNG"
+          assert png_path.stat().st_size > 0, "LDView produced an empty PNG"
+          print(f"OK: {png_path} ({png_path.stat().st_size} bytes)")
+          EOF
+
+      - name: Upload the rendered PNG for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ldview-smoke-test-render
+          path: smoke-test.png
+          if-no-files-found: ignore
