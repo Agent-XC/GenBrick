@@ -75,13 +75,14 @@ def test_inventory_parts_and_minifigs_are_materialized_for_owned_boxes_only(tmp_
     assert inventories == [(1, 1, "75192-1"), (4, 2, "10281-1")]
 
     parts = conn.execute(
-        "SELECT inventory_id, part_num, color_id, quantity FROM inventory_parts ORDER BY inventory_id, part_num"
+        "SELECT inventory_id, part_num, color_id, quantity FROM inventory_parts ORDER BY inventory_id, part_num, color_id"
     ).fetchall()
     # 10281-1's older inventory (id 2, version 1) is superseded by its latest
     # (id 4, version 2) — a Box's contents come from its latest version only.
     assert parts == [
         (1, "3001", 0, 10),
         (1, "3020", 1, 4),
+        (4, "3001", 0, 15),
         (4, "3001", 15, 25),
     ]
 
@@ -132,6 +133,24 @@ def test_a_boxs_parts_and_minifigs_resolve_to_names_and_colors_via_metadata_tabl
     assert minifigs == [("Han Solo", 1), ("Luke Skywalker", 1)]
 
     conn.close()
+
+
+def test_owned_brick_pool_sums_inventory_parts_across_boxes_sharing_the_same_part_and_color(tmp_path):
+    """75192-1 and 10281-1 both own part 3001 in color 0 (Black) — the Owned
+    brick pool treats the collection as one pooled, disassembled whole, so
+    their quantities sum rather than staying scoped per-Box.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute(
+        "SELECT part_num, color_id, quantity FROM owned_brick_pool ORDER BY part_num, color_id"
+    ).fetchall()
+    conn.close()
+
+    assert rows == [
+        ("3001", 0, 25),  # 10 (75192-1) + 15 (10281-1)
+        ("3001", 15, 25),  # 10281-1 only
+        ("3020", 1, 4),  # 75192-1 only
+    ]
 
 
 def test_owned_sets_seed_referencing_an_unknown_set_num_is_rejected(tmp_path):

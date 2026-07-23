@@ -65,6 +65,15 @@ CREATE TABLE inventory_minifigs (
     fig_num TEXT NOT NULL,
     quantity INTEGER NOT NULL
 );
+
+-- inventory_parts is already scoped to owned Boxes only (see
+-- intermediate_to_primary's owned-inventory filtering), so the Owned brick
+-- pool is just that table pooled and grouped — one disassembled collection,
+-- not per-Box totals.
+CREATE VIEW owned_brick_pool AS
+SELECT part_num, color_id, SUM(quantity) AS quantity
+FROM inventory_parts
+GROUP BY part_num, color_id;
 """
 
 
