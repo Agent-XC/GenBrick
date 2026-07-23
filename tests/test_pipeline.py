@@ -1,20 +1,9 @@
 import sqlite3
-from pathlib import Path
 
 import pytest
 
 from pipeline.run import run_pipeline
-
-FIXTURE_RAW = Path(__file__).parent / "fixtures" / "raw"
-FIXTURE_OWNED_SETS = Path(__file__).parent / "fixtures" / "owned_sets.csv"
-
-
-def _fake_resolve_official_link(set_num: str) -> tuple[str, str]:
-    """Stands in for the real (networked) link checker in pipeline tests that
-    aren't about link-checking — see test_links.py for that seam's own tests.
-    """
-    base_set_number = set_num.split("-")[0]
-    return f"https://www.lego.com/en-us/product/{base_set_number}", "ok"
+from tests.conftest import FIXTURE_OWNED_SETS, FIXTURE_RAW, _fake_resolve_official_link
 
 
 def _run(tmp_path, owned_sets_path=FIXTURE_OWNED_SETS, resolve_official_link=_fake_resolve_official_link):
