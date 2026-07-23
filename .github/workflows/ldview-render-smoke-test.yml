@@ -12,10 +12,15 @@ name: LDView render smoke test
 # regular Qt/OpenGL build. If this OSMesa build ever proves troublesome, the
 # documented fallback is L3P (LDraw -> POV-Ray) + POV-Ray (same §10).
 #
-# Unverified end-to-end until it actually runs on GitHub's infra — the LDView
-# CLI flags and the LDraw library URL below were checked against LDView's own
-# Help.html and a live HEAD request as of 2026-07-23, but the first real run
-# here may still need follow-up fixes.
+# Pinned to 4.7 the first CI run here failed with "OSMesa not working!"
+# (exit 0, no PNG) — a known 4.7 regression: EGL support changed the OSMesa
+# link order and broke the ldview-osmesa build. Fixed on tcobbs/ldview's
+# master per https://forums.ldraw.org/thread-29534.html, but not yet in a
+# tagged release, so pinned to 4.6 (last known-good) until a new release
+# picks up the fix.
+#
+# CLI flags and the LDraw library URL below were checked against LDView's
+# own Help.html and a live HEAD request as of 2026-07-23.
 
 on:
   push:
@@ -30,10 +35,11 @@ jobs:
   ldview-render-smoke-test:
     runs-on: ubuntu-latest
     env:
-      # Bump alongside the .deb asset name below — see
-      # https://github.com/tcobbs/ldview/releases for newer builds.
-      LDVIEW_VERSION: "4.7"
-      LDVIEW_DEB: "ldview-osmesa_4.7-ubuntu-24.04.amd64.deb"
+      # Bump alongside the .deb asset name below once a release newer than
+      # 4.7 ships the OSMesa link-order fix — see
+      # https://github.com/tcobbs/ldview/releases and the comment above.
+      LDVIEW_VERSION: "4.6"
+      LDVIEW_DEB: "ldview-osmesa-4.6-ubuntu-24.04.amd64.deb"
     steps:
       - uses: actions/checkout@v4
 
