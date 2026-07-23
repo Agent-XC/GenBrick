@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pipeline.intermediate import raw_to_intermediate
 from pipeline.primary import intermediate_to_primary
-from pipeline.publish import publish_to_docs
+from pipeline.publish import publish_to_site
 from pipeline.reporting import primary_to_reporting
 
 
@@ -28,4 +28,4 @@ if __name__ == "__main__":
         primary_dir=repo_root / "data" / "03_primary",
         db_path=db_path,
     )
-    publish_to_docs(db_path, repo_root / "docs" / "data")
+    publish_to_site(db_path, repo_root / "site" / "data")

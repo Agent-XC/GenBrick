@@ -132,7 +132,9 @@ at request time. Architecture:
   1. Pull latest Rebrickable CSV dump.
   2. Rebuild the derived SQLite DB / JSON exports per the pipeline in §7.
   3. Re-check official LEGO.com links for owned + candidate sets (§4).
-  4. Commit the updated data files and let GitHub Pages redeploy.
+  4. Commit the updated data files and deploy the refreshed `site/` directory
+     to GitHub Pages via a Pages-artifact upload (see
+     `docs/adr/0002-serve-pages-from-a-github-actions-artifact.md`).
   - Trigger: weekly cron + manual `workflow_dispatch`.
 
 ## 6. Universe scope (modular, expand later without redesign)
@@ -347,12 +349,19 @@ across set/box detail pages. Leave exact framework choice to implementation.
 │   ├── build_db.py                      -- 01_raw → 02_intermediate → 03_primary
 │   ├── compute_similarity.py            -- 03_primary → 08_reporting
 │   ├── check_official_links.py          -- 03_primary → 08_reporting
-│   └── export_json.py                   -- 08_reporting → docs/
-├── docs/                                -- GitHub Pages root, serves
+│   └── export_json.py                   -- 08_reporting → site/
+├── site/                                -- GitHub Pages build output, serves
 │   │                                       data/08_reporting's output
+│   │                                       (deployed via a Pages artifact,
+│   │                                       not a branch/folder — see ADR-0002)
 │   ├── index.html
 │   ├── assets/owned-photos/{set_num}/...
 │   └── data/lego.sqlite (+ generated JSON)
+├── docs/                                -- engineering docs, NOT the website
+│   ├── adr/                              -- architecture decision records
+│   └── agents/                           -- agent-skills config (issue
+│                                             tracker, triage labels, domain
+│                                             doc layout)
 ├── exports/                             -- Phase-2-facing data contract (§15);
 │                                            conceptually sits alongside the
 │                                            reserved 04-07 layers from §3
@@ -455,8 +464,9 @@ README and version it if it changes.
   lookup/construction step, with the retired-set fallback from §4).
 - Re-verify file-size limits when `universe_scope` moves beyond `owned_themes`.
 - ~~Whether to serve Pages from `/docs` on `main` (simplest) vs. a `gh-pages`
-  branch.~~ **Resolved: `/docs` on `main`** — see
-  `docs/adr/0001-serve-pages-from-docs-on-main.md`.
+  branch.~~ **Resolved, then superseded: `site/` deployed via a GitHub Actions
+  Pages artifact** — see
+  `docs/adr/0002-serve-pages-from-a-github-actions-artifact.md`.
 - Whether the LEGO↔LDraw crosswalk (§13) is bulk-downloadable or API-only.
 - BrickNet's actual current release/license state (§14) — treat the comparison
   table as directional, not final, given how new and fast-moving it is.
