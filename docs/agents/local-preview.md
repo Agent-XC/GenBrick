@@ -29,6 +29,22 @@ The `&`-detached server is still a child of that one backgrounded shell invocati
 
 Instead, launch the server as the **entire, sole command** of its own `run_in_background` call (this is exactly what `scripts/preview_site.py` does — `serve_forever()` blocks in the foreground of that one process), then verify it with a separate, ordinary (foreground) `curl` call once it's up.
 
+## If `data/01_raw/` is missing
+
+`data/01_raw/` isn't committed (see `.gitignore` and issue #14) — it's the
+Rebrickable dump, refetched weekly by `.github/workflows/update-data.yml`. On
+a fresh clone with no local `data/01_raw/`, run `pipeline/fetch_rebrickable.py`
+once before `scripts/preview_site.py`:
+
+```sh
+.venv/bin/python -m pipeline.fetch_rebrickable
+```
+
+This pulls the real, full-size Rebrickable dump straight from
+`cdn.rebrickable.com` (no API token needed for the public bulk downloads) —
+expect it to take longer and produce far larger files than the tiny
+walking-skeleton stubs earlier commits used to check in directly.
+
 ## If the preview looks stale
 
 `scripts/preview_site.py` wipes and rebuilds `.preview/` on every run (`stage()` calls `shutil.rmtree` first), so re-running it after a `pipeline/` or `site/` change is enough — no manual cleanup needed. If a port is already in use from a previous session, `pkill -f "scripts/preview_site.py"` first, or pass a different `--port`.

@@ -6,6 +6,7 @@ from pipeline.buildability import compute_coverage_pct, pool_quantities
 from pipeline.csvutil import read_csv, write_csv
 from pipeline.ldraw import render_with_ldview as _render_with_ldview
 from pipeline.ldraw import resolve_ldraw_procedural_render
+from pipeline.links import construct_official_url
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
 from pipeline.omr import resolve_ldraw_omr_render
@@ -70,13 +71,6 @@ def intermediate_to_primary(
 
     sets_rows = read_csv(intermediate_dir / "sets.csv")
     known_set_nums = {row["set_num"] for row in sets_rows}
-    for row in sets_rows:
-        row["official_url"], row["official_url_status"] = resolve_official_link(row["set_num"])
-    write_csv(
-        primary_dir / "sets.csv",
-        ["set_num", "name", "year", "theme_id", "num_parts", "official_url", "official_url_status"],
-        sets_rows,
-    )
 
     owned_rows = read_csv(owned_sets_path)
     for row in owned_rows:
@@ -105,11 +99,40 @@ def intermediate_to_primary(
     # ever repeated, mirroring the seed's own manually-maintained-CSV nature.
     photo_by_set_num = {row["set_num"]: row for row in owned_box_photos_rows}
 
+    # "retail" candidate determination reads official_url_status off every row
+    # (pipeline/scope.py's only available "currently buyable" signal), so that
+    # scope can't avoid a full-catalog link check — resolve eagerly only for
+    # it. owned_themes/all decide candidacy from theme_id/ownership alone, so
+    # for them the (real, HTTP HEAD, one-set-at-a-time) check below only ever
+    # runs for owned ∪ Candidate sets, not the whole catalog — see issue #14.
+    resolve_links_eagerly = universe_scope == "retail"
+    if resolve_links_eagerly:
+        for row in sets_rows:
+            row["official_url"], row["official_url_status"] = resolve_official_link(row["set_num"])
+
     candidate_set_nums = determine_candidate_set_nums(universe_scope, sets_rows, owned_set_nums)
 
     # inventory_parts/inventory_minifigs are expensive at full-catalog scale,
     # so only owned ∪ Candidate sets get per-set inventory data materialized.
     materialized_set_nums = owned_set_nums | candidate_set_nums
+
+    if not resolve_links_eagerly:
+        for row in sets_rows:
+            if row["set_num"] in materialized_set_nums:
+                row["official_url"], row["official_url_status"] = resolve_official_link(row["set_num"])
+            else:
+                # Never checked: out of scope for owned_themes/all, so no
+                # live HTTP request is made for it — official_url is still
+                # populated (naive construction, no network) so "unchecked"
+                # never means "we have no idea what the URL might be."
+                row["official_url"] = construct_official_url(row["set_num"])
+                row["official_url_status"] = "unchecked"
+
+    write_csv(
+        primary_dir / "sets.csv",
+        ["set_num", "name", "year", "theme_id", "num_parts", "official_url", "official_url_status"],
+        sets_rows,
+    )
     materialized_inventories_rows = _latest_inventory_per_set(
         read_csv(intermediate_dir / "inventories.csv"), materialized_set_nums
     )

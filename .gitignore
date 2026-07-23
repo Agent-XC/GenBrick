@@ -5,6 +5,11 @@ __pycache__/
 *.egg-info/
 
 # Regenerable pipeline layers — not source, not the served artifact.
+# 01_raw is re-fetched from Rebrickable weekly (pipeline/fetch_rebrickable.py) —
+# committing a fresh ~50MB+ dump every run would balloon repo size for no
+# benefit, so it's excluded like the other regenerable layers even though it's
+# nominally "raw" rather than derived. See issue #14.
+data/01_raw/
 data/02_intermediate/
 data/03_primary/
 data/08_reporting/

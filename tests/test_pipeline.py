@@ -64,7 +64,7 @@ def test_owned_boxes_are_seeded_from_owned_sets_csv(tmp_path):
     ]
 
 
-def test_sets_table_carries_every_catalog_set_with_a_resolved_official_link(tmp_path):
+def test_sets_table_carries_every_catalog_set_but_only_resolves_owned_and_candidate_links(tmp_path):
     conn = sqlite3.connect(_run(tmp_path))
     rows = conn.execute(
         "SELECT set_num, name, year, official_url, official_url_status FROM sets ORDER BY set_num"
@@ -73,13 +73,54 @@ def test_sets_table_carries_every_catalog_set_with_a_resolved_official_link(tmp_
 
     # Metadata (sets, themes, ...) is loaded in full regardless of
     # universe_scope — 42100-1's theme isn't owned, so it never becomes a
-    # Candidate (see test_candidate_sets_* below), but it still appears here.
+    # Candidate (see test_candidate_sets_* below), and it still appears here,
+    # but its link is never actually checked (issue #14: checking every set
+    # in the full Rebrickable catalog rather than just owned + Candidate
+    # would mean tens of thousands of live HTTP requests every weekly run).
+    # official_url is still populated (naive construction, no network) so
+    # 'unchecked' never means "no URL at all."
     assert rows == [
         ("10281-1", "Bonsai Tree", 2021, "https://www.lego.com/en-us/product/10281", "ok"),
         ("21331-1", "Ship in a Bottle", 2022, "https://www.lego.com/en-us/product/21331", "ok"),
-        ("42100-1", "Liebherr R 9800", 2019, "https://www.lego.com/en-us/product/42100", "ok"),
+        ("42100-1", "Liebherr R 9800", 2019, "https://www.lego.com/en-us/product/42100", "unchecked"),
         ("75192-1", "Millennium Falcon", 2017, "https://www.lego.com/en-us/product/75192", "ok"),
     ]
+
+
+def test_official_link_resolution_is_skipped_for_sets_outside_owned_or_candidate_scope(tmp_path):
+    """Direct regression test for issue #14: resolve_official_link must not be
+    called for a set that's neither owned nor a Candidate under owned_themes
+    scope — 42100-1 sits in an unowned theme (see the test above), so
+    checking its link would be one of the many wasted requests a full-catalog
+    scan would make.
+    """
+    checked_set_nums = []
+
+    def spy_resolve_official_link(set_num):
+        checked_set_nums.append(set_num)
+        return _fake_resolve_official_link(set_num)
+
+    _run(tmp_path, resolve_official_link=spy_resolve_official_link)
+
+    assert "42100-1" not in checked_set_nums
+    assert set(checked_set_nums) == {"10281-1", "75192-1", "21331-1"}
+
+
+def test_official_link_resolution_covers_the_whole_catalog_under_retail_scope(tmp_path):
+    """retail scope's own candidate determination (pipeline/scope.py) reads
+    official_url_status off every set to find non-retired ones, so unlike
+    owned_themes/all it can't avoid a full-catalog check — this locks in that
+    exception to the scoping exercised above.
+    """
+    checked_set_nums = []
+
+    def spy_resolve_official_link(set_num):
+        checked_set_nums.append(set_num)
+        return _fake_resolve_official_link(set_num)
+
+    _run(tmp_path, resolve_official_link=spy_resolve_official_link, universe_scope="retail")
+
+    assert set(checked_set_nums) == {"10281-1", "75192-1", "21331-1", "42100-1"}
 
 
 def test_themes_table_is_carried_through(tmp_path):

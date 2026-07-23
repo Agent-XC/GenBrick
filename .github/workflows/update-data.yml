@@ -1,0 +1,110 @@
+name: Weekly data refresh
+
+# The weekly GitHub Actions automation from INITIAL_PROJECT_SPEC.md §5/§7 and
+# issue #14: pull the latest Rebrickable dump, rerun the full pipeline
+# (rebuild the SQLite/JSON exports, re-check official LEGO.com links), commit
+# the refreshed data files, then deploy site/ to GitHub Pages via a Pages
+# artifact — see docs/adr/0002-serve-pages-from-a-github-actions-artifact.md.
+#
+# LDView install / LDraw library cache steps mirror
+# .github/workflows/ldview-render-smoke-test.yml — see that file's comments
+# for why ldview-osmesa 4.6 specifically.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Every Monday at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      data-changed: ${{ steps.commit.outputs.changed }}
+    env:
+      LDVIEW_VERSION: "4.6"
+      LDVIEW_DEB: "ldview-osmesa-4.6-ubuntu-24.04.amd64.deb"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LDView (ldview-osmesa)
+        run: |
+          curl -sL -o ldview-osmesa.deb \
+            "https://github.com/tcobbs/ldview/releases/download/v${LDVIEW_VERSION}/${LDVIEW_DEB}"
+          sudo apt-get update
+          sudo apt-get install -y ./ldview-osmesa.deb
+          which ldview
+
+      - name: Cache the LDraw parts library
+        id: ldraw-cache
+        uses: actions/cache@v4
+        with:
+          path: ldraw
+          key: ldraw-complete-library-v1
+
+      - name: Download the LDraw parts library
+        if: steps.ldraw-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sL -o complete.zip https://library.ldraw.org/library/updates/complete.zip
+          unzip -q complete.zip
+          rm complete.zip
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install genbrick
+        run: pip install -e .
+
+      - name: Fetch the latest Rebrickable dump
+        env:
+          REBRICKABLE_API_TOKEN: ${{ secrets.REBRICKABLE_API_TOKEN }}
+        run: python -m pipeline.fetch_rebrickable
+
+      - name: Run the full pipeline (rebuild exports, re-check official links, render)
+        env:
+          LDRAWDIR: ${{ github.workspace }}/ldraw
+        run: python -m pipeline.run
+
+      - name: Commit the refreshed data files
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # mkdir -p guards against `git add` failing on a pathspec with no
+          # matches — ldraw-renders only exists once at least one owned Box
+          # falls through to a render (see pipeline/run.py, §10's priority
+          # order), so it may legitimately be absent.
+          mkdir -p site/assets/ldraw-renders
+          git add exports/ site/data/ site/assets/ldraw-renders/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Weekly data refresh"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload site/ as a Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  deploy:
+    needs: refresh-data
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
