@@ -1,6 +1,7 @@
 from collections.abc import Callable
 from pathlib import Path
 
+from pipeline.exports import reporting_to_exports
 from pipeline.intermediate import raw_to_intermediate
 from pipeline.ldraw import render_with_ldview as _render_with_ldview
 from pipeline.links import resolve_official_link as _resolve_official_link
@@ -22,6 +23,7 @@ def run_pipeline(
     intermediate_dir: Path,
     primary_dir: Path,
     db_path: Path,
+    exports_dir: Path,
     resolve_official_link: Callable[[str], tuple[str, str]] = _resolve_official_link,
     render: Callable[[Path, Path], None] = _render_with_ldview,
     fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
@@ -45,6 +47,7 @@ def run_pipeline(
         render_candidates=render_candidates,
     )
     primary_to_reporting(primary_dir, db_path)
+    reporting_to_exports(db_path, exports_dir)
 
 
 if __name__ == "__main__":
@@ -61,6 +64,7 @@ if __name__ == "__main__":
         intermediate_dir=repo_root / "data" / "02_intermediate",
         primary_dir=repo_root / "data" / "03_primary",
         db_path=db_path,
+        exports_dir=repo_root / "exports",
         universe_scope=load_universe_scope(repo_root / "config" / "scope.json"),
         render_candidates=load_render_candidates(repo_root / "config" / "scope.json"),
     )

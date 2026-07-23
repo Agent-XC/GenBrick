@@ -41,6 +41,7 @@ def _run(
         intermediate_dir=tmp_path / "02_intermediate",
         primary_dir=tmp_path / "03_primary",
         db_path=db_path,
+        exports_dir=tmp_path / "exports",
         resolve_official_link=resolve_official_link,
         render=render,
         fetch_omr_model=fetch_omr_model,

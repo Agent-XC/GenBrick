@@ -123,6 +123,7 @@ def site_url(tmp_path_factory):
         intermediate_dir=tmp_path_factory.mktemp("intermediate"),
         primary_dir=tmp_path_factory.mktemp("primary"),
         db_path=db_path,
+        exports_dir=tmp_path_factory.mktemp("exports"),
         resolve_official_link=_fake_resolve_official_link,
         render=_fake_render,
         fetch_omr_model=_fake_fetch_omr_model,

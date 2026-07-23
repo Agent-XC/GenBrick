@@ -1,0 +1,23 @@
+[
+  {
+    "part_num": "3001",
+    "color_id": 0,
+    "quantity": 10,
+    "ldraw_part_id": "3001",
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3001",
+    "color_id": 71,
+    "quantity": 20,
+    "ldraw_part_id": "3001",
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "3020",
+    "color_id": 1,
+    "quantity": 4,
+    "ldraw_part_id": "3020",
+    "ldraw_color_id": 1
+  }
+]

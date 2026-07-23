@@ -21,3 +21,32 @@ LEGO® is a trademark of the LEGO Group.
   phase of this project is designed to build on or benchmark against.
 
 See [`INITIAL_PROJECT_SPEC.md`](./INITIAL_PROJECT_SPEC.md) for the full design.
+
+## Phase-2 export contract
+
+Alongside the site's own SQLite DB, the weekly pipeline produces two
+JSON files under [`exports/`](./exports/) — a versioned public data contract
+for a future generative phase (Phase 2) to consume without any backend
+changes. Both are regenerated in full on every pipeline run; there is no
+incremental/append mode.
+
+- **`available_parts.json`** — the Owned brick pool (see `CONTEXT.md`): one
+  entry per unique `(part_num, color_id)` summed across every owned Box, with
+  the opportunistic LDraw crosswalk ids alongside Rebrickable's own:
+
+  ```json
+  [{ "part_num": "3001", "color_id": 0, "quantity": 25, "ldraw_part_id": "3001", "ldraw_color_id": 0 }]
+  ```
+
+  `ldraw_part_id`/`ldraw_color_id` are `null` wherever the crosswalk has no
+  entry for that part/color.
+
+- **`owned_sets.json`** — a snapshot of `owned_boxes` joined to each Set's
+  basic catalog metadata:
+
+  ```json
+  [{ "set_num": "10281-1", "name": "Bonsai Tree", "year": 2021, "theme_id": 158, "num_parts": 878, "date_acquired": "2022-06-01", "notes": "" }]
+  ```
+
+Both files list only owned Boxes/pool contents — Candidate sets (see
+`CONTEXT.md`) never appear here, regardless of `universe_scope`.
