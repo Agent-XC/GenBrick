@@ -92,6 +92,7 @@ def test_inventory_parts_and_minifigs_are_materialized_for_owned_boxes_only(tmp_
     assert minifigs == [
         (1, "fig-000001", 1),
         (1, "fig-000002", 1),
+        (4, "fig-000001", 1),
     ]
 
     conn.close()
@@ -150,6 +151,22 @@ def test_owned_brick_pool_sums_inventory_parts_across_boxes_sharing_the_same_par
         ("3001", 0, 25),  # 10 (75192-1) + 15 (10281-1)
         ("3001", 15, 25),  # 10281-1 only
         ("3020", 1, 4),  # 75192-1 only
+    ]
+
+
+def test_owned_minifigs_sums_inventory_minifigs_across_boxes_sharing_the_same_fig_num(tmp_path):
+    """75192-1 and 10281-1 both own fig-000001 (Han Solo) — the Figurines page
+    aggregates minifigs across the whole collection the same way the Owned
+    brick pool aggregates parts, so their quantities sum rather than staying
+    scoped per-Box.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute("SELECT fig_num, quantity FROM owned_minifigs ORDER BY fig_num").fetchall()
+    conn.close()
+
+    assert rows == [
+        ("fig-000001", 2),  # 1 (75192-1) + 1 (10281-1)
+        ("fig-000002", 1),  # 75192-1 only
     ]
 
 

@@ -74,6 +74,14 @@ CREATE VIEW owned_brick_pool AS
 SELECT part_num, color_id, SUM(quantity) AS quantity
 FROM inventory_parts
 GROUP BY part_num, color_id;
+
+-- inventory_minifigs is already scoped to owned Boxes only, so the
+-- Figurines page's totals are just that table grouped by fig_num — the
+-- same collection-not-per-Box treatment as owned_brick_pool.
+CREATE VIEW owned_minifigs AS
+SELECT fig_num, SUM(quantity) AS quantity
+FROM inventory_minifigs
+GROUP BY fig_num;
 """
 
 
