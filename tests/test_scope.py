@@ -1,6 +1,8 @@
+import json
+
 import pytest
 
-from pipeline.scope import determine_candidate_set_nums
+from pipeline.scope import determine_candidate_set_nums, load_render_candidates
 
 # Mirrors tests/fixtures/raw/sets.csv: 75192-1 (theme 1) and 10281-1 (theme
 # 158) are owned; 21331-1 shares 10281-1's theme (158); 42100-1 sits in an
@@ -52,3 +54,21 @@ def test_retail_scope_excludes_sets_whose_official_link_resolved_as_retired():
 def test_an_unknown_universe_scope_is_rejected():
     with pytest.raises(ValueError, match="bogus_scope"):
         determine_candidate_set_nums("bogus_scope", SETS_ROWS, OWNED_SET_NUMS)
+
+
+def test_load_render_candidates_defaults_false_when_key_is_absent(tmp_path):
+    """config/scope.json shipped before this flag existed had no
+    render_candidates key at all — an old config on disk must still resolve
+    to the documented starting default (false) rather than raising.
+    """
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes"}))
+
+    assert load_render_candidates(scope_config) is False
+
+
+def test_load_render_candidates_reads_true_when_flipped_on(tmp_path):
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes", "render_candidates": True}))
+
+    assert load_render_candidates(scope_config) is True

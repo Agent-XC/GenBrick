@@ -16,6 +16,16 @@ def load_universe_scope(scope_config_path: Path) -> str:
     return universe_scope
 
 
+def load_render_candidates(scope_config_path: Path) -> bool:
+    """Whether the image-resolution pipeline (OMR/procedural render) also
+    runs for Candidate sets, not just owned ones — see CONTEXT.md's Candidate
+    set definition and INITIAL_PROJECT_SPEC.md §10's "Scope toggle". Defaults
+    to false (link-out only) both as the documented starting value and so a
+    config/scope.json predating this flag keeps its old behavior.
+    """
+    return bool(json.loads(scope_config_path.read_text()).get("render_candidates", False))
+
+
 def determine_candidate_set_nums(
     universe_scope: str, sets_rows: list[dict], owned_set_nums: set[str]
 ) -> set[str]:

@@ -1,3 +1,4 @@
 {
-  "universe_scope": "owned_themes"
+  "universe_scope": "owned_themes",
+  "render_candidates": false
 }

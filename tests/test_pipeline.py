@@ -27,6 +27,7 @@ def _run(
     render=_fake_render,
     fetch_omr_model=_fake_fetch_omr_model,
     universe_scope="owned_themes",
+    render_candidates=False,
 ):
     db_path = tmp_path / "lego.sqlite"
     run_pipeline(
@@ -44,6 +45,7 @@ def _run(
         render=render,
         fetch_omr_model=fetch_omr_model,
         universe_scope=universe_scope,
+        render_candidates=render_candidates,
     )
     return db_path
 
@@ -436,13 +438,44 @@ def test_ldraw_crosswalk_is_populated_opportunistically_and_null_where_missing(t
     assert parts == {"3001": "3001", "3020": "3020"}
 
 
-def test_set_renders_has_no_row_for_a_candidate_set(tmp_path):
-    """User photos are owned-sets-only (see above) and later render stages
-    aren't implemented yet, so set_renders — unlike buildability/similarity_topk
-    — doesn't cover Candidates at this stage; 21331-1 is a Candidate here.
+def test_set_renders_has_no_row_for_a_candidate_set_when_render_candidates_is_off(tmp_path):
+    """render_candidates defaults false (config/scope.json): a Candidate keeps
+    link-out-only treatment with no hosted image, so set_renders — unlike
+    buildability/similarity_topk — doesn't cover Candidates by default;
+    21331-1 is a Candidate here (see determine_candidate_set_nums fixtures).
     """
-    conn = sqlite3.connect(_run(tmp_path))
+    conn = sqlite3.connect(_run(tmp_path, render_candidates=False))
     row = conn.execute("SELECT * FROM set_renders WHERE set_num = '21331-1'").fetchone()
     conn.close()
 
     assert row is None
+
+
+def test_set_renders_gets_a_procedural_render_for_a_candidate_set_when_render_candidates_is_on(tmp_path):
+    """With render_candidates: true, a Candidate set gets the same
+    OMR/procedural render treatment as an owned Set — 21331-1 has no user
+    photo (owned-sets-only) and no OMR crosswalk match, so it falls through
+    to the procedural renderer exactly like 10281-1 does above. Its
+    materialized inventory (3001/0 qty 5, 3001/71 qty 5, 3020/1 qty 10) fully
+    resolves via the default crosswalk fixtures, so coverage is 100%.
+    """
+    conn = sqlite3.connect(_run(tmp_path, render_candidates=True))
+    row = conn.execute(
+        "SELECT image_source, image_path, render_coverage_pct FROM set_renders WHERE set_num = '21331-1'"
+    ).fetchone()
+    conn.close()
+
+    assert row[0] == "ldraw_procedural"
+    assert row[1].startswith("assets/ldraw-renders/21331-1/")
+    assert row[2] == pytest.approx(100.0)
+
+
+def test_set_renders_still_covers_owned_boxes_when_render_candidates_is_on(tmp_path):
+    """Flipping render_candidates on extends rendering to Candidates in
+    addition to, not instead of, owned Boxes.
+    """
+    conn = sqlite3.connect(_run(tmp_path, render_candidates=True))
+    rows = conn.execute("SELECT set_num FROM set_renders ORDER BY set_num").fetchall()
+    conn.close()
+
+    assert rows == [("10281-1",), ("21331-1",), ("75192-1",)]

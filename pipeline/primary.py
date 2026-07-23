@@ -26,6 +26,7 @@ def intermediate_to_primary(
     render: Callable[[Path, Path], None] = _render_with_ldview,
     fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
     universe_scope: str = "owned_themes",
+    render_candidates: bool = False,
 ) -> None:
     primary_dir.mkdir(parents=True, exist_ok=True)
     # Shared by every derived table below that stamps when it was computed —
@@ -137,9 +138,15 @@ def intermediate_to_primary(
     # wins outright; failing that, an LDraw OMR render if the crosswalk has an
     # exact-set match; everything else falls through to the procedural
     # renderer, which itself falls back to 'none' when zero parts resolve via
-    # the crosswalk or the renderer fails.
+    # the crosswalk or the renderer fails. render_candidates (config/scope.json,
+    # starting false) extends this same treatment to Candidate sets — off by
+    # default so the weekly pipeline's CI time doesn't blow up as the Universe
+    # scope widens (INITIAL_PROJECT_SPEC.md §10's "Scope toggle" rationale);
+    # Candidates never have a user photo (owned-sets-only), so they fall
+    # straight to OMR/procedural.
+    render_set_nums = owned_set_nums | candidate_set_nums if render_candidates else owned_set_nums
     set_renders_rows = []
-    for set_num in sorted(owned_set_nums):
+    for set_num in sorted(render_set_nums):
         photo = photo_by_set_num.get(set_num)
         if photo is not None:
             set_renders_rows.append(
