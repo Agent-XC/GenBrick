@@ -162,8 +162,10 @@ to `all`, since full inventories at catalog scale are much larger.
 
 ## 7. Data pipeline (weekly GitHub Action)
 
-1. Read the owned-sets list from `data/owned_sets.txt` (one LEGO set number per
-   line — this is the original seed input, e.g. `72831`, `71826`, ...).
+1. Read the owned-sets list from `data/owned_sets.txt`, a small CSV
+   (`set_num,date_acquired,notes` — `date_acquired`/`notes` optional) — this is
+   the original seed input, and the only source for `owned_boxes.date_acquired`
+   / `owned_boxes.notes` (they aren't derivable from Rebrickable).
 2. Download latest Rebrickable CSV dump.
 3. Load full `sets`, `themes`, `colors`, `parts`, `minifigs` into the working DB.
 4. Determine candidate set list per `config/scope.json`.
@@ -180,7 +182,7 @@ to `all`, since full inventories at catalog scale are much larger.
    run (cache by content hash) — this is the only pipeline step with meaningful
    per-item wall-clock cost, so avoiding redundant renders matters.
 9. Compute **box-to-box similarity** for pairs within owned ∪ candidate sets (see
-   §8) — store only **top-N most-similar per set**, not a full dense matrix, to
+   §8) — store only **top-10 most-similar per set**, not a full dense matrix, to
    keep output size bounded as scope widens.
 10. Check official LEGO.com link resolution for owned + candidate sets (§4).
 11. Export: SQLite DB (or JSON) to the Pages-served directory, plus the Phase-2-
@@ -218,19 +220,25 @@ inventory_parts(inventory_id, part_num, color_id, quantity, is_spare)
 minifigs(fig_num, name, num_parts)
 inventory_minifigs(inventory_id, fig_num, quantity)
 
-owned_boxes(set_num, date_acquired, notes)        -- assume complete-as-sold contents
+owned_boxes(set_num, date_acquired, notes)        -- assume complete-as-sold contents;
+                                                    -- one box per set_num, duplicate
+                                                    -- copies of the same set aren't
+                                                    -- modeled (deliberate scope choice)
 owned_box_photos(set_num, filename, caption,
                   uploaded_at)                     -- user's own photos only
 
 set_renders(set_num, image_source, image_path,
-            coverage_pct, rendered_at)
+            render_coverage_pct, rendered_at)
   -- image_source: 'user_photo' | 'ldraw_omr' | 'ldraw_procedural' | 'none'
-  -- coverage_pct: % of the set's parts resolved to LDraw geometry
+  -- render_coverage_pct: % of the set's parts resolved to LDraw geometry
   --               (100 for user_photo / ldraw_omr); see §10
+  --               (named distinctly from buildability.coverage_pct below —
+  --               same field name, different domain concept, was a footgun)
   -- the resolved, "what to actually display" row per set — see §10's priority order
 
 similarity_topk(set_num_a, set_num_b, score,
-                computed_at)                       -- sparse, precomputed
+                computed_at)                       -- sparse, precomputed;
+                                                     -- top 10 per set (see §7 step 9)
 buildability(set_num, coverage_pct, computed_at)   -- candidate sets only
 ```
 
@@ -322,8 +330,9 @@ across set/box detail pages. Leave exact framework choice to implementation.
 ├── .github/workflows/update-data.yml   -- weekly + manual trigger
 ├── config/scope.json                   -- universe_scope, render_candidates
 ├── data/
-│   ├── owned_sets.txt                   -- seed input (manually maintained,
-│   │                                       not part of the layered pipeline)
+│   ├── owned_sets.txt                   -- CSV seed input: set_num,date_acquired,notes
+│   │                                       (manually maintained, not part of
+│   │                                       the layered pipeline)
 │   ├── 01_raw/                          -- Rebrickable dump, exactly as
 │   │                                       downloaded, immutable (§3)
 │   ├── 02_intermediate/                 -- typed/cleaned mirror, still
@@ -445,7 +454,9 @@ README and version it if it changes.
   may not include a ready-made LEGO.com URL — may need a small supplemental
   lookup/construction step, with the retired-set fallback from §4).
 - Re-verify file-size limits when `universe_scope` moves beyond `owned_themes`.
-- Whether to serve Pages from `/docs` on `main` (simplest) vs. a `gh-pages` branch.
+- ~~Whether to serve Pages from `/docs` on `main` (simplest) vs. a `gh-pages`
+  branch.~~ **Resolved: `/docs` on `main`** — see
+  `docs/adr/0001-serve-pages-from-docs-on-main.md`.
 - Whether the LEGO↔LDraw crosswalk (§13) is bulk-downloadable or API-only.
 - BrickNet's actual current release/license state (§14) — treat the comparison
   table as directional, not final, given how new and fast-moving it is.
