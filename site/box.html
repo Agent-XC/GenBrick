@@ -8,13 +8,30 @@
 </head>
 <body>
   <header>
-    <h1>GenBrick</h1>
-    <p class="tagline">My LEGO collection, catalogued and cross-referenced.</p>
+    <p><a href="index.html">&larr; Owned boxes</a></p>
+    <h1 id="box-name">Loading…</h1>
+    <p class="tagline" id="box-meta"></p>
   </header>
 
   <main>
-    <h2>Owned boxes</h2>
-    <ul id="owned-boxes" class="box-list"><li class="loading">Loading…</li></ul>
+    <p id="box-official-link"></p>
+
+    <h2>Minifigs</h2>
+    <ul id="box-minifigs" class="minifig-list"><li class="loading">Loading…</li></ul>
+
+    <h2>Parts</h2>
+    <table id="box-parts" class="parts-table">
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Color</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="3" class="loading">Loading…</td></tr>
+      </tbody>
+    </table>
   </main>
 
   <footer>
@@ -27,6 +44,6 @@
 
   <script src="vendor/sql.js/sql-wasm.js"></script>
   <script src="assets/shared.js"></script>
-  <script src="assets/app.js"></script>
+  <script src="assets/box.js"></script>
 </body>
 </html>

@@ -32,6 +32,56 @@ body {
   color: #777;
 }
 
+.box-link-retired,
+.box-link-unchecked {
+  color: #999;
+  font-style: italic;
+}
+
+.minifig-list {
+  list-style: none;
+  padding: 0;
+}
+
+.minifig {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.minifig-name {
+  font-weight: 600;
+  flex: 1;
+}
+
+.minifig-quantity {
+  color: #777;
+}
+
+.parts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.parts-table th,
+.parts-table td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  border: 1px solid #0002;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
 footer {
   margin-top: 3rem;
   padding-top: 1rem;

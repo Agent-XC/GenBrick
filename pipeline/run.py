@@ -1,6 +1,8 @@
+from collections.abc import Callable
 from pathlib import Path
 
 from pipeline.intermediate import raw_to_intermediate
+from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.primary import intermediate_to_primary
 from pipeline.publish import publish_to_site
 from pipeline.reporting import primary_to_reporting
@@ -12,9 +14,12 @@ def run_pipeline(
     intermediate_dir: Path,
     primary_dir: Path,
     db_path: Path,
+    resolve_official_link: Callable[[str], tuple[str, str]] = _resolve_official_link,
 ) -> None:
     raw_to_intermediate(raw_dir, intermediate_dir)
-    intermediate_to_primary(intermediate_dir, owned_sets_path, primary_dir)
+    intermediate_to_primary(
+        intermediate_dir, owned_sets_path, primary_dir, resolve_official_link=resolve_official_link
+    )
     primary_to_reporting(primary_dir, db_path)
 
 
