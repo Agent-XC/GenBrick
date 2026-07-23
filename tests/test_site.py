@@ -24,6 +24,7 @@ def console_errors(page: Page) -> list[str]:
         "/figurines.html",
         "/discover.html",
         "/similarity.html",
+        "/themes.html",
         "/box.html?set_num=75192-1",
     ],
 )
@@ -139,6 +140,39 @@ def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: 
     expect(falcon_matches.nth(0)).to_contain_text("36.0%")
     expect(falcon_matches.nth(1)).to_contain_text("Bonsai Tree")
     expect(falcon_matches.nth(1)).to_contain_text("22.7%")
+
+
+def test_themes_page_groups_owned_and_candidate_sets_by_theme(page: Page, site_url: str):
+    page.goto(f"{site_url}/themes.html")
+
+    # Under the default owned_themes scope: 75192-1 (Star Wars, owned) and
+    # 10281-1 (Icons, owned) plus 21331-1 (Icons, Candidate) are in the
+    # universe; 42100-1 (Technic) has no owned Box in its theme, so its
+    # theme doesn't appear at all (mirrors test_scope.py's exclusion case).
+    groups = page.locator("#themes-list .theme-group")
+    expect(groups).to_have_count(2)
+    expect(page.locator("#themes-list")).not_to_contain_text("Technic")
+
+    star_wars = groups.filter(has=page.locator(".theme-name", has_text="Star Wars"))
+    star_wars_sets = star_wars.locator(".box")
+    expect(star_wars_sets).to_have_count(1)
+    expect(star_wars_sets.nth(0)).to_contain_text("Millennium Falcon")
+    expect(star_wars_sets.nth(0).locator(".box-owned-badge")).to_have_text("Owned")
+    falcon_link = star_wars_sets.nth(0).locator("a.box-name")
+    expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
+
+    icons = groups.filter(has=page.locator(".theme-name", has_text="Icons"))
+    icons_sets = icons.locator(".box")
+    expect(icons_sets).to_have_count(2)
+
+    bonsai = icons_sets.filter(has_text="Bonsai Tree")
+    expect(bonsai.locator(".box-owned-badge")).to_have_text("Owned")
+
+    # 21331-1 is a Candidate, not owned — shown with its Buildability score
+    # and no link to box.html (box.html 404s for non-owned set_nums).
+    ship = icons_sets.filter(has_text="Ship in a Bottle")
+    expect(ship.locator(".buildability-score")).to_contain_text("45.0%")
+    expect(ship.locator("a.box-name")).to_have_count(0)
 
 
 def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url: str):

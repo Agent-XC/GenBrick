@@ -102,6 +102,19 @@ body {
   font-weight: 600;
 }
 
+.theme-group {
+  margin-bottom: 2rem;
+}
+
+.theme-name {
+  margin-bottom: 0.25rem;
+}
+
+.box-owned-badge {
+  color: #2a4a7a;
+  font-weight: 600;
+}
+
 .color-swatch {
   display: inline-block;
   width: 0.85rem;

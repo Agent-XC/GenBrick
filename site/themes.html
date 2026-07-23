@@ -3,29 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GenBrick</title>
+  <title>GenBrick — Themes</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
   <header>
-    <h1>GenBrick</h1>
-    <p class="tagline">My LEGO collection, catalogued and cross-referenced.</p>
-    <p>
-      <a href="collection.html">View Collection &rarr;</a>
-      &middot;
-      <a href="figurines.html">View Figurines &rarr;</a>
-      &middot;
-      <a href="discover.html">Discover &rarr;</a>
-      &middot;
-      <a href="similarity.html">Similarity &rarr;</a>
-      &middot;
-      <a href="themes.html">Themes &rarr;</a>
-    </p>
+    <p><a href="index.html">&larr; Owned boxes</a></p>
+    <h1>Themes</h1>
+    <p class="tagline">Owned and Candidate Sets in scope, grouped by LEGO theme.</p>
   </header>
 
   <main>
-    <h2>Owned boxes</h2>
-    <ul id="owned-boxes" class="box-list"><li class="loading">Loading…</li></ul>
+    <div id="themes-list"><p class="loading">Loading…</p></div>
   </main>
 
   <footer>
@@ -38,6 +27,6 @@
 
   <script src="vendor/sql.js/sql-wasm.js"></script>
   <script src="assets/shared.js"></script>
-  <script src="assets/app.js"></script>
+  <script src="assets/themes.js"></script>
 </body>
 </html>

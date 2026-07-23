@@ -61,6 +61,7 @@ def site_url(tmp_path_factory):
         "figurines.html",
         "discover.html",
         "similarity.html",
+        "themes.html",
         "assets",
         "vendor",
     ):
