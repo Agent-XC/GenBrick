@@ -66,9 +66,9 @@ CREATE TABLE owned_box_photos (
 
 -- The resolved "what to actually display" row per Set — see CONTEXT.md's
 -- Render coverage definition. image_path/render_coverage_pct are nullable:
--- 'none' (no photo, zero parts resolved via the LDraw crosswalk, or the
--- renderer failed) has neither. image_source: 'user_photo' | 'ldraw_procedural'
--- | 'none' (LDraw OMR isn't built yet — see INITIAL_PROJECT_SPEC.md §10).
+-- 'none' (no photo, no OMR crosswalk match, zero parts resolved via the LDraw
+-- crosswalk, or the renderer failed) has neither. image_source: 'user_photo'
+-- | 'ldraw_omr' | 'ldraw_procedural' | 'none' — see INITIAL_PROJECT_SPEC.md §10.
 CREATE TABLE set_renders (
     set_num TEXT PRIMARY KEY REFERENCES sets (set_num),
     image_source TEXT NOT NULL,

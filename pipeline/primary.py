@@ -7,6 +7,8 @@ from pipeline.csvutil import read_csv, write_csv
 from pipeline.ldraw import render_with_ldview as _render_with_ldview
 from pipeline.ldraw import resolve_ldraw_procedural_render
 from pipeline.links import resolve_official_link as _resolve_official_link
+from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
+from pipeline.omr import resolve_ldraw_omr_render
 from pipeline.scope import determine_candidate_set_nums
 from pipeline.similarity import compute_similarity_topk
 
@@ -17,10 +19,12 @@ def intermediate_to_primary(
     owned_box_photos_path: Path,
     ldraw_parts_crosswalk_path: Path,
     ldraw_colors_crosswalk_path: Path,
+    ldraw_omr_crosswalk_path: Path,
     render_dir: Path,
     primary_dir: Path,
     resolve_official_link: Callable[[str], tuple[str, str]] = _resolve_official_link,
     render: Callable[[Path, Path], None] = _render_with_ldview,
+    fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
     universe_scope: str = "owned_themes",
 ) -> None:
     primary_dir.mkdir(parents=True, exist_ok=True)
@@ -45,6 +49,10 @@ def intermediate_to_primary(
     ldraw_part_id_by_part_num = {
         row["part_num"]: row["ldraw_part_id"] for row in read_csv(ldraw_parts_crosswalk_path)
     }
+    # Separately-maintained crosswalk of set_num -> OMR download URL, present
+    # only for sets the LDraw Official Model Repository has an exact
+    # community-submitted model for — absent otherwise (see pipeline/omr.py).
+    omr_url_by_set_num = {row["set_num"]: row["omr_url"] for row in read_csv(ldraw_omr_crosswalk_path)}
 
     colors_rows = read_csv(intermediate_dir / "colors.csv")
     for row in colors_rows:
@@ -126,9 +134,10 @@ def intermediate_to_primary(
     inventory_parts_by_inventory_id = _group_by_inventory_id(materialized_inventory_parts_rows)
 
     # Image priority order (INITIAL_PROJECT_SPEC.md §10): a user photo always
-    # wins outright (no LDraw OMR stage built yet); everything else falls
-    # through to the procedural renderer, which itself falls back to 'none'
-    # when zero parts resolve via the crosswalk or the renderer fails.
+    # wins outright; failing that, an LDraw OMR render if the crosswalk has an
+    # exact-set match; everything else falls through to the procedural
+    # renderer, which itself falls back to 'none' when zero parts resolve via
+    # the crosswalk or the renderer fails.
     set_renders_rows = []
     for set_num in sorted(owned_set_nums):
         photo = photo_by_set_num.get(set_num)
@@ -144,19 +153,32 @@ def intermediate_to_primary(
                     "rendered_at": computed_at,
                 }
             )
-        else:
-            inventory_id = inventory_id_by_set_num.get(set_num)
-            set_renders_rows.append(
-                resolve_ldraw_procedural_render(
-                    set_num,
-                    inventory_parts_by_inventory_id.get(inventory_id, []),
-                    ldraw_part_id_by_part_num,
-                    ldraw_color_id_by_color_id,
-                    render_dir,
-                    computed_at,
-                    render=render,
-                )
+            continue
+
+        omr_row = resolve_ldraw_omr_render(
+            set_num,
+            omr_url_by_set_num,
+            render_dir,
+            computed_at,
+            render=render,
+            fetch=fetch_omr_model,
+        )
+        if omr_row is not None:
+            set_renders_rows.append(omr_row)
+            continue
+
+        inventory_id = inventory_id_by_set_num.get(set_num)
+        set_renders_rows.append(
+            resolve_ldraw_procedural_render(
+                set_num,
+                inventory_parts_by_inventory_id.get(inventory_id, []),
+                ldraw_part_id_by_part_num,
+                ldraw_color_id_by_color_id,
+                render_dir,
+                computed_at,
+                render=render,
             )
+        )
     write_csv(
         primary_dir / "set_renders.csv",
         ["set_num", "image_source", "image_path", "render_coverage_pct", "rendered_at"],

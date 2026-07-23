@@ -14,6 +14,7 @@ FIXTURE_OWNED_SETS = Path(__file__).parent / "fixtures" / "owned_sets.csv"
 FIXTURE_OWNED_BOX_PHOTOS = Path(__file__).parent / "fixtures" / "owned_box_photos.csv"
 FIXTURE_LDRAW_PARTS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_parts_crosswalk.csv"
 FIXTURE_LDRAW_COLORS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_colors_crosswalk.csv"
+FIXTURE_LDRAW_OMR_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_omr_crosswalk.csv"
 FIXTURE_PHOTO = Path(__file__).parent / "fixtures" / "photos" / "falcon.jpg"
 SITE_DIR = Path(__file__).parent.parent / "site"
 
@@ -23,6 +24,25 @@ def _fake_render(ldr_path: Path, png_path: Path) -> None:
     aren't about the renderer seam itself — see test_ldraw.py for that.
     """
     png_path.write_bytes(b"fake-png-bytes")
+
+
+class FakeRenderer:
+    """Records calls and writes a marker PNG, standing in for the real
+    (subprocess) LDView invocation in tests that are about the renderer seam
+    itself — see test_ldraw.py (the procedural render) and test_omr.py (the
+    OMR render), which both feed it a different kind of LDraw file but call
+    it the same way.
+    """
+
+    def __init__(self, should_fail: bool = False):
+        self.calls = []
+        self.should_fail = should_fail
+
+    def __call__(self, ldr_path, png_path):
+        self.calls.append((ldr_path, png_path))
+        if self.should_fail:
+            raise RuntimeError("ldview crashed")
+        png_path.write_bytes(b"fake-png-bytes")
 
 # Served files whose extension isn't reliably mapped to the right MIME type
 # by every OS's mimetypes database — most importantly .wasm, which needs
@@ -47,6 +67,13 @@ def _fake_resolve_official_link(set_num: str) -> tuple[str, str]:
     """
     base_set_number = set_num.split("-")[0]
     return f"https://www.lego.com/en-us/product/{base_set_number}", "ok"
+
+
+def _fake_fetch_omr_model(url: str) -> bytes:
+    """Stands in for the real (networked) OMR download in tests that aren't
+    about that seam itself — see test_omr.py for that seam's own tests.
+    """
+    return b"fake-omr-model-bytes"
 
 
 @pytest.fixture(scope="session")
@@ -91,12 +118,14 @@ def site_url(tmp_path_factory):
         owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS,
         ldraw_parts_crosswalk_path=FIXTURE_LDRAW_PARTS_CROSSWALK,
         ldraw_colors_crosswalk_path=FIXTURE_LDRAW_COLORS_CROSSWALK,
+        ldraw_omr_crosswalk_path=FIXTURE_LDRAW_OMR_CROSSWALK,
         render_dir=render_dir,
         intermediate_dir=tmp_path_factory.mktemp("intermediate"),
         primary_dir=tmp_path_factory.mktemp("primary"),
         db_path=db_path,
         resolve_official_link=_fake_resolve_official_link,
         render=_fake_render,
+        fetch_omr_model=_fake_fetch_omr_model,
     )
     (staging / "data").mkdir()
     shutil.copyfile(db_path, staging / "data" / "lego.sqlite")

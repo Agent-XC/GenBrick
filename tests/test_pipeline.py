@@ -5,10 +5,12 @@ import pytest
 from pipeline.run import run_pipeline
 from tests.conftest import (
     FIXTURE_LDRAW_COLORS_CROSSWALK,
+    FIXTURE_LDRAW_OMR_CROSSWALK,
     FIXTURE_LDRAW_PARTS_CROSSWALK,
     FIXTURE_OWNED_BOX_PHOTOS,
     FIXTURE_OWNED_SETS,
     FIXTURE_RAW,
+    _fake_fetch_omr_model,
     _fake_render,
     _fake_resolve_official_link,
 )
@@ -20,8 +22,10 @@ def _run(
     owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS,
     ldraw_parts_crosswalk_path=FIXTURE_LDRAW_PARTS_CROSSWALK,
     ldraw_colors_crosswalk_path=FIXTURE_LDRAW_COLORS_CROSSWALK,
+    ldraw_omr_crosswalk_path=FIXTURE_LDRAW_OMR_CROSSWALK,
     resolve_official_link=_fake_resolve_official_link,
     render=_fake_render,
+    fetch_omr_model=_fake_fetch_omr_model,
     universe_scope="owned_themes",
 ):
     db_path = tmp_path / "lego.sqlite"
@@ -31,12 +35,14 @@ def _run(
         owned_box_photos_path=owned_box_photos_path,
         ldraw_parts_crosswalk_path=ldraw_parts_crosswalk_path,
         ldraw_colors_crosswalk_path=ldraw_colors_crosswalk_path,
+        ldraw_omr_crosswalk_path=ldraw_omr_crosswalk_path,
         render_dir=tmp_path / "ldraw-renders",
         intermediate_dir=tmp_path / "02_intermediate",
         primary_dir=tmp_path / "03_primary",
         db_path=db_path,
         resolve_official_link=resolve_official_link,
         render=render,
+        fetch_omr_model=fetch_omr_model,
         universe_scope=universe_scope,
     )
     return db_path
@@ -335,10 +341,11 @@ def test_set_renders_records_user_photo_as_the_image_source_when_a_photo_exists(
 
 def test_set_renders_falls_through_to_ldraw_procedural_for_an_owned_box_without_a_photo(tmp_path):
     """10281-1 is owned but has no row in tests/fixtures/owned_box_photos.csv,
-    so it falls through to the procedural renderer (LDraw OMR isn't built
-    yet). Its latest inventory (id 4) is (3001, 15, qty 25) + (3001, 0, qty
-    15) — tests/fixtures/ldraw_colors_crosswalk.csv deliberately omits color
-    15, so only the qty-15 row resolves: 15 / 40 = 37.5% render_coverage_pct.
+    and tests/fixtures/ldraw_omr_crosswalk.csv (the default fixture) has no
+    entry for it either, so it falls through to the procedural renderer. Its
+    latest inventory (id 4) is (3001, 15, qty 25) + (3001, 0, qty 15) —
+    tests/fixtures/ldraw_colors_crosswalk.csv deliberately omits color 15, so
+    only the qty-15 row resolves: 15 / 40 = 37.5% render_coverage_pct.
     """
     conn = sqlite3.connect(_run(tmp_path))
     row = conn.execute(
@@ -349,6 +356,45 @@ def test_set_renders_falls_through_to_ldraw_procedural_for_an_owned_box_without_
     assert row[0] == "ldraw_procedural"
     assert row[1].startswith("assets/ldraw-renders/10281-1/")
     assert row[2] == pytest.approx(37.5)
+
+
+def test_set_renders_records_ldraw_omr_when_the_crosswalk_has_an_exact_match(tmp_path):
+    """10281-1 is owned, has no user photo (see the procedural-fallback test
+    above), and would otherwise fall through to the procedural renderer — but
+    with an OMR crosswalk entry, it resolves via LDraw OMR instead, ahead of
+    the procedural fallback, per INITIAL_PROJECT_SPEC.md §10's priority order.
+    """
+    omr_crosswalk = tmp_path / "ldraw_omr_crosswalk.csv"
+    omr_crosswalk.write_text(
+        "set_num,omr_url\n10281-1,https://library.ldraw.org/library/omr/10281-1_Bonsai-Tree.mpd\n"
+    )
+
+    conn = sqlite3.connect(_run(tmp_path, ldraw_omr_crosswalk_path=omr_crosswalk))
+    row = conn.execute(
+        "SELECT image_source, image_path, render_coverage_pct FROM set_renders WHERE set_num = '10281-1'"
+    ).fetchone()
+    conn.close()
+
+    assert row[0] == "ldraw_omr"
+    assert row[1].startswith("assets/ldraw-renders/10281-1/")
+    assert row[2] == pytest.approx(100.0)
+
+
+def test_set_renders_prefers_user_photo_over_an_omr_match(tmp_path):
+    """75192-1 has both a user photo (tests/fixtures/owned_box_photos.csv) and,
+    here, an OMR crosswalk match — user_photo still wins, since it's the
+    first step of the priority order.
+    """
+    omr_crosswalk = tmp_path / "ldraw_omr_crosswalk.csv"
+    omr_crosswalk.write_text(
+        "set_num,omr_url\n75192-1,https://library.ldraw.org/library/omr/75192-1_Millennium-Falcon.mpd\n"
+    )
+
+    conn = sqlite3.connect(_run(tmp_path, ldraw_omr_crosswalk_path=omr_crosswalk))
+    row = conn.execute("SELECT image_source FROM set_renders WHERE set_num = '75192-1'").fetchone()
+    conn.close()
+
+    assert row[0] == "user_photo"
 
 
 def test_set_renders_falls_back_to_none_when_zero_parts_resolve_via_the_crosswalk(tmp_path):

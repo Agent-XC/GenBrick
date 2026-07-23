@@ -5,6 +5,7 @@ from pipeline.ldraw import (
     resolve_ldraw_lines,
     resolve_ldraw_procedural_render,
 )
+from tests.conftest import FakeRenderer
 
 INVENTORY_PARTS_ROWS = [
     {"part_num": "3001", "color_id": "0", "quantity": "10"},
@@ -72,26 +73,8 @@ def test_build_ldr_layout_places_one_line_per_part_instance():
     assert any(line.startswith("1 1 ") and line.endswith("3020.dat") for line in part_lines)
 
 
-class _FakeRenderer:
-    """Records calls and writes a marker PNG, standing in for the real
-    (networked/subprocess) LDView invocation — see pipeline/ldraw.py's own
-    render_with_ldview for the real one, which this seam is designed to
-    replace in tests without ever shelling out.
-    """
-
-    def __init__(self, should_fail: bool = False):
-        self.calls = []
-        self.should_fail = should_fail
-
-    def __call__(self, ldr_path, png_path):
-        self.calls.append((ldr_path, png_path))
-        if self.should_fail:
-            raise RuntimeError("ldview crashed")
-        png_path.write_bytes(b"fake-png-bytes")
-
-
 def test_resolve_ldraw_procedural_render_succeeds_and_reports_partial_coverage(tmp_path):
-    renderer = _FakeRenderer()
+    renderer = FakeRenderer()
 
     row = resolve_ldraw_procedural_render(
         "10281-1",
@@ -112,7 +95,7 @@ def test_resolve_ldraw_procedural_render_succeeds_and_reports_partial_coverage(t
 
 
 def test_resolve_ldraw_procedural_render_falls_back_to_none_when_zero_parts_resolve(tmp_path):
-    renderer = _FakeRenderer()
+    renderer = FakeRenderer()
     rows = [{"part_num": "9999", "color_id": "0", "quantity": "6"}]
 
     row = resolve_ldraw_procedural_render(
@@ -132,7 +115,7 @@ def test_resolve_ldraw_procedural_render_falls_back_to_none_when_zero_parts_reso
 
 
 def test_resolve_ldraw_procedural_render_falls_back_to_none_without_crashing_when_the_renderer_fails(tmp_path):
-    renderer = _FakeRenderer(should_fail=True)
+    renderer = FakeRenderer(should_fail=True)
 
     row = resolve_ldraw_procedural_render(
         "10281-1",
@@ -155,7 +138,7 @@ def test_resolve_ldraw_procedural_render_skips_a_second_render_call_when_content
     expensive render call on a later pipeline run — INITIAL_PROJECT_SPEC.md
     §7 step 8 / §10 "Caching".
     """
-    renderer = _FakeRenderer()
+    renderer = FakeRenderer()
 
     first = resolve_ldraw_procedural_render(
         "10281-1",
@@ -181,7 +164,7 @@ def test_resolve_ldraw_procedural_render_skips_a_second_render_call_when_content
 
 
 def test_resolve_ldraw_procedural_render_re_renders_when_the_resolved_part_list_changes(tmp_path):
-    renderer = _FakeRenderer()
+    renderer = FakeRenderer()
     changed_rows = [{"part_num": "3001", "color_id": "0", "quantity": "999"}]
 
     first = resolve_ldraw_procedural_render(
