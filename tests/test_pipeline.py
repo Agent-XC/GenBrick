@@ -6,7 +6,12 @@ from pipeline.run import run_pipeline
 from tests.conftest import FIXTURE_OWNED_SETS, FIXTURE_RAW, _fake_resolve_official_link
 
 
-def _run(tmp_path, owned_sets_path=FIXTURE_OWNED_SETS, resolve_official_link=_fake_resolve_official_link):
+def _run(
+    tmp_path,
+    owned_sets_path=FIXTURE_OWNED_SETS,
+    resolve_official_link=_fake_resolve_official_link,
+    universe_scope="owned_themes",
+):
     db_path = tmp_path / "lego.sqlite"
     run_pipeline(
         raw_dir=FIXTURE_RAW,
@@ -15,6 +20,7 @@ def _run(tmp_path, owned_sets_path=FIXTURE_OWNED_SETS, resolve_official_link=_fa
         primary_dir=tmp_path / "03_primary",
         db_path=db_path,
         resolve_official_link=resolve_official_link,
+        universe_scope=universe_scope,
     )
     return db_path
 
@@ -39,9 +45,13 @@ def test_sets_table_carries_every_catalog_set_with_a_resolved_official_link(tmp_
     ).fetchall()
     conn.close()
 
+    # Metadata (sets, themes, ...) is loaded in full regardless of
+    # universe_scope — 42100-1's theme isn't owned, so it never becomes a
+    # Candidate (see test_candidate_sets_* below), but it still appears here.
     assert rows == [
         ("10281-1", "Bonsai Tree", 2021, "https://www.lego.com/en-us/product/10281", "ok"),
         ("21331-1", "Ship in a Bottle", 2022, "https://www.lego.com/en-us/product/21331", "ok"),
+        ("42100-1", "Liebherr R 9800", 2019, "https://www.lego.com/en-us/product/42100", "ok"),
         ("75192-1", "Millennium Falcon", 2017, "https://www.lego.com/en-us/product/75192", "ok"),
     ]
 
@@ -51,17 +61,18 @@ def test_themes_table_is_carried_through(tmp_path):
     rows = conn.execute("SELECT id, name, parent_id FROM themes ORDER BY id").fetchall()
     conn.close()
 
-    assert rows == [(1, "Star Wars", None), (158, "Icons", None)]
+    assert rows == [(1, "Star Wars", None), (158, "Icons", None), (200, "Technic", None)]
 
 
-def test_inventory_parts_and_minifigs_are_materialized_for_owned_boxes_only(tmp_path):
+def test_inventory_parts_and_minifigs_are_materialized_for_owned_and_candidate_sets_only(tmp_path):
     conn = sqlite3.connect(_run(tmp_path))
 
-    # 21331-1 (Ship in a Bottle) isn't owned, so its inventory (id 3 in the
-    # fixture) is excluded entirely: only owned Boxes get per-set inventory
-    # data materialized.
+    # Default universe_scope is owned_themes: 21331-1 (Ship in a Bottle)
+    # isn't owned but shares 10281-1's theme, so it's a Candidate and its
+    # inventory (id 3) is materialized. 42100-1 sits in an unowned theme, so
+    # it's excluded entirely — no per-set inventory data for out-of-scope sets.
     inventories = conn.execute("SELECT id, version, set_num FROM inventories ORDER BY id").fetchall()
-    assert inventories == [(1, 1, "75192-1"), (4, 2, "10281-1")]
+    assert inventories == [(1, 1, "75192-1"), (3, 1, "21331-1"), (4, 2, "10281-1")]
 
     parts = conn.execute(
         "SELECT inventory_id, part_num, color_id, quantity FROM inventory_parts ORDER BY inventory_id, part_num, color_id"
@@ -71,6 +82,9 @@ def test_inventory_parts_and_minifigs_are_materialized_for_owned_boxes_only(tmp_
     assert parts == [
         (1, "3001", 0, 10),
         (1, "3020", 1, 4),
+        (3, "3001", 0, 5),
+        (3, "3001", 71, 5),
+        (3, "3020", 1, 10),
         (4, "3001", 0, 15),
         (4, "3001", 15, 25),
     ]
@@ -85,6 +99,62 @@ def test_inventory_parts_and_minifigs_are_materialized_for_owned_boxes_only(tmp_
     ]
 
     conn.close()
+
+
+def test_candidate_sets_are_determined_per_universe_scope(tmp_path):
+    """buildability holds exactly one row per Candidate — there's no separate
+    candidate_sets table, so this is the "which sets are Candidates" signal.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute("SELECT set_num FROM buildability ORDER BY set_num").fetchall()
+    conn.close()
+
+    assert rows == [("21331-1",)]
+
+
+def test_widening_universe_scope_grows_the_candidate_set_with_no_schema_change(tmp_path):
+    """Changing universe_scope and re-running the pipeline widens the
+    candidate set: moving from owned_themes to all picks up 42100-1 (an
+    out-of-theme set) without any new tables/columns — same schema, more rows.
+    """
+    conn = sqlite3.connect(_run(tmp_path, universe_scope="all"))
+    rows = conn.execute("SELECT set_num FROM buildability ORDER BY set_num").fetchall()
+    conn.close()
+
+    assert rows == [("21331-1",), ("42100-1",)]
+
+
+def test_buildability_is_computed_per_candidate_from_the_owned_brick_pool(tmp_path):
+    """21331-1's required parts blend full coverage (3001/0), zero coverage
+    (3001/71 — not in the owned pool at all) and partial coverage (3020/1,
+    needing more than owned) — see tests/fixtures/raw/inventory_parts.csv.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute("SELECT set_num, coverage_pct FROM buildability ORDER BY set_num").fetchall()
+    conn.close()
+
+    assert rows == [("21331-1", pytest.approx(45.0))]
+
+
+def test_owned_brick_pool_excludes_a_candidates_materialized_inventory(tmp_path):
+    """21331-1 is a Candidate (not owned) but its inventory is now
+    materialized alongside owned Boxes' — owned_brick_pool must still filter
+    through owned_boxes rather than pooling the whole inventory_parts table,
+    or a Candidate's parts would leak into "owned" totals.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute(
+        "SELECT part_num, color_id, quantity FROM owned_brick_pool ORDER BY part_num, color_id"
+    ).fetchall()
+    conn.close()
+
+    # Unchanged from before candidates existed: no contribution from 21331-1's
+    # inventory (id 3), e.g. no (3001, 71) row despite it now being materialized.
+    assert rows == [
+        ("3001", 0, 25),
+        ("3001", 15, 25),
+        ("3020", 1, 4),
+    ]
 
 
 def test_a_boxs_parts_and_minifigs_resolve_to_names_and_colors_via_metadata_tables(tmp_path):

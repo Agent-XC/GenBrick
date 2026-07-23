@@ -38,6 +38,11 @@ body {
   font-style: italic;
 }
 
+.buildability-score {
+  color: #2a7a2a;
+  font-weight: 600;
+}
+
 .minifig-list {
   list-style: none;
   padding: 0;

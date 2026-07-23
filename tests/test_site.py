@@ -18,7 +18,7 @@ def console_errors(page: Page) -> list[str]:
 
 @pytest.mark.parametrize(
     "path",
-    ["/index.html", "/collection.html", "/figurines.html", "/box.html?set_num=75192-1"],
+    ["/index.html", "/collection.html", "/figurines.html", "/discover.html", "/box.html?set_num=75192-1"],
 )
 def test_page_loads_without_console_errors(page: Page, site_url: str, console_errors: list[str], path: str):
     page.goto(f"{site_url}{path}")
@@ -93,6 +93,22 @@ def test_collection_page_lists_owned_brick_pool_summed_across_boxes(page: Page, 
     black_brick = rows.filter(has_text="Black")
     expect(black_brick).to_contain_text("Brick 2 x 4")
     expect(black_brick).to_contain_text("25")
+
+
+def test_discover_page_ranks_candidate_sets_by_buildability_with_a_link_to_its_official_page(
+    page: Page, site_url: str
+):
+    page.goto(f"{site_url}/discover.html")
+
+    # Under the default owned_themes scope, 21331-1 (Ship in a Bottle) is the
+    # only Candidate — it shares 10281-1's theme but isn't itself owned.
+    candidates = page.locator("#discover-list .box")
+    expect(candidates).to_have_count(1)
+    expect(candidates.nth(0)).to_contain_text("Ship in a Bottle")
+    expect(candidates.nth(0)).to_contain_text("45.0%")
+
+    official_link = candidates.nth(0).locator("a.box-link")
+    expect(official_link).to_have_attribute("href", "https://www.lego.com/en-us/product/21331")
 
 
 def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url: str):

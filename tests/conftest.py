@@ -54,7 +54,7 @@ def site_url(tmp_path_factory):
     fixture-built database.
     """
     staging = tmp_path_factory.mktemp("site")
-    for name in ("index.html", "box.html", "collection.html", "figurines.html", "assets", "vendor"):
+    for name in ("index.html", "box.html", "collection.html", "figurines.html", "discover.html", "assets", "vendor"):
         src = SITE_DIR / name
         dst = staging / name
         if src.is_dir():

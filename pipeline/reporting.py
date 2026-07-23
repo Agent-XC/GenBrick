@@ -66,22 +66,32 @@ CREATE TABLE inventory_minifigs (
     quantity INTEGER NOT NULL
 );
 
--- inventory_parts is already scoped to owned Boxes only (see
--- intermediate_to_primary's owned-inventory filtering), so the Owned brick
--- pool is just that table pooled and grouped — one disassembled collection,
--- not per-Box totals.
-CREATE VIEW owned_brick_pool AS
-SELECT part_num, color_id, SUM(quantity) AS quantity
-FROM inventory_parts
-GROUP BY part_num, color_id;
+-- No separate candidate_sets table: buildability holds exactly one row per
+-- Candidate (see intermediate_to_primary), so its presence there already is
+-- the "is a Candidate" signal — a second table would just duplicate it.
+CREATE TABLE buildability (
+    set_num TEXT PRIMARY KEY REFERENCES sets (set_num),
+    coverage_pct REAL NOT NULL,
+    computed_at TEXT NOT NULL
+);
 
--- inventory_minifigs is already scoped to owned Boxes only, so the
--- Figurines page's totals are just that table grouped by fig_num — the
--- same collection-not-per-Box treatment as owned_brick_pool.
+-- inventory_parts/inventory_minifigs are materialized for owned ∪ Candidate
+-- sets (see intermediate_to_primary), so the Owned brick pool and Figurines
+-- totals must filter through owned_boxes rather than pooling the whole
+-- table — otherwise a Candidate's inventory would leak into "owned" totals.
+CREATE VIEW owned_brick_pool AS
+SELECT inventory_parts.part_num, inventory_parts.color_id, SUM(inventory_parts.quantity) AS quantity
+FROM inventory_parts
+JOIN inventories ON inventories.id = inventory_parts.inventory_id
+JOIN owned_boxes ON owned_boxes.set_num = inventories.set_num
+GROUP BY inventory_parts.part_num, inventory_parts.color_id;
+
 CREATE VIEW owned_minifigs AS
-SELECT fig_num, SUM(quantity) AS quantity
+SELECT inventory_minifigs.fig_num, SUM(inventory_minifigs.quantity) AS quantity
 FROM inventory_minifigs
-GROUP BY fig_num;
+JOIN inventories ON inventories.id = inventory_minifigs.inventory_id
+JOIN owned_boxes ON owned_boxes.set_num = inventories.set_num
+GROUP BY inventory_minifigs.fig_num;
 """
 
 
@@ -169,6 +179,13 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
             table="inventory_minifigs",
             columns=["inventory_id", "fig_num", "quantity"],
             to_row=lambda r: (int(r["inventory_id"]), r["fig_num"], int(r["quantity"])),
+        )
+        _insert_csv(
+            conn,
+            primary_dir / "buildability.csv",
+            table="buildability",
+            columns=["set_num", "coverage_pct", "computed_at"],
+            to_row=lambda r: (r["set_num"], float(r["coverage_pct"]), r["computed_at"]),
         )
 
         conn.commit()

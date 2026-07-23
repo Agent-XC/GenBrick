@@ -6,6 +6,7 @@ from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.primary import intermediate_to_primary
 from pipeline.publish import publish_to_site
 from pipeline.reporting import primary_to_reporting
+from pipeline.scope import load_universe_scope
 
 
 def run_pipeline(
@@ -15,10 +16,15 @@ def run_pipeline(
     primary_dir: Path,
     db_path: Path,
     resolve_official_link: Callable[[str], tuple[str, str]] = _resolve_official_link,
+    universe_scope: str = "owned_themes",
 ) -> None:
     raw_to_intermediate(raw_dir, intermediate_dir)
     intermediate_to_primary(
-        intermediate_dir, owned_sets_path, primary_dir, resolve_official_link=resolve_official_link
+        intermediate_dir,
+        owned_sets_path,
+        primary_dir,
+        resolve_official_link=resolve_official_link,
+        universe_scope=universe_scope,
     )
     primary_to_reporting(primary_dir, db_path)
 
@@ -32,5 +38,6 @@ if __name__ == "__main__":
         intermediate_dir=repo_root / "data" / "02_intermediate",
         primary_dir=repo_root / "data" / "03_primary",
         db_path=db_path,
+        universe_scope=load_universe_scope(repo_root / "config" / "scope.json"),
     )
     publish_to_site(db_path, repo_root / "site" / "data")
