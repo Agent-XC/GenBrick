@@ -103,11 +103,16 @@ def render_with_ldview(ldr_path: Path, png_path: Path) -> None:
     Wrapped in try/except by the caller, so a missing binary, a missing
     parts library, or a renderer crash degrades to "no image" rather than
     crashing the pipeline.
+
+    A zero exit code from ldview doesn't guarantee png_path was written —
+    seen on ldview-osmesa in CI, exit 0 with no file and no clue why since
+    stdout/stderr are otherwise captured and discarded — so that's checked
+    explicitly and folded into the RenderError alongside the captured output.
     """
     ldraw_dir = os.environ.get("LDRAWDIR")
     ldraw_dir_args = [f"-LDrawDir={ldraw_dir}"] if ldraw_dir else []
     try:
-        subprocess.run(
+        result = subprocess.run(
             [
                 "ldview",
                 str(ldr_path),
@@ -117,12 +122,19 @@ def render_with_ldview(ldr_path: Path, png_path: Path) -> None:
                 "-SaveAlpha=1",
                 *ldraw_dir_args,
             ],
-            check=True,
             capture_output=True,
             timeout=60,
         )
     except (OSError, subprocess.SubprocessError) as error:
         raise RenderError(f"ldview failed to render {ldr_path}") from error
+
+    if result.returncode != 0 or not png_path.exists():
+        stdout = result.stdout.decode(errors="replace")
+        stderr = result.stderr.decode(errors="replace")
+        raise RenderError(
+            f"ldview failed to render {ldr_path} (exit {result.returncode}, "
+            f"png exists: {png_path.exists()})\nstdout: {stdout}\nstderr: {stderr}"
+        )
 
 
 def _none_row(set_num: str, rendered_at: str) -> dict:
