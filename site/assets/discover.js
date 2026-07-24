@@ -19,6 +19,7 @@ function renderDiscover(db) {
     item.className = "box";
     item.innerHTML = `
       <span class="box-name">${name}</span>
+      ${setNumMarkup(setNum)}
       <span class="box-year">${year}</span>
       <span class="buildability-score">${coveragePct.toFixed(1)}% buildable</span>
       ${officialLinkMarkup(officialUrl, officialUrlStatus)}

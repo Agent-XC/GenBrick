@@ -85,6 +85,12 @@ body {
   color: #777;
 }
 
+.box-set-num {
+  color: #777;
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+}
+
 .box-link-retired,
 .box-link-unchecked {
   color: #999;

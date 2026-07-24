@@ -21,6 +21,7 @@ function renderOwnedBoxes(db) {
     item.innerHTML = `
       ${boxPhotoMarkup(imagePath, name)}
       <a class="box-name" href="box.html?set_num=${encodeURIComponent(setNum)}">${name}</a>
+      ${setNumMarkup(setNum)}
       <span class="box-year">${year}</span>
       ${officialLinkMarkup(officialUrl, officialUrlStatus)}
     `;

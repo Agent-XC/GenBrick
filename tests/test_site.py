@@ -49,6 +49,11 @@ def test_home_page_lists_owned_boxes_by_set_num_with_links_to_box_detail(page: P
     expect(boxes.nth(0)).to_contain_text("Bonsai Tree")
     expect(boxes.nth(1)).to_contain_text("Millennium Falcon")
 
+    # set_num shown as a visible column (issue #15) — a cheap, always-available
+    # proxy for the official link, independent of official_url_status.
+    expect(boxes.nth(0).locator(".box-set-num")).to_have_text("10281-1")
+    expect(boxes.nth(1).locator(".box-set-num")).to_have_text("75192-1")
+
     falcon_link = boxes.nth(1).locator("a.box-name")
     expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
 
@@ -154,6 +159,7 @@ def test_discover_page_ranks_candidate_sets_by_buildability_with_a_link_to_its_o
     expect(candidates).to_have_count(1)
     expect(candidates.nth(0)).to_contain_text("Ship in a Bottle")
     expect(candidates.nth(0)).to_contain_text("45.0%")
+    expect(candidates.nth(0).locator(".box-set-num")).to_have_text("21331-1")
 
     official_link = candidates.nth(0).locator("a.box-link")
     expect(official_link).to_have_attribute("href", "https://www.lego.com/en-us/product/21331")
@@ -172,14 +178,20 @@ def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: 
     # Filtered on .box-name specifically, not the row's full text — "Millennium
     # Falcon" also appears inside 10281-1's and 21331-1's own matches lists.
     falcon_row = rows.filter(has=page.locator(".box-name", has_text="Millennium Falcon"))
+
+    # set_num shown as a visible column on the anchor and each match (issue #15).
+    expect(falcon_row.locator(".box-set-num").first).to_have_text("75192-1")
+
     falcon_matches = falcon_row.locator(".similarity-matches li")
     expect(falcon_matches).to_have_count(2)
     # 75192-1 vs 21331-1: min(4,10)+min(10,5)+min(0,5) = 9, over max(10,5)+
     # max(4,10)+max(0,5) = 25 -> 36.0%, the closer match than 10281-1's 22.7%.
     expect(falcon_matches.nth(0)).to_contain_text("Ship in a Bottle")
     expect(falcon_matches.nth(0)).to_contain_text("36.0%")
+    expect(falcon_matches.nth(0).locator(".box-set-num")).to_have_text("21331-1")
     expect(falcon_matches.nth(1)).to_contain_text("Bonsai Tree")
     expect(falcon_matches.nth(1)).to_contain_text("22.7%")
+    expect(falcon_matches.nth(1).locator(".box-set-num")).to_have_text("10281-1")
 
 
 def test_similarity_scope_is_independent_of_the_buildability_floor(page: Page, site_url_with_floors: str):
@@ -196,7 +208,13 @@ def test_similarity_scope_is_independent_of_the_buildability_floor(page: Page, s
 
     page.goto(f"{site_url_with_floors}/similarity.html")
     rows = page.locator("#similarity-list .similarity-set")
-    expect(rows).to_have_count(3)
+    # 10281-1 (Bonsai Tree) clears neither pairing's score under
+    # min_similarity_score_pct=30 (its only two possible matches, 22.7% vs
+    # Falcon and its own score vs Ship, both fall below the floor) — it has
+    # zero qualifying matches left, so its row is hidden entirely rather than
+    # rendered with just the "No similar Sets yet." empty state (issue #15).
+    expect(rows).to_have_count(2)
+    expect(rows.filter(has=page.locator(".box-name", has_text="Bonsai Tree"))).to_have_count(0)
 
     ship_row = rows.filter(has=page.locator(".box-name", has_text="Ship in a Bottle"))
     expect(ship_row).to_have_count(1)
@@ -226,6 +244,7 @@ def test_themes_page_groups_owned_and_candidate_sets_by_theme(page: Page, site_u
     expect(star_wars_sets).to_have_count(1)
     expect(star_wars_sets.nth(0)).to_contain_text("Millennium Falcon")
     expect(star_wars_sets.nth(0).locator(".box-owned-badge")).to_have_text("Owned")
+    expect(star_wars_sets.nth(0).locator(".box-set-num")).to_have_text("75192-1")
     falcon_link = star_wars_sets.nth(0).locator("a.box-name")
     expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
 
@@ -241,6 +260,7 @@ def test_themes_page_groups_owned_and_candidate_sets_by_theme(page: Page, site_u
     ship = icons_sets.filter(has_text="Ship in a Bottle")
     expect(ship.locator(".buildability-score")).to_contain_text("45.0%")
     expect(ship.locator("a.box-name")).to_have_count(0)
+    expect(ship.locator(".box-set-num")).to_have_text("21331-1")
 
 
 def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url: str):

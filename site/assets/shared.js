@@ -37,6 +37,14 @@ function renderCaptionMarkup(imageSource, renderCoveragePct) {
   return `<p class="render-caption">Procedural LDraw render — ${renderCoveragePct.toFixed(1)}% of parts resolved</p>`;
 }
 
+// Shared across every page that lists Boxes (Home, Discover, Similarity,
+// Themes) — a cheap, always-available proxy for the official link (issue
+// #15): a user can hand-construct https://www.lego.com/fr-fr/product/<set_num>
+// from it even when official_url_status hasn't resolved to "ok" yet.
+function setNumMarkup(setNum) {
+  return `<span class="box-set-num">${setNum}</span>`;
+}
+
 // Never substitutes a fan-site link for LEGO's own. "retired" (a confirmed
 // 404) and "unchecked" (the checker hasn't confirmed either way) are kept
 // as distinct claims rather than folded into one "Retired" message.

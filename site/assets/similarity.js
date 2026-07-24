@@ -39,23 +39,29 @@ function renderSimilarity(db) {
     }
   }
 
-  for (const [, { name, matches }] of bySetNum) {
+  for (const [anchorSetNum, { name, matches }] of bySetNum) {
+    // A Set whose every candidate match scores below the floor has nothing
+    // to say — skip its row entirely rather than rendering an anchor with
+    // just the "No similar Sets yet." empty state (issue #15).
+    if (matches.length === 0) {
+      continue;
+    }
     const item = document.createElement("li");
     item.className = "similarity-set";
-    const matchesMarkup = matches.length
-      ? matches
-          .map(
-            (m) => `
-              <li>
-                <a href="box.html?set_num=${encodeURIComponent(m.otherSetNum)}">${m.otherName}</a>
-                <span class="similarity-score">${m.score.toFixed(1)}%</span>
-              </li>
-            `
-          )
-          .join("")
-      : '<li class="empty">No similar Sets yet.</li>';
+    const matchesMarkup = matches
+      .map(
+        (m) => `
+          <li>
+            <a href="box.html?set_num=${encodeURIComponent(m.otherSetNum)}">${m.otherName}</a>
+            ${setNumMarkup(m.otherSetNum)}
+            <span class="similarity-score">${m.score.toFixed(1)}%</span>
+          </li>
+        `
+      )
+      .join("");
     item.innerHTML = `
       <span class="box-name">${name}</span>
+      ${setNumMarkup(anchorSetNum)}
       <ol class="similarity-matches">${matchesMarkup}</ol>
     `;
     list.appendChild(item);

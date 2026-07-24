@@ -58,6 +58,7 @@ function renderThemes(db) {
         return `
           <li class="box">
             ${nameMarkup}
+            ${setNumMarkup(s.setNum)}
             <span class="box-year">${s.year}</span>
             ${statusMarkup}
             ${officialLinkMarkup(s.officialUrl, s.officialUrlStatus)}
