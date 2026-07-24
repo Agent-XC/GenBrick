@@ -62,11 +62,14 @@ class _SiteRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def _fake_resolve_official_link(set_num: str) -> tuple[str, str]:
-    """Stands in for the real (networked) link checker in tests that aren't
-    about link-checking itself — see test_links.py for that seam's own tests.
+    """Stands in for the real (networked, Playwright-driven) link checker in
+    tests that aren't about link-checking itself — see test_links.py for
+    that seam's own tests. Mirrors pipeline.links.construct_official_url's
+    fr-fr URL shape (issue #15) so fixture URLs match what the real checker
+    would construct.
     """
     base_set_number = set_num.split("-")[0]
-    return f"https://www.lego.com/en-us/product/{base_set_number}", "ok"
+    return f"https://www.lego.com/fr-fr/product/{base_set_number}", "ok"
 
 
 def _fake_fetch_omr_model(url: str) -> bytes:

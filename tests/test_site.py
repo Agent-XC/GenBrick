@@ -83,7 +83,7 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
     )
     expect(page.locator("#box-official-link a")).to_have_text("Official page")
     expect(page.locator("#box-official-link a")).to_have_attribute(
-        "href", "https://www.lego.com/en-us/product/75192"
+        "href", "https://www.lego.com/fr-fr/product/75192"
     )
 
     minifigs = page.locator("#box-minifigs .minifig")
@@ -162,7 +162,7 @@ def test_discover_page_ranks_candidate_sets_by_buildability_with_a_link_to_its_o
     expect(candidates.nth(0).locator(".box-set-num")).to_have_text("21331-1")
 
     official_link = candidates.nth(0).locator("a.box-link")
-    expect(official_link).to_have_attribute("href", "https://www.lego.com/en-us/product/21331")
+    expect(official_link).to_have_attribute("href", "https://www.lego.com/fr-fr/product/21331")
 
 
 def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: Page, site_url: str):

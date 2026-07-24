@@ -86,10 +86,10 @@ def test_sets_table_carries_every_catalog_set_but_only_resolves_owned_and_candid
     # official_url is still populated (naive construction, no network) so
     # 'unchecked' never means "no URL at all."
     assert rows == [
-        ("10281-1", "Bonsai Tree", 2021, "https://www.lego.com/en-us/product/10281", "ok"),
-        ("21331-1", "Ship in a Bottle", 2022, "https://www.lego.com/en-us/product/21331", "ok"),
-        ("42100-1", "Liebherr R 9800", 2019, "https://www.lego.com/en-us/product/42100", "unchecked"),
-        ("75192-1", "Millennium Falcon", 2017, "https://www.lego.com/en-us/product/75192", "ok"),
+        ("10281-1", "Bonsai Tree", 2021, "https://www.lego.com/fr-fr/product/10281", "ok"),
+        ("21331-1", "Ship in a Bottle", 2022, "https://www.lego.com/fr-fr/product/21331", "ok"),
+        ("42100-1", "Liebherr R 9800", 2019, "https://www.lego.com/fr-fr/product/42100", "unchecked"),
+        ("75192-1", "Millennium Falcon", 2017, "https://www.lego.com/fr-fr/product/75192", "ok"),
     ]
 
 

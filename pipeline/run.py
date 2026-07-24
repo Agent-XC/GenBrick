@@ -4,6 +4,7 @@ from pathlib import Path
 from pipeline.exports import reporting_to_exports
 from pipeline.intermediate import raw_to_intermediate
 from pipeline.ldraw import render_with_ldview as _render_with_ldview
+from pipeline.links import playwright_link_resolver
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
 from pipeline.primary import intermediate_to_primary
@@ -65,22 +66,27 @@ def run_pipeline(
 if __name__ == "__main__":
     repo_root = Path(__file__).resolve().parent.parent
     db_path = repo_root / "data" / "08_reporting" / "lego.sqlite"
-    run_pipeline(
-        raw_dir=repo_root / "data" / "01_raw",
-        owned_sets_path=repo_root / "data" / "owned_sets.txt",
-        owned_box_photos_path=repo_root / "data" / "owned_box_photos.csv",
-        ldraw_parts_crosswalk_path=repo_root / "data" / "ldraw_parts_crosswalk.csv",
-        ldraw_colors_crosswalk_path=repo_root / "data" / "ldraw_colors_crosswalk.csv",
-        ldraw_omr_crosswalk_path=repo_root / "data" / "ldraw_omr_crosswalk.csv",
-        render_dir=repo_root / "site" / "assets" / "ldraw-renders",
-        intermediate_dir=repo_root / "data" / "02_intermediate",
-        primary_dir=repo_root / "data" / "03_primary",
-        db_path=db_path,
-        exports_dir=repo_root / "exports",
-        universe_scope=load_universe_scope(repo_root / "config" / "scope.json"),
-        render_candidates=load_render_candidates(repo_root / "config" / "scope.json"),
-        min_candidate_num_parts=load_min_candidate_num_parts(repo_root / "config" / "scope.json"),
-        min_buildability_coverage_pct=load_min_buildability_coverage_pct(repo_root / "config" / "scope.json"),
-        min_similarity_score_pct=load_min_similarity_score_pct(repo_root / "config" / "scope.json"),
-    )
+    # One shared headless-Chromium browser/page for every official-link check
+    # this run makes (owned + Candidate sets — up to ~1,000+ in production),
+    # rather than fetch_status_code's per-call default (issue #15).
+    with playwright_link_resolver() as resolve_official_link:
+        run_pipeline(
+            raw_dir=repo_root / "data" / "01_raw",
+            owned_sets_path=repo_root / "data" / "owned_sets.txt",
+            owned_box_photos_path=repo_root / "data" / "owned_box_photos.csv",
+            ldraw_parts_crosswalk_path=repo_root / "data" / "ldraw_parts_crosswalk.csv",
+            ldraw_colors_crosswalk_path=repo_root / "data" / "ldraw_colors_crosswalk.csv",
+            ldraw_omr_crosswalk_path=repo_root / "data" / "ldraw_omr_crosswalk.csv",
+            render_dir=repo_root / "site" / "assets" / "ldraw-renders",
+            intermediate_dir=repo_root / "data" / "02_intermediate",
+            primary_dir=repo_root / "data" / "03_primary",
+            db_path=db_path,
+            exports_dir=repo_root / "exports",
+            resolve_official_link=resolve_official_link,
+            universe_scope=load_universe_scope(repo_root / "config" / "scope.json"),
+            render_candidates=load_render_candidates(repo_root / "config" / "scope.json"),
+            min_candidate_num_parts=load_min_candidate_num_parts(repo_root / "config" / "scope.json"),
+            min_buildability_coverage_pct=load_min_buildability_coverage_pct(repo_root / "config" / "scope.json"),
+            min_similarity_score_pct=load_min_similarity_score_pct(repo_root / "config" / "scope.json"),
+        )
     publish_to_site(db_path, repo_root / "site" / "data")

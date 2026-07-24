@@ -61,6 +61,15 @@ jobs:
       - name: Install genbrick
         run: pip install -e .
 
+      - name: Install Playwright's Chromium browser
+        # pipeline/links.py's official-link checker drives a real headless
+        # Chromium instance (issue #15: LEGO.com's bot protection 403s a bare
+        # HTTP client, even with a spoofed browser User-Agent). The
+        # playwright package installed above ships no browser binaries —
+        # they're a separate download, and --with-deps also installs the
+        # OS-level libraries the ubuntu-latest runner doesn't have by default.
+        run: playwright install --with-deps chromium
+
       - name: Fetch the latest Rebrickable dump
         env:
           REBRICKABLE_API_TOKEN: ${{ secrets.REBRICKABLE_API_TOKEN }}
