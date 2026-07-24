@@ -12,7 +12,7 @@ function renderThemes(db) {
     JOIN themes ON themes.id = sets.theme_id
     LEFT JOIN owned_boxes ON owned_boxes.set_num = sets.set_num
     LEFT JOIN buildability ON buildability.set_num = sets.set_num
-    ORDER BY themes.name ASC, sets.name ASC
+    ORDER BY themes.name ASC, sets.set_num ASC
   `);
 
   container.innerHTML = "";

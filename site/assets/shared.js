@@ -5,14 +5,26 @@ async function loadDatabase() {
   return new SQL.Database(new Uint8Array(buffer));
 }
 
+// Deterministic per-Set color so placeholders are visually distinct rather
+// than one flat gray block repeated down the list — same input always maps
+// to the same hue, with no server-side state needed.
+function placeholderColor(seed) {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  return `hsl(${hash % 360}, 55%, 80%)`;
+}
+
 // image_path is null for image_source 'none' (no user photo yet, and later
-// render stages aren't built) — shows an explicit placeholder rather than an
-// <img> with a missing/broken src.
+// render stages aren't built) — shows a colored-box placeholder rather than
+// an <img> with a missing/broken src.
 function boxPhotoMarkup(imagePath, altName, className = "box-photo") {
   if (imagePath) {
     return `<img class="${className}" src="${imagePath}" alt="${altName}" />`;
   }
-  return `<span class="${className}-placeholder">No photo yet</span>`;
+  const background = placeholderColor(altName);
+  return `<span class="${className}-placeholder" style="background-color: ${background}">No photo yet</span>`;
 }
 
 // Only the procedural render's partial coverage is worth surfacing — a

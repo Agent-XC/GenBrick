@@ -5,7 +5,13 @@ function renderSimilarity(db) {
     FROM (
       SELECT set_num FROM owned_boxes
       UNION
-      SELECT set_num FROM buildability
+      -- inventories, not buildability: Similarity only has a part-count
+      -- floor and a score floor of its own (issue #15) — it must not
+      -- inherit Buildability's separate coverage_pct floor just because
+      -- that table happens to also list Candidates. inventories is
+      -- materialized for exactly owned ∪ (num-parts-floor-cleared)
+      -- Candidates, which is Similarity's actual intended scope.
+      SELECT set_num FROM inventories
     ) scope
     JOIN sets ON sets.set_num = scope.set_num
     LEFT JOIN similarity_topk ON similarity_topk.set_num = scope.set_num

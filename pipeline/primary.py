@@ -10,7 +10,7 @@ from pipeline.links import construct_official_url
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
 from pipeline.omr import resolve_ldraw_omr_render
-from pipeline.scope import determine_candidate_set_nums
+from pipeline.scope import determine_candidate_set_nums, filter_candidates_by_min_num_parts
 from pipeline.similarity import compute_similarity_topk
 
 
@@ -28,6 +28,9 @@ def intermediate_to_primary(
     fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
     universe_scope: str = "owned_themes",
     render_candidates: bool = False,
+    min_candidate_num_parts: int = 0,
+    min_buildability_coverage_pct: float = 0.0,
+    min_similarity_score_pct: float = 0.0,
 ) -> None:
     primary_dir.mkdir(parents=True, exist_ok=True)
     # Shared by every derived table below that stamps when it was computed —
@@ -111,6 +114,10 @@ def intermediate_to_primary(
             row["official_url"], row["official_url_status"] = resolve_official_link(row["set_num"])
 
     candidate_set_nums = determine_candidate_set_nums(universe_scope, sets_rows, owned_set_nums)
+    # config/scope.json's noise floor (issue #15): drops gear, keychains and
+    # micro battle-figure packs from the Candidate set before anything below
+    # (rendering, Buildability, Similarity) ever sees them.
+    candidate_set_nums = filter_candidates_by_min_num_parts(candidate_set_nums, sets_rows, min_candidate_num_parts)
 
     # inventory_parts/inventory_minifigs are expensive at full-catalog scale,
     # so only owned ∪ Candidate sets get per-set inventory data materialized.
@@ -231,12 +238,24 @@ def intermediate_to_primary(
         inventory_id = inventory_id_by_set_num.get(set_num)
         return pool_quantities(inventory_parts_by_inventory_id.get(inventory_id, []))
 
+    # config/scope.json's min_buildability_coverage_pct floor (issue #15): a
+    # Candidate below the floor gets no buildability row at all, the same
+    # "isn't a Candidate for display purposes" signal absence already carries
+    # elsewhere in this table (see reporting.py's schema comment) — so
+    # Discover and Themes (which both derive their Candidate scope from this
+    # table's presence) drop it automatically, with no separate JS filter.
+    # Similarity does NOT derive its scope from this table — issue #15 only
+    # asks it for a part-count and score floor, not this one — see
+    # similarity.js's own comment on why it reads `inventories` instead.
     buildability_rows = []
     for set_num in sorted(candidate_set_nums):
+        coverage_pct = compute_coverage_pct(_own_pool(set_num), owned_pool)
+        if coverage_pct < min_buildability_coverage_pct:
+            continue
         buildability_rows.append(
             {
                 "set_num": set_num,
-                "coverage_pct": compute_coverage_pct(_own_pool(set_num), owned_pool),
+                "coverage_pct": coverage_pct,
                 "computed_at": computed_at,
             }
         )
@@ -249,6 +268,13 @@ def intermediate_to_primary(
     similarity_topk_rows = []
     for set_num, topk in compute_similarity_topk(pools_by_set_num).items():
         for rank, (other_set_num, score) in enumerate(topk, start=1):
+            # config/scope.json's min_similarity_score_pct floor (issue #15):
+            # a pair scoring below the floor is dropped from similarity_topk
+            # entirely, so it never shows on the Similarity page. Rank keeps
+            # its original (possibly gappy) value — it's only an ordering
+            # key, never displayed — rather than being renumbered.
+            if score < min_similarity_score_pct:
+                continue
             similarity_topk_rows.append(
                 {
                     "set_num": set_num,

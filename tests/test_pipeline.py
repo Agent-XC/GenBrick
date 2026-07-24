@@ -28,6 +28,9 @@ def _run(
     fetch_omr_model=_fake_fetch_omr_model,
     universe_scope="owned_themes",
     render_candidates=False,
+    min_candidate_num_parts=0,
+    min_buildability_coverage_pct=0.0,
+    min_similarity_score_pct=0.0,
 ):
     db_path = tmp_path / "lego.sqlite"
     run_pipeline(
@@ -47,6 +50,9 @@ def _run(
         fetch_omr_model=fetch_omr_model,
         universe_scope=universe_scope,
         render_candidates=render_candidates,
+        min_candidate_num_parts=min_candidate_num_parts,
+        min_buildability_coverage_pct=min_buildability_coverage_pct,
+        min_similarity_score_pct=min_similarity_score_pct,
     )
     return db_path
 
@@ -335,6 +341,71 @@ def test_widening_universe_scope_adds_the_newly_materialized_set_to_similarity_t
     conn.close()
 
     assert rows == [("10281-1",), ("21331-1",), ("42100-1",), ("75192-1",)]
+
+
+def test_min_candidate_num_parts_floor_drops_a_small_candidate_from_scope_entirely(tmp_path):
+    """21331-1 (962 parts, tests/fixtures/raw/sets.csv) is the only Candidate
+    under the default owned_themes scope — a floor above its part count
+    (issue #15's noise filter) removes it not just from display but from the
+    materialized universe altogether: no buildability row, no similarity_topk
+    row, no materialized inventory.
+    """
+    conn = sqlite3.connect(_run(tmp_path, min_candidate_num_parts=1000))
+
+    buildability = conn.execute("SELECT set_num FROM buildability").fetchall()
+    assert buildability == []
+
+    similarity_set_nums = conn.execute("SELECT DISTINCT set_num FROM similarity_topk ORDER BY set_num").fetchall()
+    assert similarity_set_nums == [("10281-1",), ("75192-1",)]
+
+    inventories = conn.execute("SELECT set_num FROM inventories WHERE set_num = '21331-1'").fetchall()
+    assert inventories == []
+
+    conn.close()
+
+
+def test_min_candidate_num_parts_floor_is_a_no_op_below_the_smallest_candidate(tmp_path):
+    conn = sqlite3.connect(_run(tmp_path, min_candidate_num_parts=15))
+    rows = conn.execute("SELECT set_num FROM buildability").fetchall()
+    conn.close()
+
+    assert rows == [("21331-1",)]
+
+
+def test_min_buildability_coverage_pct_floor_drops_a_low_coverage_candidate(tmp_path):
+    """21331-1's coverage_pct is 45.0 (see
+    test_buildability_is_computed_per_candidate_from_the_owned_brick_pool) —
+    a floor above that excludes it from the buildability table entirely,
+    which Discover and Themes both derive their Candidate scope from.
+    """
+    conn = sqlite3.connect(_run(tmp_path, min_buildability_coverage_pct=50))
+    rows = conn.execute("SELECT set_num FROM buildability").fetchall()
+    conn.close()
+
+    assert rows == []
+
+
+def test_min_buildability_coverage_pct_floor_keeps_a_candidate_that_clears_it(tmp_path):
+    conn = sqlite3.connect(_run(tmp_path, min_buildability_coverage_pct=30))
+    rows = conn.execute("SELECT set_num, coverage_pct FROM buildability").fetchall()
+    conn.close()
+
+    assert rows == [("21331-1", pytest.approx(45.0))]
+
+
+def test_min_similarity_score_pct_floor_drops_low_scoring_pairs(tmp_path):
+    """From test_similarity_topk_is_computed_across_owned_and_candidate_sets_ranked_by_score:
+    only the 75192-1 <-> 21331-1 pair (~36.0%) clears a 30% floor — the
+    10281-1 <-> 75192-1 (~22.7%) and *<->21331-1 (~9.1%) pairs don't.
+    """
+    conn = sqlite3.connect(_run(tmp_path, min_similarity_score_pct=30))
+    rows = conn.execute("SELECT set_num, other_set_num, score FROM similarity_topk ORDER BY set_num").fetchall()
+    conn.close()
+
+    assert rows == [
+        ("21331-1", "75192-1", pytest.approx(9 / 25 * 100)),
+        ("75192-1", "21331-1", pytest.approx(9 / 25 * 100)),
+    ]
 
 
 def test_owned_sets_seed_referencing_an_unknown_set_num_is_rejected(tmp_path):

@@ -9,7 +9,13 @@ from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
 from pipeline.primary import intermediate_to_primary
 from pipeline.publish import publish_to_site
 from pipeline.reporting import primary_to_reporting
-from pipeline.scope import load_render_candidates, load_universe_scope
+from pipeline.scope import (
+    load_min_buildability_coverage_pct,
+    load_min_candidate_num_parts,
+    load_min_similarity_score_pct,
+    load_render_candidates,
+    load_universe_scope,
+)
 
 
 def run_pipeline(
@@ -29,6 +35,9 @@ def run_pipeline(
     fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
     universe_scope: str = "owned_themes",
     render_candidates: bool = False,
+    min_candidate_num_parts: int = 0,
+    min_buildability_coverage_pct: float = 0.0,
+    min_similarity_score_pct: float = 0.0,
 ) -> None:
     raw_to_intermediate(raw_dir, intermediate_dir)
     intermediate_to_primary(
@@ -45,6 +54,9 @@ def run_pipeline(
         fetch_omr_model=fetch_omr_model,
         universe_scope=universe_scope,
         render_candidates=render_candidates,
+        min_candidate_num_parts=min_candidate_num_parts,
+        min_buildability_coverage_pct=min_buildability_coverage_pct,
+        min_similarity_score_pct=min_similarity_score_pct,
     )
     primary_to_reporting(primary_dir, db_path)
     reporting_to_exports(db_path, exports_dir)
@@ -67,5 +79,8 @@ if __name__ == "__main__":
         exports_dir=repo_root / "exports",
         universe_scope=load_universe_scope(repo_root / "config" / "scope.json"),
         render_candidates=load_render_candidates(repo_root / "config" / "scope.json"),
+        min_candidate_num_parts=load_min_candidate_num_parts(repo_root / "config" / "scope.json"),
+        min_buildability_coverage_pct=load_min_buildability_coverage_pct(repo_root / "config" / "scope.json"),
+        min_similarity_score_pct=load_min_similarity_score_pct(repo_root / "config" / "scope.json"),
     )
     publish_to_site(db_path, repo_root / "site" / "data")

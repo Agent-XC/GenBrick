@@ -2,7 +2,14 @@ import json
 
 import pytest
 
-from pipeline.scope import determine_candidate_set_nums, load_render_candidates
+from pipeline.scope import (
+    determine_candidate_set_nums,
+    filter_candidates_by_min_num_parts,
+    load_min_buildability_coverage_pct,
+    load_min_candidate_num_parts,
+    load_min_similarity_score_pct,
+    load_render_candidates,
+)
 
 # Mirrors tests/fixtures/raw/sets.csv: 75192-1 (theme 1) and 10281-1 (theme
 # 158) are owned; 21331-1 shares 10281-1's theme (158); 42100-1 sits in an
@@ -72,3 +79,50 @@ def test_load_render_candidates_reads_true_when_flipped_on(tmp_path):
     scope_config.write_text(json.dumps({"universe_scope": "owned_themes", "render_candidates": True}))
 
     assert load_render_candidates(scope_config) is True
+
+
+@pytest.mark.parametrize(
+    "loader",
+    [load_min_candidate_num_parts, load_min_buildability_coverage_pct, load_min_similarity_score_pct],
+)
+def test_min_floor_loaders_default_to_zero_when_key_is_absent(tmp_path, loader):
+    """A config/scope.json predating these floors had none of these keys —
+    each loader must resolve to 0 (no floor) rather than raising, mirroring
+    load_render_candidates' own backward-compat default.
+    """
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes"}))
+
+    assert loader(scope_config) == 0
+
+
+@pytest.mark.parametrize(
+    ("loader", "key", "value"),
+    [
+        (load_min_candidate_num_parts, "min_candidate_num_parts", 15),
+        (load_min_buildability_coverage_pct, "min_buildability_coverage_pct", 30),
+        (load_min_similarity_score_pct, "min_similarity_score_pct", 30),
+    ],
+)
+def test_min_floor_loaders_read_the_configured_value(tmp_path, loader, key, value):
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes", key: value}))
+
+    assert loader(scope_config) == value
+
+
+def test_filter_candidates_by_min_num_parts_drops_candidates_below_the_floor():
+    sets_rows = [
+        {"set_num": "21331-1", "num_parts": 10},
+        {"set_num": "42100-1", "num_parts": 4108},
+    ]
+    candidates = {"21331-1", "42100-1"}
+
+    assert filter_candidates_by_min_num_parts(candidates, sets_rows, 15) == {"42100-1"}
+
+
+def test_filter_candidates_by_min_num_parts_is_a_no_op_when_the_floor_is_zero():
+    sets_rows = [{"set_num": "21331-1", "num_parts": 10}]
+    candidates = {"21331-1"}
+
+    assert filter_candidates_by_min_num_parts(candidates, sets_rows, 0) == {"21331-1"}

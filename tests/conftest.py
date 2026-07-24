@@ -76,20 +76,11 @@ def _fake_fetch_omr_model(url: str) -> bytes:
     return b"fake-omr-model-bytes"
 
 
-@pytest.fixture(scope="session")
-def site_url(tmp_path_factory):
-    """Serves a staged copy of site/ over real HTTP, with data/lego.sqlite
-    swapped for one built fresh from the shared pipeline test fixtures.
-
-    A real HTTP server is required, not just opening the HTML file with a
-    file:// URL: shared.js's loadDatabase() calls fetch() for both
-    sql-wasm.wasm and data/lego.sqlite, and Chromium refuses fetch() under
-    file:// (no origin to apply CORS to). See docs/agents/frontend-testing.md
-    for the full limitations list this fixture works around.
-
-    Session-scoped: the pipeline run and browser-visible static files don't
-    change per test, so every test in the session shares one server and one
-    fixture-built database.
+def _stage_site(tmp_path_factory, **run_pipeline_kwargs):
+    """Shared by site_url and site_url_with_floors below: stages site/'s
+    static files plus a fixture-built lego.sqlite and serves them over real
+    HTTP. See site_url's own docstring for why a real HTTP server (not
+    file://) is required.
     """
     staging = tmp_path_factory.mktemp("site")
     for name in (
@@ -127,6 +118,7 @@ def site_url(tmp_path_factory):
         resolve_official_link=_fake_resolve_official_link,
         render=_fake_render,
         fetch_omr_model=_fake_fetch_omr_model,
+        **run_pipeline_kwargs,
     )
     (staging / "data").mkdir()
     shutil.copyfile(db_path, staging / "data" / "lego.sqlite")
@@ -152,3 +144,42 @@ def site_url(tmp_path_factory):
     finally:
         httpd.shutdown()
         httpd.server_close()
+
+
+@pytest.fixture(scope="session")
+def site_url(tmp_path_factory):
+    """Serves a staged copy of site/ over real HTTP, with data/lego.sqlite
+    swapped for one built fresh from the shared pipeline test fixtures, at
+    the default (no-floor) config.
+
+    A real HTTP server is required, not just opening the HTML file with a
+    file:// URL: shared.js's loadDatabase() calls fetch() for both
+    sql-wasm.wasm and data/lego.sqlite, and Chromium refuses fetch() under
+    file:// (no origin to apply CORS to). See docs/agents/frontend-testing.md
+    for the full limitations list this fixture works around.
+
+    Session-scoped: the pipeline run and browser-visible static files don't
+    change per test, so every test in the session shares one server and one
+    fixture-built database.
+    """
+    yield from _stage_site(tmp_path_factory)
+
+
+@pytest.fixture(scope="session")
+def site_url_with_floors(tmp_path_factory):
+    """Same as site_url, but with config/scope.json's issue #15 floors
+    engaged — a separate staged site + DB (its own tmp_path_factory temp
+    dirs, own HTTP server) so it doesn't disturb site_url's shared session
+    state. min_buildability_coverage_pct is set above 21331-1's own 45%
+    coverage (see test_pipeline.py) so it drops out of buildability
+    entirely, while staying above min_candidate_num_parts (962 parts) and
+    clearing min_similarity_score_pct against 75192-1 (~36% score) — the
+    scenario that exercises Similarity's scope being independent of
+    Buildability's floor (see similarity.js's own comment on this).
+    """
+    yield from _stage_site(
+        tmp_path_factory,
+        min_candidate_num_parts=15,
+        min_buildability_coverage_pct=50,
+        min_similarity_score_pct=30,
+    )

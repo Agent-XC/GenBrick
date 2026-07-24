@@ -37,31 +37,32 @@ def test_page_loads_without_console_errors(page: Page, site_url: str, console_er
     assert console_errors == []
 
 
-def test_home_page_lists_owned_boxes_newest_first_with_links_to_box_detail(page: Page, site_url: str):
+def test_home_page_lists_owned_boxes_by_set_num_with_links_to_box_detail(page: Page, site_url: str):
     page.goto(f"{site_url}/index.html")
 
     boxes = page.locator("#owned-boxes .box")
     expect(boxes).to_have_count(2)
 
-    # owned_boxes.date_acquired DESC — 75192-1 (2023-12-25) before 10281-1
-    # (2022-06-01), even though 10281-1 sorts first alphabetically/by set_num.
-    expect(boxes.nth(0)).to_contain_text("Millennium Falcon")
-    expect(boxes.nth(1)).to_contain_text("Bonsai Tree")
+    # sets.set_num ASC — 10281-1 (Bonsai Tree) before 75192-1 (Millennium
+    # Falcon), independent of date_acquired (which is blank for the real
+    # collection today — see issue #15).
+    expect(boxes.nth(0)).to_contain_text("Bonsai Tree")
+    expect(boxes.nth(1)).to_contain_text("Millennium Falcon")
 
-    falcon_link = boxes.nth(0).locator("a.box-name")
+    falcon_link = boxes.nth(1).locator("a.box-name")
     expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
 
     # 75192-1 has an uploaded photo (see tests/fixtures/owned_box_photos.csv);
     # 10281-1 doesn't, so it falls through to its LDraw procedural render
     # instead of the no-photo placeholder (see test_pipeline.py's
     # test_set_renders_falls_through_to_ldraw_procedural_for_an_owned_box_without_a_photo).
-    expect(boxes.nth(0).locator("img.box-photo")).to_have_attribute(
+    expect(boxes.nth(1).locator("img.box-photo")).to_have_attribute(
         "src", "assets/owned-photos/75192-1/falcon.jpg"
     )
-    expect(boxes.nth(1).locator("img.box-photo")).to_have_attribute(
+    expect(boxes.nth(0).locator("img.box-photo")).to_have_attribute(
         "src", re.compile(r"^assets/ldraw-renders/10281-1/")
     )
-    expect(boxes.nth(1).locator(".box-photo-placeholder")).to_have_count(0)
+    expect(boxes.nth(0).locator(".box-photo-placeholder")).to_have_count(0)
 
     falcon_link.click()
     expect(page.locator("#box-name")).to_have_text("Millennium Falcon")
@@ -136,6 +137,11 @@ def test_collection_page_lists_owned_brick_pool_summed_across_boxes(page: Page, 
     expect(black_brick).to_contain_text("Brick 2 x 4")
     expect(black_brick).to_contain_text("25")
 
+    # tests/fixtures/ldraw_parts_crosswalk.csv maps 3001 -> ldraw_part_id
+    # "3001" (issue #15: parts.ldraw_part_id is in the schema but wasn't
+    # displayed on this page).
+    expect(black_brick.locator("td").nth(1)).to_have_text("3001")
+
 
 def test_discover_page_ranks_candidate_sets_by_buildability_with_a_link_to_its_official_page(
     page: Page, site_url: str
@@ -174,6 +180,34 @@ def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: 
     expect(falcon_matches.nth(0)).to_contain_text("36.0%")
     expect(falcon_matches.nth(1)).to_contain_text("Bonsai Tree")
     expect(falcon_matches.nth(1)).to_contain_text("22.7%")
+
+
+def test_similarity_scope_is_independent_of_the_buildability_floor(page: Page, site_url_with_floors: str):
+    """Regression for issue #15: Similarity only has its own part-count and
+    score floors, not Buildability's coverage_pct floor. With
+    min_buildability_coverage_pct=50 (see conftest.py's site_url_with_floors),
+    21331-1's 45% coverage drops it out of buildability.csv entirely — so it
+    must not disappear from Similarity too, since it still clears
+    min_candidate_num_parts (962) and has a ~36% score against 75192-1,
+    above min_similarity_score_pct=30.
+    """
+    page.goto(f"{site_url_with_floors}/discover.html")
+    expect(page.locator("#discover-list .box")).to_have_count(0)
+
+    page.goto(f"{site_url_with_floors}/similarity.html")
+    rows = page.locator("#similarity-list .similarity-set")
+    expect(rows).to_have_count(3)
+
+    ship_row = rows.filter(has=page.locator(".box-name", has_text="Ship in a Bottle"))
+    expect(ship_row).to_have_count(1)
+
+    falcon_row = rows.filter(has=page.locator(".box-name", has_text="Millennium Falcon"))
+    falcon_matches = falcon_row.locator(".similarity-matches li")
+    # Only the ~36% match to Ship in a Bottle clears the 30% score floor —
+    # the ~22.7% match to Bonsai Tree (see the unfiltered similarity test
+    # above) is dropped.
+    expect(falcon_matches).to_have_count(1)
+    expect(falcon_matches.nth(0)).to_contain_text("Ship in a Bottle")
 
 
 def test_themes_page_groups_owned_and_candidate_sets_by_theme(page: Page, site_url: str):

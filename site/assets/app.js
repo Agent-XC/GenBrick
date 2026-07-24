@@ -5,7 +5,7 @@ function renderOwnedBoxes(db) {
     FROM owned_boxes
     JOIN sets ON sets.set_num = owned_boxes.set_num
     LEFT JOIN set_renders ON set_renders.set_num = owned_boxes.set_num
-    ORDER BY owned_boxes.date_acquired DESC
+    ORDER BY sets.set_num ASC
   `);
 
   list.innerHTML = "";
