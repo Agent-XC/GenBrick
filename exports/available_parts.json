@@ -1,57 +1,43 @@
 [
   {
-    "part_num": "10197",
-    "color_id": 72,
-    "quantity": 3,
+    "part_num": "10102067",
+    "color_id": 9999,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "10201",
-    "color_id": 71,
-    "quantity": 12,
+    "part_num": "10117399",
+    "color_id": 9999,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "10172",
+    "color_id": 297,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "10247",
-    "color_id": 15,
-    "quantity": 22,
+    "color_id": 0,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 15
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "10247",
-    "color_id": 72,
-    "quantity": 5,
+    "part_num": "11090",
+    "color_id": 0,
+    "quantity": 7,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "10314",
-    "color_id": 19,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 0
   },
   {
     "part_num": "11090",
     "color_id": 72,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "11153",
-    "color_id": 71,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "11153",
-    "color_id": 72,
-    "quantity": 16,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -63,44 +49,37 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "11203",
-    "color_id": 71,
-    "quantity": 10,
+    "part_num": "11156",
+    "color_id": 297,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "11211",
-    "color_id": 15,
+    "part_num": "11203",
+    "color_id": 72,
     "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 15
+    "ldraw_color_id": null
   },
   {
     "part_num": "11211",
-    "color_id": 71,
-    "quantity": 16,
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "11212",
-    "color_id": 15,
-    "quantity": 16,
+    "part_num": "11211",
+    "color_id": 70,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 15
+    "ldraw_color_id": null
   },
   {
-    "part_num": "11212",
-    "color_id": 71,
-    "quantity": 13,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "11212",
+    "part_num": "11211",
     "color_id": 72,
-    "quantity": 14,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -112,58 +91,65 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "11213",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
     "part_num": "11214",
     "color_id": 72,
-    "quantity": 7,
+    "quantity": 8,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "11215",
-    "color_id": 1,
-    "quantity": 4,
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "11215",
-    "color_id": 71,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
     "part_num": "11253",
+    "color_id": 297,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "11301",
+    "color_id": 272,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "11458",
     "color_id": 0,
-    "quantity": 8,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "11458",
-    "color_id": 4,
-    "quantity": 8,
+    "color_id": 72,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "11458",
-    "color_id": 72,
-    "quantity": 3,
+    "part_num": "11476",
+    "color_id": 0,
+    "quantity": 4,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "11476",
+    "color_id": 15,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
   },
   {
     "part_num": "11476",
     "color_id": 70,
-    "quantity": 7,
+    "quantity": 11,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -175,18 +161,39 @@
     "ldraw_color_id": 71
   },
   {
+    "part_num": "11476",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
     "part_num": "11477",
     "color_id": 0,
-    "quantity": 1,
+    "quantity": 9,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "11477",
-    "color_id": 71,
-    "quantity": 16,
+    "color_id": 4,
+    "quantity": 3,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "11477",
+    "color_id": 28,
+    "quantity": 10,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "11477",
+    "color_id": 72,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "11477",
@@ -203,88 +210,88 @@
     "ldraw_color_id": null
   },
   {
+    "part_num": "11478",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "13548",
+    "color_id": 15,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
     "part_num": "13564",
     "color_id": 70,
-    "quantity": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "13731",
+    "part_num": "14417",
     "color_id": 72,
-    "quantity": 1,
+    "quantity": 13,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "13971",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "14418",
     "color_id": 71,
-    "quantity": 2,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "14682",
+    "part_num": "14419",
+    "color_id": 72,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "14704",
     "color_id": 71,
+    "quantity": 19,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "14769",
+    "color_id": 14,
     "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "14719",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "14720",
-    "color_id": 71,
+    "part_num": "14769",
+    "color_id": 297,
     "quantity": 4,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "14769",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "14769",
-    "color_id": 72,
+    "part_num": "14769pr0027",
+    "color_id": 297,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "14769pr0004",
-    "color_id": 71,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
     "part_num": "15068",
     "color_id": 0,
-    "quantity": 24,
+    "quantity": 30,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "15068",
-    "color_id": 15,
-    "quantity": 2,
+    "color_id": 4,
+    "quantity": 3,
     "ldraw_part_id": null,
-    "ldraw_color_id": 15
+    "ldraw_color_id": null
   },
   {
     "part_num": "15068",
@@ -295,17 +302,31 @@
   },
   {
     "part_num": "15068",
-    "color_id": 71,
-    "quantity": 5,
+    "color_id": 72,
+    "quantity": 4,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "15082",
-    "color_id": 28,
+    "part_num": "15068",
+    "color_id": 288,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15068",
+    "color_id": 320,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
+  },
+  {
+    "part_num": "15207",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
   },
   {
     "part_num": "15207",
@@ -315,72 +336,72 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "15207",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "15207",
-    "color_id": 72,
-    "quantity": 3,
+    "part_num": "15208",
+    "color_id": 323,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "15210",
+    "part_num": "15303",
+    "color_id": 36,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15400",
     "color_id": 72,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "15379",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "15392",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "15461",
+    "part_num": "15456",
     "color_id": 0,
-    "quantity": 43,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "15535",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "15535",
-    "color_id": 72,
+    "part_num": "15462",
+    "color_id": 70,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "15573",
+    "part_num": "15571",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15571",
     "color_id": 15,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
+    "part_num": "15571",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
     "part_num": "15573",
-    "color_id": 28,
-    "quantity": 32,
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "15573",
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -394,145 +415,187 @@
   {
     "part_num": "15573",
     "color_id": 71,
-    "quantity": 22,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "15573",
-    "color_id": 72,
-    "quantity": 75,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "15672",
-    "color_id": 0,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "15672",
-    "color_id": 71,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "15672",
-    "color_id": 72,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "15712",
-    "color_id": 0,
-    "quantity": 16,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "15712",
-    "color_id": 70,
+    "color_id": 191,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "15712",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "15712",
-    "color_id": 72,
-    "quantity": 139,
+    "part_num": "15573",
+    "color_id": 288,
+    "quantity": 6,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "15712",
-    "color_id": 320,
+    "part_num": "15573",
+    "color_id": 297,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15573",
+    "color_id": 323,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15619",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "15619",
+    "color_id": 10,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15619",
+    "color_id": 272,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15619",
+    "color_id": 321,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "15626pr0015",
+    "color_id": 15,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "15672",
+    "color_id": 85,
     "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "16091",
-    "color_id": 71,
-    "quantity": 3,
+    "part_num": "15672",
+    "color_id": 191,
+    "quantity": 4,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "16577",
-    "color_id": 71,
-    "quantity": 6,
+    "part_num": "15672",
+    "color_id": 484,
+    "quantity": 4,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "17485",
+    "part_num": "15712",
     "color_id": 71,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "18651",
+    "part_num": "15712",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "16770",
+    "color_id": 297,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "17114",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "1745",
+    "color_id": 323,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "17485",
+    "color_id": 4,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "1750",
     "color_id": 0,
-    "quantity": 21,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "18653",
-    "color_id": 71,
-    "quantity": 26,
+    "part_num": "1762pr0003",
+    "color_id": 0,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "18653",
-    "color_id": 72,
-    "quantity": 6,
+    "part_num": "18041",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "18041",
+    "color_id": 179,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "18649",
+    "color_id": 15,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "18654",
+    "color_id": 25,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "18654",
-    "color_id": 72,
-    "quantity": 8,
+    "color_id": 70,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "18671",
-    "color_id": 272,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "18675pr0012",
-    "color_id": 47,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "18677",
-    "color_id": 71,
-    "quantity": 33,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "18974",
+    "part_num": "18674",
     "color_id": 72,
     "quantity": 2,
     "ldraw_part_id": null,
@@ -546,42 +609,147 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "20105",
-    "color_id": 0,
+    "part_num": "1979",
+    "color_id": 28,
     "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "20482",
-    "color_id": 70,
-    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "22885",
-    "color_id": 71,
-    "quantity": 18,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "22890",
+    "part_num": "1979",
     "color_id": 72,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "22961",
+    "part_num": "20482",
+    "color_id": 28,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "21459",
+    "color_id": 179,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "21459",
+    "color_id": 297,
+    "quantity": 16,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "2148",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "22385",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "22385",
+    "color_id": 2,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22385",
+    "color_id": 15,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "22385",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22388",
+    "color_id": 0,
+    "quantity": 17,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "22388",
+    "color_id": 19,
+    "quantity": 9,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22388",
+    "color_id": 45,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22388",
+    "color_id": 182,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22484",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22885",
+    "color_id": 19,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22888",
     "color_id": 71,
-    "quantity": 5,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "22961",
+    "part_num": "22888",
+    "color_id": 322,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22889",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "22890",
+    "color_id": 72,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "2310",
     "color_id": 72,
     "quantity": 2,
     "ldraw_part_id": null,
@@ -589,43 +757,50 @@
   },
   {
     "part_num": "23443",
-    "color_id": 71,
-    "quantity": 8,
+    "color_id": 297,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "2357",
-    "color_id": 19,
-    "quantity": 4,
+    "part_num": "23448",
+    "color_id": 40,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "23969",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "23986",
+    "color_id": 378,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "2412b",
     "color_id": 0,
-    "quantity": 102,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "2412b",
-    "color_id": 71,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2412b",
-    "color_id": 72,
-    "quantity": 69,
+    "color_id": 179,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "2412b",
-    "color_id": 179,
-    "quantity": 32,
+    "color_id": 297,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -637,25 +812,11 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "2419",
-    "color_id": 72,
-    "quantity": 2,
+    "part_num": "2417",
+    "color_id": 29,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "2420",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "2420",
-    "color_id": 1,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 1
   },
   {
     "part_num": "2420",
@@ -663,41 +824,6 @@
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "2420",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2420",
-    "color_id": 72,
-    "quantity": 13,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "2420",
-    "color_id": 320,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "24201",
-    "color_id": 0,
-    "quantity": 17,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "24201",
-    "color_id": 71,
-    "quantity": 9,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "2423",
@@ -708,45 +834,45 @@
   },
   {
     "part_num": "24246",
-    "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "24309",
-    "color_id": 71,
-    "quantity": 66,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2431",
-    "color_id": 71,
-    "quantity": 47,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2431",
-    "color_id": 72,
-    "quantity": 22,
+    "color_id": 4,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
+    "part_num": "24299",
+    "color_id": 0,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "24307",
+    "color_id": 0,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
     "part_num": "2431",
-    "color_id": 320,
-    "quantity": 6,
+    "color_id": 10,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "2432",
-    "color_id": 15,
+    "part_num": "24316",
+    "color_id": 70,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "2431pr0158",
+    "color_id": 14,
     "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 15
+    "ldraw_color_id": null
   },
   {
     "part_num": "2432",
@@ -756,114 +882,44 @@
     "ldraw_color_id": 71
   },
   {
-    "part_num": "2432",
-    "color_id": 72,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
     "part_num": "2445",
     "color_id": 0,
-    "quantity": 10,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "2445",
-    "color_id": 1,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "2445",
-    "color_id": 70,
+    "color_id": 19,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "2445",
-    "color_id": 72,
-    "quantity": 13,
+    "part_num": "2450",
+    "color_id": 70,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "2450",
+    "color_id": 71,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "2454b",
     "color_id": 15,
-    "quantity": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
-    "part_num": "2450",
-    "color_id": 70,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "2450",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2450",
-    "color_id": 320,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "2456",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
     "part_num": "2456",
     "color_id": 70,
     "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "2456",
-    "color_id": 71,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2460",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2460",
-    "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "2465",
-    "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2476a",
-    "color_id": 28,
-    "quantity": 22,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -875,23 +931,51 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "25269",
-    "color_id": 0,
+    "part_num": "24866",
+    "color_id": 15,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "25111",
+    "color_id": 297,
     "quantity": 5,
     "ldraw_part_id": null,
-    "ldraw_color_id": 0
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "25269",
+    "color_id": 15,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "25375",
+    "color_id": 297,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "2540",
-    "color_id": 0,
-    "quantity": 1,
+    "color_id": 28,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 0
+    "ldraw_color_id": null
   },
   {
     "part_num": "2540",
     "color_id": 72,
-    "quantity": 14,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "2540",
+    "color_id": 297,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -903,39 +987,88 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "2639",
-    "color_id": 28,
-    "quantity": 10,
+    "part_num": "26047",
+    "color_id": 72,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "2654",
-    "color_id": 0,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "2654",
-    "color_id": 19,
-    "quantity": 12,
+    "part_num": "2628",
+    "color_id": 72,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "26599",
     "color_id": 71,
-    "quantity": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "2723",
-    "color_id": 71,
+    "part_num": "26601",
+    "color_id": 0,
     "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "26601",
+    "color_id": 15,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "26601",
+    "color_id": 72,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "26601",
+    "color_id": 320,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "26603pr0097",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "27167",
+    "color_id": 4,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "27167",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "27261",
+    "color_id": 0,
+    "quantity": 23,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "27261",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "27263",
@@ -945,32 +1078,11 @@
     "ldraw_color_id": 15
   },
   {
-    "part_num": "27263",
-    "color_id": 71,
-    "quantity": 13,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "27263",
+    "part_num": "27940",
     "color_id": 72,
-    "quantity": 2,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "27507",
-    "color_id": 71,
-    "quantity": 32,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2780",
-    "color_id": 0,
-    "quantity": 280,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
   },
   {
     "part_num": "27965",
@@ -980,233 +1092,170 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "2817",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2877",
-    "color_id": 71,
-    "quantity": 26,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2877",
-    "color_id": 72,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "29096",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "29096pr0001",
-    "color_id": 47,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "2921",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "2926",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "30000",
-    "color_id": 15,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "30000",
-    "color_id": 72,
-    "quantity": 19,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3001",
-    "color_id": 0,
-    "quantity": 3,
-    "ldraw_part_id": "3001",
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3001",
-    "color_id": 4,
-    "quantity": 4,
-    "ldraw_part_id": "3001",
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3001",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": "3001",
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3001",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": "3001",
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3002",
-    "color_id": 72,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3003",
-    "color_id": 0,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3003",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3003",
-    "color_id": 73,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30031",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30031",
-    "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3004",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3004",
-    "color_id": 28,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3004",
+    "part_num": "28192",
     "color_id": 70,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3004",
-    "color_id": 320,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3005",
-    "color_id": 1,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "3005",
-    "color_id": 15,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "3005",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3005",
+    "part_num": "28192",
     "color_id": 72,
-    "quantity": 32,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3005",
-    "color_id": 84,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3008",
-    "color_id": 70,
     "quantity": 6,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3009",
-    "color_id": 15,
-    "quantity": 3,
+    "part_num": "2821",
+    "color_id": 84,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 15
+    "ldraw_color_id": null
   },
   {
-    "part_num": "3009",
-    "color_id": 19,
+    "part_num": "28324",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "28621",
+    "color_id": 35,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "28802",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "28802",
+    "color_id": 72,
     "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3009",
-    "color_id": 71,
+    "part_num": "29119",
+    "color_id": 5,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "29119",
+    "color_id": 25,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "29119",
+    "color_id": 28,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "29120",
+    "color_id": 5,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "29120",
+    "color_id": 25,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "29120",
+    "color_id": 28,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3001",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": "3001",
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3001",
+    "color_id": 15,
     "quantity": 2,
+    "ldraw_part_id": "3001",
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "3003",
+    "color_id": 4,
+    "quantity": 8,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3003",
+    "color_id": 70,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "30031",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "30031",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3004",
+    "color_id": 70,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3005",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3005",
+    "color_id": 71,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "3009",
-    "color_id": 72,
-    "quantity": 9,
+    "part_num": "3008",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3008",
+    "color_id": 70,
+    "quantity": 6,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -1218,95 +1267,32 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3010",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3010",
-    "color_id": 4,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3010",
+    "part_num": "30136",
     "color_id": 19,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3010",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30132",
-    "color_id": 72,
-    "quantity": 3,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "30136",
-    "color_id": 19,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30136",
-    "color_id": 72,
-    "quantity": 4,
+    "color_id": 70,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "30137",
     "color_id": 70,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30157",
-    "color_id": 72,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30162",
-    "color_id": 71,
-    "quantity": 27,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30162",
-    "color_id": 72,
     "quantity": 6,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "30165",
-    "color_id": 72,
-    "quantity": 2,
+    "part_num": "30145",
+    "color_id": 70,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "30166",
-    "color_id": 15,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
   },
   {
     "part_num": "30166",
@@ -1316,184 +1302,219 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3020",
-    "color_id": 1,
-    "quantity": 2,
-    "ldraw_part_id": "3020",
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "3020",
-    "color_id": 25,
-    "quantity": 2,
-    "ldraw_part_id": "3020",
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3020",
-    "color_id": 28,
-    "quantity": 14,
-    "ldraw_part_id": "3020",
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3020",
+    "part_num": "30166",
     "color_id": 71,
-    "quantity": 63,
-    "ldraw_part_id": "3020",
+    "quantity": 1,
+    "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "3020",
-    "color_id": 72,
-    "quantity": 36,
-    "ldraw_part_id": "3020",
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3020",
-    "color_id": 320,
-    "quantity": 33,
-    "ldraw_part_id": "3020",
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3021",
     "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
+    "quantity": 4,
+    "ldraw_part_id": "3020",
     "ldraw_color_id": 0
   },
   {
-    "part_num": "3021",
+    "part_num": "3020",
     "color_id": 15,
-    "quantity": 1,
-    "ldraw_part_id": null,
+    "quantity": 2,
+    "ldraw_part_id": "3020",
     "ldraw_color_id": 15
   },
   {
-    "part_num": "3021",
-    "color_id": 19,
-    "quantity": 67,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3021",
+    "part_num": "3020",
     "color_id": 28,
-    "quantity": 26,
-    "ldraw_part_id": null,
+    "quantity": 4,
+    "ldraw_part_id": "3020",
     "ldraw_color_id": null
   },
   {
-    "part_num": "3021",
+    "part_num": "3020",
+    "color_id": 70,
+    "quantity": 2,
+    "ldraw_part_id": "3020",
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3020",
     "color_id": 71,
-    "quantity": 105,
-    "ldraw_part_id": null,
+    "quantity": 5,
+    "ldraw_part_id": "3020",
     "ldraw_color_id": 71
   },
   {
-    "part_num": "3022",
+    "part_num": "3020",
+    "color_id": 272,
+    "quantity": 1,
+    "ldraw_part_id": "3020",
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3021",
     "color_id": 0,
-    "quantity": 12,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "3022",
+    "part_num": "3021",
     "color_id": 1,
-    "quantity": 17,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 1
   },
   {
-    "part_num": "3022",
-    "color_id": 14,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3022",
-    "color_id": 25,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3022",
-    "color_id": 70,
-    "quantity": 23,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3022",
-    "color_id": 71,
-    "quantity": 17,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3022",
-    "color_id": 72,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30228",
-    "color_id": 72,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30229",
-    "color_id": 72,
+    "part_num": "3021",
+    "color_id": 28,
     "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3023",
-    "color_id": 15,
+    "part_num": "3021",
+    "color_id": 70,
     "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "3023",
-    "color_id": 28,
-    "quantity": 243,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3023",
-    "color_id": 47,
+    "part_num": "3021",
+    "color_id": 71,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "3021",
+    "color_id": 72,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
+    "part_num": "3021",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 0,
+    "quantity": 13,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3022",
+    "color_id": 2,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 4,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 15,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "3022",
+    "color_id": 25,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 28,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 70,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 71,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "3022",
+    "color_id": 72,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 272,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3022",
+    "color_id": 320,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3023",
+    "color_id": 15,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
     "part_num": "3023",
     "color_id": 70,
-    "quantity": 16,
+    "quantity": 19,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3023",
     "color_id": 71,
-    "quantity": 73,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "3023",
     "color_id": 72,
-    "quantity": 22,
+    "quantity": 9,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3023",
+    "color_id": 182,
+    "quantity": 14,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3023",
+    "color_id": 272,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -1505,256 +1526,67 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3023",
-    "color_id": 320,
-    "quantity": 14,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30236",
-    "color_id": 72,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3024",
+    "part_num": "30237b",
     "color_id": 0,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3024",
-    "color_id": 15,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "3024",
-    "color_id": 28,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3024",
-    "color_id": 34,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3024",
-    "color_id": 71,
-    "quantity": 17,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3024",
-    "color_id": 72,
-    "quantity": 70,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3027",
-    "color_id": 28,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3027",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3027",
-    "color_id": 72,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3028",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3029",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3029",
-    "color_id": 71,
     "quantity": 8,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "3030",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3030",
-    "color_id": 72,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3031",
-    "color_id": 19,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3031",
-    "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3031",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3032",
-    "color_id": 19,
-    "quantity": 17,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3032",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3032",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3033",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3033",
-    "color_id": 72,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3034",
-    "color_id": 14,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3034",
-    "color_id": 15,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "3034",
-    "color_id": 28,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3034",
-    "color_id": 71,
-    "quantity": 11,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3034",
-    "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3035",
+    "part_num": "3024",
     "color_id": 0,
-    "quantity": 2,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "3035",
-    "color_id": 15,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "3035",
+    "part_num": "3031",
     "color_id": 19,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3035",
-    "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3035",
-    "color_id": 72,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "30355",
-    "color_id": 71,
-    "quantity": 13,
+    "part_num": "3031",
+    "color_id": 191,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "30356",
-    "color_id": 71,
-    "quantity": 10,
+    "part_num": "3034",
+    "color_id": 0,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3034",
+    "color_id": 4,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3034",
+    "color_id": 272,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3034",
+    "color_id": 288,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3035",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "30357",
@@ -1765,14 +1597,7 @@
   },
   {
     "part_num": "30357",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30359b",
-    "color_id": 72,
+    "color_id": 320,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
@@ -1785,186 +1610,67 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3036",
-    "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30364",
-    "color_id": 0,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "30365",
-    "color_id": 71,
-    "quantity": 14,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30365",
-    "color_id": 72,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30367c",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3037",
+    "part_num": "30374",
     "color_id": 0,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "3037",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3037",
-    "color_id": 72,
-    "quantity": 4,
+    "part_num": "30374",
+    "color_id": 36,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "30370",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "30374",
     "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30375",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30377",
-    "color_id": 0,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "30377",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30377",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3038",
-    "color_id": 71,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30383",
-    "color_id": 71,
-    "quantity": 16,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30383",
-    "color_id": 72,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3039",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3039",
-    "color_id": 4,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3039",
-    "color_id": 72,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3040b",
-    "color_id": 15,
     "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "30383",
+    "color_id": 71,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "30383",
+    "color_id": 72,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3039",
+    "color_id": 15,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
-    "part_num": "3040b",
-    "color_id": 71,
-    "quantity": 24,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3040b",
+    "part_num": "3039",
     "color_id": 72,
-    "quantity": 40,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3040b",
-    "color_id": 84,
-    "quantity": 6,
+    "color_id": 72,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "30414",
     "color_id": 0,
-    "quantity": 6,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
-  },
-  {
-    "part_num": "30414",
-    "color_id": 19,
-    "quantity": 9,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
   },
   {
     "part_num": "30414",
@@ -1981,18 +1687,11 @@
     "ldraw_color_id": 71
   },
   {
-    "part_num": "3045",
-    "color_id": 71,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30503",
-    "color_id": 15,
+    "part_num": "3043",
+    "color_id": 0,
     "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 15
+    "ldraw_color_id": 0
   },
   {
     "part_num": "30503",
@@ -2000,354 +1699,151 @@
     "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "30503",
-    "color_id": 71,
-    "quantity": 9,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30503",
-    "color_id": 320,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30541",
-    "color_id": 15,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "30553",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30553",
-    "color_id": 72,
-    "quantity": 17,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "30554b",
-    "color_id": 71,
-    "quantity": 14,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30565",
-    "color_id": 71,
-    "quantity": 32,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "30586",
-    "color_id": 71,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "3062b",
-    "color_id": 72,
-    "quantity": 19,
+    "color_id": 15,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3068b",
-    "color_id": 19,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3068b",
-    "color_id": 71,
-    "quantity": 39,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 15
   },
   {
     "part_num": "3068b",
     "color_id": 72,
-    "quantity": 15,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3068b",
-    "color_id": 272,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3068b",
-    "color_id": 320,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3069b",
-    "color_id": 0,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3069b",
-    "color_id": 19,
-    "quantity": 19,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3069b",
-    "color_id": 28,
+    "part_num": "3068bpr9319",
+    "color_id": 4,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3069b",
-    "color_id": 71,
-    "quantity": 69,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3069b",
-    "color_id": 72,
-    "quantity": 25,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3069b",
-    "color_id": 320,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3069bpr0086",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3070b",
-    "color_id": 15,
+    "color_id": 182,
     "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3069bpr0276",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3069bpr9989",
+    "color_id": 15,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
     "part_num": "3070b",
-    "color_id": 28,
-    "quantity": 46,
+    "color_id": 26,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3070b",
-    "color_id": 71,
-    "quantity": 63,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3070b",
-    "color_id": 72,
-    "quantity": 3,
+    "color_id": 182,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3070b",
-    "color_id": 320,
-    "quantity": 5,
+    "part_num": "3170",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3171",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3171",
+    "color_id": 297,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3172",
+    "color_id": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3176",
-    "color_id": 72,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32000",
-    "color_id": 19,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32000",
     "color_id": 71,
-    "quantity": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32000",
-    "color_id": 72,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
   },
   {
     "part_num": "32001",
     "color_id": 0,
-    "quantity": 14,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32002",
-    "color_id": 19,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32013",
-    "color_id": 15,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "32013",
-    "color_id": 72,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
   },
   {
     "part_num": "32014",
-    "color_id": 71,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32018",
-    "color_id": 0,
-    "quantity": 14,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32028",
-    "color_id": 14,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32028",
-    "color_id": 28,
-    "quantity": 1,
+    "color_id": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "32028",
     "color_id": 71,
-    "quantity": 33,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "32028",
-    "color_id": 72,
-    "quantity": 13,
+    "color_id": 297,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "32034",
-    "color_id": 0,
+    "color_id": 70,
     "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32039",
-    "color_id": 0,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32039",
-    "color_id": 4,
-    "quantity": 8,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "32039",
+    "part_num": "32034",
     "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32054",
-    "color_id": 0,
     "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32054",
-    "color_id": 4,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32054",
-    "color_id": 71,
-    "quantity": 75,
-    "ldraw_part_id": null,
     "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32059",
-    "color_id": 71,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32059",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
   },
   {
     "part_num": "32062",
     "color_id": 4,
-    "quantity": 15,
+    "quantity": 9,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "32064a",
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -2359,172 +1855,39 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "32064a",
-    "color_id": 320,
-    "quantity": 4,
+    "part_num": "3215pr0001",
+    "color_id": 379,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "32073",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32123b",
-    "color_id": 14,
-    "quantity": 5,
+    "part_num": "3215pr0003",
+    "color_id": 191,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "32123b",
-    "color_id": 71,
-    "quantity": 55,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32124",
+    "part_num": "32184",
     "color_id": 0,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32126",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32140",
-    "color_id": 0,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32187",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32316",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "32324",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32348",
-    "color_id": 15,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "32449",
-    "color_id": 14,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32523",
     "color_id": 0,
-    "quantity": 4,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "32523",
-    "color_id": 4,
-    "quantity": 26,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32523",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32524",
-    "color_id": 4,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32524",
-    "color_id": 14,
+    "color_id": 70,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "32524",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32525",
-    "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "32526",
-    "color_id": 71,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "32530",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32531",
-    "color_id": 0,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32532",
-    "color_id": 0,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "32555",
-    "color_id": 0,
-    "quantity": 34,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
   },
   {
     "part_num": "32606",
@@ -2541,16 +1904,44 @@
     "ldraw_color_id": null
   },
   {
+    "part_num": "32803",
+    "color_id": 71,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
     "part_num": "32828",
     "color_id": 0,
+    "quantity": 11,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "32828",
+    "color_id": 297,
     "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "32952",
+    "color_id": 0,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "3298",
     "color_id": 72,
-    "quantity": 5,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "33320",
+    "color_id": 2,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -2576,58 +1967,9 @@
     "ldraw_color_id": 0
   },
   {
-    "part_num": "34076",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "34499",
-    "color_id": 9999,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3456",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3456",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3460",
-    "color_id": 19,
-    "quantity": 57,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3460",
+    "part_num": "33909",
     "color_id": 70,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3460",
-    "color_id": 71,
-    "quantity": 35,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3460",
-    "color_id": 72,
-    "quantity": 8,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -2635,6 +1977,27 @@
     "part_num": "3460",
     "color_id": 308,
     "quantity": 14,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3484",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "3484",
+    "color_id": 4,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3484",
+    "color_id": 70,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -2646,6 +2009,34 @@
     "ldraw_color_id": null
   },
   {
+    "part_num": "3536",
+    "color_id": 71,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "35442",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "35459",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "35480",
+    "color_id": 0,
+    "quantity": 13,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
     "part_num": "35480",
     "color_id": 2,
     "quantity": 20,
@@ -2653,64 +2044,92 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3622",
-    "color_id": 19,
-    "quantity": 9,
+    "part_num": "35480",
+    "color_id": 4,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3622",
-    "color_id": 71,
-    "quantity": 9,
+    "part_num": "35480",
+    "color_id": 19,
+    "quantity": 14,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "3622",
-    "color_id": 72,
+    "part_num": "35480",
+    "color_id": 70,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3623",
-    "color_id": 0,
-    "quantity": 11,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3623",
-    "color_id": 71,
-    "quantity": 27,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3623",
-    "color_id": 72,
-    "quantity": 10,
+    "part_num": "35480",
+    "color_id": 226,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3623",
+    "part_num": "35480",
     "color_id": 320,
-    "quantity": 10,
+    "quantity": 14,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3660",
-    "color_id": 14,
+    "part_num": "3623",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3623",
+    "color_id": 19,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3623",
+    "color_id": 28,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
+    "part_num": "3623",
+    "color_id": 71,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "3623",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3623",
+    "color_id": 272,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3627",
+    "color_id": 36,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
     "part_num": "3660",
-    "color_id": 19,
+    "color_id": 4,
     "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
@@ -2723,23 +2142,9 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3665",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3665",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3665",
-    "color_id": 320,
-    "quantity": 4,
+    "part_num": "3666",
+    "color_id": 19,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -2747,57 +2152,50 @@
     "part_num": "3666",
     "color_id": 70,
     "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3666",
-    "color_id": 71,
-    "quantity": 60,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3666",
-    "color_id": 72,
-    "quantity": 21,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3666",
-    "color_id": 320,
-    "quantity": 29,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3673",
-    "color_id": 71,
-    "quantity": 3,
+    "color_id": 14,
+    "quantity": 8,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
     "part_num": "3679",
     "color_id": 71,
-    "quantity": 1,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "3680",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3700",
     "color_id": 15,
-    "quantity": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
+  },
+  {
+    "part_num": "36840",
+    "color_id": 71,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "36840",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "36840",
+    "color_id": 191,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "3700",
@@ -2808,127 +2206,64 @@
   },
   {
     "part_num": "3700",
-    "color_id": 71,
-    "quantity": 16,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3700",
     "color_id": 72,
-    "quantity": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3701",
-    "color_id": 70,
-    "quantity": 23,
+    "part_num": "3710",
+    "color_id": 0,
+    "quantity": 5,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "3701",
-    "color_id": 71,
-    "quantity": 22,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3702",
+    "part_num": "3710",
     "color_id": 4,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3702",
-    "color_id": 71,
-    "quantity": 18,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3703",
-    "color_id": 72,
-    "quantity": 50,
+    "part_num": "3710",
+    "color_id": 25,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3705",
-    "color_id": 0,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3706",
-    "color_id": 0,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3708",
-    "color_id": 0,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3709",
-    "color_id": 1,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "3709",
+    "part_num": "3710",
     "color_id": 71,
-    "quantity": 31,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "3710",
-    "color_id": 14,
+    "color_id": 85,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "3710",
+    "color_id": 191,
     "quantity": 6,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3710",
-    "color_id": 15,
+    "color_id": 226,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "37352",
+    "color_id": 4,
     "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "3710",
-    "color_id": 28,
-    "quantity": 35,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3710",
-    "color_id": 71,
-    "quantity": 31,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3710",
-    "color_id": 72,
-    "quantity": 72,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3710",
-    "color_id": 320,
-    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -2940,67 +2275,25 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3738",
+    "part_num": "3770",
     "color_id": 15,
-    "quantity": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
-    "part_num": "3743",
+    "part_num": "37762",
     "color_id": 0,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "3743",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3747b",
-    "color_id": 72,
+    "part_num": "3795",
+    "color_id": 0,
     "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3749",
-    "color_id": 19,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3795",
-    "color_id": 19,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3795",
-    "color_id": 28,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3795",
-    "color_id": 71,
-    "quantity": 49,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3795",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 0
   },
   {
     "part_num": "3795",
@@ -3010,151 +2303,60 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "3832",
-    "color_id": 0,
+    "part_num": "38014",
+    "color_id": 15,
     "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 0
+    "ldraw_color_id": 15
   },
   {
-    "part_num": "3832",
-    "color_id": 2,
-    "quantity": 8,
+    "part_num": "3829c01",
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3832",
     "color_id": 70,
-    "quantity": 16,
+    "quantity": 6,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3832",
     "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3832",
-    "color_id": 72,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3839b",
-    "color_id": 71,
-    "quantity": 2,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "3839b",
-    "color_id": 72,
-    "quantity": 12,
+    "color_id": 297,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "3894",
-    "color_id": 0,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3894",
+    "part_num": "38547pat0002",
     "color_id": 4,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3894",
-    "color_id": 72,
-    "quantity": 27,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3895",
-    "color_id": 1,
     "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "3895",
-    "color_id": 71,
-    "quantity": 16,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3937",
-    "color_id": 72,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "3938",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "3938",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3941",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3957b",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3958",
-    "color_id": 71,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "3958",
-    "color_id": 72,
-    "quantity": 15,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "3960",
-    "color_id": 71,
+    "color_id": 297,
     "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "3960pr0026",
-    "color_id": 0,
-    "quantity": 1,
+    "part_num": "39888",
+    "color_id": 19,
+    "quantity": 5,
     "ldraw_part_id": null,
-    "ldraw_color_id": 0
+    "ldraw_color_id": null
   },
   {
     "part_num": "40145",
@@ -3166,16 +2368,9 @@
   {
     "part_num": "4032a",
     "color_id": 0,
-    "quantity": 5,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
-  },
-  {
-    "part_num": "4032a",
-    "color_id": 4,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
   },
   {
     "part_num": "4032a",
@@ -3186,22 +2381,22 @@
   },
   {
     "part_num": "4032a",
-    "color_id": 14,
+    "color_id": 71,
+    "quantity": 9,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "4032a",
+    "color_id": 85,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "4032a",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4032a",
-    "color_id": 72,
-    "quantity": 24,
+    "color_id": 191,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -3213,74 +2408,60 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "40490",
-    "color_id": 71,
-    "quantity": 4,
+    "part_num": "4032a",
+    "color_id": 484,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "40379",
+    "color_id": 70,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "4070",
-    "color_id": 72,
-    "quantity": 38,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4081b",
-    "color_id": 72,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "41239",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "41539",
-    "color_id": 71,
-    "quantity": 9,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4162",
     "color_id": 15,
-    "quantity": 1,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
-    "part_num": "4162",
-    "color_id": 71,
-    "quantity": 21,
+    "part_num": "4081b",
+    "color_id": 0,
+    "quantity": 3,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "4162",
-    "color_id": 72,
-    "quantity": 4,
+    "part_num": "41539",
+    "color_id": 28,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "41677",
+    "part_num": "4162",
     "color_id": 0,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "41677",
-    "color_id": 1,
-    "quantity": 8,
+    "part_num": "4162",
+    "color_id": 28,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 1
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "41682",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
   },
   {
     "part_num": "41682",
@@ -3290,6 +2471,34 @@
     "ldraw_color_id": null
   },
   {
+    "part_num": "41682",
+    "color_id": 72,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "41740",
+    "color_id": 0,
+    "quantity": 10,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "41740",
+    "color_id": 4,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "41740",
+    "color_id": 28,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
     "part_num": "41769",
     "color_id": 70,
     "quantity": 1,
@@ -3297,277 +2506,102 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "41769",
-    "color_id": 71,
-    "quantity": 22,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "41769",
-    "color_id": 72,
-    "quantity": 3,
+    "part_num": "41770",
+    "color_id": 70,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "41769",
-    "color_id": 320,
+    "part_num": "41835",
+    "color_id": 321,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4304",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "4304",
+    "color_id": 19,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "41770",
-    "color_id": 70,
+    "part_num": "4304",
+    "color_id": 71,
     "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "41770",
-    "color_id": 71,
-    "quantity": 16,
-    "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "41770",
+    "part_num": "4304",
     "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "41770",
-    "color_id": 320,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "41862",
-    "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4216",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4274",
-    "color_id": 1,
-    "quantity": 32,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "4274",
-    "color_id": 71,
-    "quantity": 36,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4282",
-    "color_id": 0,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "4282",
-    "color_id": 19,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4282",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4282",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4285b",
-    "color_id": 71,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4286",
-    "color_id": 0,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "4286",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4286",
-    "color_id": 72,
-    "quantity": 11,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4286",
-    "color_id": 320,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4287b",
-    "color_id": 70,
-    "quantity": 1,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "43093",
     "color_id": 1,
-    "quantity": 66,
+    "quantity": 8,
     "ldraw_part_id": null,
     "ldraw_color_id": 1
   },
   {
-    "part_num": "43710",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "43711",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "43719",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "43722",
-    "color_id": 71,
-    "quantity": 31,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "43722",
-    "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "43723",
-    "color_id": 28,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "43723",
-    "color_id": 71,
-    "quantity": 38,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "43723",
-    "color_id": 72,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "44294",
-    "color_id": 71,
-    "quantity": 7,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "44300",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "44301b",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "44302a",
+    "part_num": "43712",
     "color_id": 0,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "44375bpr0003",
-    "color_id": 47,
+    "part_num": "43719",
+    "color_id": 4,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "4445",
-    "color_id": 71,
-    "quantity": 6,
+    "part_num": "43722",
+    "color_id": 28,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "44567a",
+    "part_num": "43723",
+    "color_id": 28,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "44301b",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "44301b",
     "color_id": 72,
-    "quantity": 14,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "4460b",
-    "color_id": 19,
-    "quantity": 1,
+    "part_num": "44728",
+    "color_id": 25,
+    "quantity": 9,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "4460b",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "44728",
@@ -3577,27 +2611,6 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "44728",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "44728",
-    "color_id": 72,
-    "quantity": 16,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4477",
-    "color_id": 19,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
     "part_num": "4477",
     "color_id": 70,
     "quantity": 4,
@@ -3606,17 +2619,31 @@
   },
   {
     "part_num": "4477",
-    "color_id": 71,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4477",
     "color_id": 72,
-    "quantity": 24,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
+  },
+  {
+    "part_num": "44861",
+    "color_id": 0,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "44861",
+    "color_id": 4,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "44861",
+    "color_id": 71,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
   },
   {
     "part_num": "44861",
@@ -3626,389 +2653,368 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "4510",
+    "part_num": "4519",
+    "color_id": 71,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "4590",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "46189",
+    "color_id": 70,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4697b",
+    "color_id": 297,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4733",
+    "color_id": 70,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4733",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4740",
+    "color_id": 0,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "4740",
+    "color_id": 41,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "47456",
     "color_id": 15,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
-    "part_num": "4510",
-    "color_id": 71,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4510",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4519",
-    "color_id": 14,
-    "quantity": 28,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4519",
-    "color_id": 71,
-    "quantity": 11,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "45590",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "4590",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4595",
-    "color_id": 71,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4596",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4599b",
-    "color_id": 0,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "4599b",
-    "color_id": 71,
-    "quantity": 34,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4697b",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4735",
-    "color_id": 71,
-    "quantity": 13,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "47397",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "47398",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4740",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
     "part_num": "47457",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "47457",
-    "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "47905",
-    "color_id": 72,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "47996",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "48092",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "48336",
-    "color_id": 19,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "48336",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4865b",
     "color_id": 0,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "4865b",
-    "color_id": 28,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "4865b",
-    "color_id": 71,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "4865b",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "48729b",
-    "color_id": 0,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "48729b",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "48933",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "49668",
-    "color_id": 19,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "50304",
-    "color_id": 28,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "50304",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "50304",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "50305",
-    "color_id": 28,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "50305",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "50305",
-    "color_id": 72,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "50950",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "50950",
-    "color_id": 72,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "50990bpr0002",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "51739",
-    "color_id": 28,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "51739",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "51739",
-    "color_id": 320,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "52107",
-    "color_id": 0,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "52107",
+    "part_num": "47458",
     "color_id": 4,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "52107",
-    "color_id": 71,
-    "quantity": 6,
+    "part_num": "47753",
+    "color_id": 15,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 15
   },
   {
-    "part_num": "52501",
+    "part_num": "47759",
+    "color_id": 2,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "47905",
+    "color_id": 30,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "47905",
     "color_id": 72,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "54200",
+    "part_num": "48336",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4865b",
+    "color_id": 4,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4871",
+    "color_id": 0,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "49153",
+    "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4921pr0003",
+    "color_id": 288,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "49668",
+    "color_id": 15,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "49668",
+    "color_id": 179,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "49668",
+    "color_id": 182,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "4986",
     "color_id": 0,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "54200",
-    "color_id": 71,
-    "quantity": 54,
+    "part_num": "50340",
+    "color_id": 0,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "54200",
-    "color_id": 72,
-    "quantity": 58,
+    "part_num": "50950",
+    "color_id": 2,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "54383",
-    "color_id": 71,
-    "quantity": 40,
+    "part_num": "51739",
+    "color_id": 2,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "54383",
+    "part_num": "51739",
     "color_id": 72,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "53451",
+    "color_id": 0,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "53451",
+    "color_id": 4,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "54384",
-    "color_id": 71,
-    "quantity": 40,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "54384",
-    "color_id": 72,
-    "quantity": 1,
+    "part_num": "53451",
+    "color_id": 297,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
+  },
+  {
+    "part_num": "53454",
+    "color_id": 179,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "5414",
+    "color_id": 320,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "5415",
+    "color_id": 320,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "54200",
+    "color_id": 15,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "54200",
+    "color_id": 25,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "54200",
+    "color_id": 35,
+    "quantity": 7,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "54200",
+    "color_id": 41,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "54200",
+    "color_id": 182,
+    "quantity": 16,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "5435",
+    "color_id": 36,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "5435",
+    "color_id": 46,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "5435",
+    "color_id": 297,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "5436",
+    "color_id": 1103,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "54657",
+    "color_id": 15,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
   },
   {
     "part_num": "55013",
     "color_id": 72,
-    "quantity": 1,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": null
+  },
+  {
+    "part_num": "55981",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "55981",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "5717",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "57360",
+    "color_id": 70,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "57895pr0021",
+    "color_id": 47,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "57899",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "57909b",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
   },
   {
     "part_num": "58247",
@@ -4018,30 +3024,23 @@
     "ldraw_color_id": 0
   },
   {
-    "part_num": "59349",
-    "color_id": 71,
-    "quantity": 3,
+    "part_num": "5841",
+    "color_id": 0,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "59426",
-    "color_id": 72,
-    "quantity": 1,
+    "part_num": "59443",
+    "color_id": 70,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "59443",
-    "color_id": 14,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "59443",
-    "color_id": 72,
-    "quantity": 15,
+    "part_num": "5973",
+    "color_id": 288,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -4054,115 +3053,31 @@
   },
   {
     "part_num": "59900",
-    "color_id": 72,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6020",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60208",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60470b",
-    "color_id": 0,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "60470b",
-    "color_id": 15,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "60470b",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60471",
-    "color_id": 15,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "60471",
-    "color_id": 71,
+    "color_id": 46,
     "quantity": 4,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "60474",
-    "color_id": 71,
-    "quantity": 10,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60474",
-    "color_id": 72,
+    "part_num": "60470b",
+    "color_id": 2,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "60475b",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60475b",
-    "color_id": 72,
+    "part_num": "60470b",
+    "color_id": 4,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "60476",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "60476",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60477",
-    "color_id": 19,
-    "quantity": 2,
+    "part_num": "60470b",
+    "color_id": 14,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "60477",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "60477",
@@ -4174,156 +3089,58 @@
   {
     "part_num": "60478",
     "color_id": 0,
-    "quantity": 4,
+    "quantity": 8,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "60479",
-    "color_id": 0,
+    "part_num": "60596",
+    "color_id": 70,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "60752",
+    "color_id": 179,
     "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "60479",
-    "color_id": 4,
-    "quantity": 4,
-    "ldraw_part_id": null,
     "ldraw_color_id": null
-  },
-  {
-    "part_num": "60479",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60481",
-    "color_id": 71,
-    "quantity": 16,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "60483",
-    "color_id": 322,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "60484",
-    "color_id": 14,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "60581",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "60581",
-    "color_id": 72,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "60849",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "60849",
-    "color_id": 71,
-    "quantity": 30,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
   },
   {
     "part_num": "60897",
-    "color_id": 71,
-    "quantity": 16,
+    "color_id": 25,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
     "part_num": "60897",
-    "color_id": 72,
+    "color_id": 70,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "6106",
-    "color_id": 71,
-    "quantity": 15,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6111",
-    "color_id": 71,
-    "quantity": 9,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6111",
-    "color_id": 72,
-    "quantity": 3,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6112",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "61184",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
     "part_num": "61252",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "61252",
-    "color_id": 72,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6134",
     "color_id": 0,
     "quantity": 6,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "6134",
-    "color_id": 71,
-    "quantity": 3,
+    "part_num": "61252",
+    "color_id": 297,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "61332",
+    "color_id": 0,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
   },
   {
     "part_num": "61409",
@@ -4334,176 +3151,85 @@
   },
   {
     "part_num": "61409",
-    "color_id": 71,
-    "quantity": 36,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "61409",
-    "color_id": 72,
-    "quantity": 13,
+    "color_id": 179,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "6141",
     "color_id": 15,
-    "quantity": 9,
+    "quantity": 12,
     "ldraw_part_id": null,
     "ldraw_color_id": 15
   },
   {
     "part_num": "6141",
-    "color_id": 19,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6141",
     "color_id": 25,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6141",
-    "color_id": 34,
-    "quantity": 3,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "6141",
     "color_id": 36,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "6141",
+    "color_id": 46,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "6141",
+    "color_id": 70,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "6141",
+    "color_id": 72,
+    "quantity": 11,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "6141",
+    "color_id": 297,
+    "quantity": 26,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "61485",
+    "color_id": 15,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "61780",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "62462",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "62462",
+    "color_id": 297,
     "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6141",
-    "color_id": 72,
-    "quantity": 61,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6141",
-    "color_id": 179,
-    "quantity": 24,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "61485",
-    "color_id": 15,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "61485",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6178",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6179",
-    "color_id": 71,
-    "quantity": 62,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6179",
-    "color_id": 72,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6179",
-    "color_id": 320,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6180",
-    "color_id": 71,
-    "quantity": 30,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6190",
-    "color_id": 72,
-    "quantity": 20,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6231",
-    "color_id": 71,
-    "quantity": 5,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6232",
-    "color_id": 19,
-    "quantity": 16,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6232",
-    "color_id": 72,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "62462",
-    "color_id": 4,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "62462",
-    "color_id": 71,
-    "quantity": 35,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "62462",
-    "color_id": 179,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "63864",
-    "color_id": 15,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 15
-  },
-  {
-    "part_num": "63864",
-    "color_id": 28,
-    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -4515,34 +3241,6 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "63864",
-    "color_id": 71,
-    "quantity": 31,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "63864",
-    "color_id": 72,
-    "quantity": 13,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "63864",
-    "color_id": 320,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "63864",
-    "color_id": 326,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
     "part_num": "63868",
     "color_id": 0,
     "quantity": 2,
@@ -4551,15 +3249,15 @@
   },
   {
     "part_num": "63868",
-    "color_id": 14,
-    "quantity": 9,
+    "color_id": 15,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 15
   },
   {
     "part_num": "63868",
-    "color_id": 72,
-    "quantity": 1,
+    "color_id": 70,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -4571,44 +3269,44 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "63869",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
     "part_num": "63965",
-    "color_id": 71,
-    "quantity": 17,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "63965",
-    "color_id": 72,
-    "quantity": 18,
+    "color_id": 70,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "64567",
-    "color_id": 71,
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "64567",
+    "color_id": 80,
     "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "64567",
+    "color_id": 297,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "64644",
-    "color_id": 71,
-    "quantity": 9,
+    "color_id": 70,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "6541",
-    "color_id": 72,
-    "quantity": 6,
+    "part_num": "64644",
+    "color_id": 297,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -4620,30 +3318,30 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "6558",
-    "color_id": 1,
-    "quantity": 139,
+    "part_num": "6553",
+    "color_id": 0,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 1
+    "ldraw_color_id": 0
   },
   {
-    "part_num": "6587",
-    "color_id": 28,
+    "part_num": "65578",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "6564",
+    "color_id": 4,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "6632",
-    "color_id": 72,
-    "quantity": 6,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "6636",
-    "color_id": 28,
-    "quantity": 10,
+    "part_num": "6565",
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -4656,22 +3354,148 @@
   },
   {
     "part_num": "6636",
-    "color_id": 71,
-    "quantity": 27,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "6636",
-    "color_id": 72,
+    "color_id": 85,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
+    "part_num": "6636",
+    "color_id": 191,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "6636",
+    "color_id": 484,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "66906",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "66909",
+    "color_id": 72,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "66955",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "66955",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "66956",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
     "part_num": "66956",
     "color_id": 308,
     "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "67696",
+    "color_id": 0,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "68568",
+    "color_id": 85,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "68568",
+    "color_id": 191,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "68568",
+    "color_id": 484,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "69754",
+    "color_id": 1103,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "69755",
+    "color_id": 72,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "69767",
+    "color_id": 1103,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "69858",
+    "color_id": 323,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "70681",
+    "color_id": 0,
+    "quantity": 7,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "70681",
+    "color_id": 4,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "70681",
+    "color_id": 288,
+    "quantity": 10,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "7182pat0001",
+    "color_id": 297,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -4683,37 +3507,261 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "73983",
-    "color_id": 14,
-    "quantity": 2,
+    "part_num": "73109",
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "73983",
-    "color_id": 72,
-    "quantity": 2,
+    "part_num": "73109",
+    "color_id": 71,
+    "quantity": 3,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 71
   },
   {
-    "part_num": "75c16",
+    "part_num": "73230",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "73562",
     "color_id": 71,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "75c20",
-    "color_id": 71,
+    "part_num": "73682",
+    "color_id": 288,
+    "quantity": 8,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "73825",
+    "color_id": 28,
     "quantity": 9,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "73825",
+    "color_id": 71,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
-    "part_num": "78c26",
-    "color_id": 41,
+    "part_num": "73825",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "7551pat0001",
+    "color_id": 28,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "7553",
+    "color_id": 35,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "75904",
+    "color_id": 71,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "76766",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "76919",
+    "color_id": 297,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "76959",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "76959",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "7727",
+    "color_id": 182,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "7727",
+    "color_id": 297,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "77598",
+    "color_id": 72,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "77765",
+    "color_id": 71,
     "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "77844",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "77845",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "77850",
+    "color_id": 28,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "77850",
+    "color_id": 71,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "78257",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "78258",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "78258",
+    "color_id": 70,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "78594",
+    "color_id": 15,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "7879",
+    "color_id": 297,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "79194",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "79389",
+    "color_id": 0,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "79491",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "79846",
+    "color_id": 0,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "79846",
+    "color_id": 72,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "79895pat0001",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "79897",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "8011",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "80324",
+    "color_id": 72,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -4725,67 +3773,67 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "85861",
-    "color_id": 71,
-    "quantity": 30,
+    "part_num": "81911",
+    "color_id": 47,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "85943",
-    "color_id": 72,
-    "quantity": 4,
+    "part_num": "85861",
+    "color_id": 0,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "85861",
+    "color_id": 27,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "85861",
+    "color_id": 297,
+    "quantity": 5,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "85984",
     "color_id": 0,
-    "quantity": 6,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "85984",
-    "color_id": 19,
-    "quantity": 29,
+    "color_id": 72,
+    "quantity": 10,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "85984",
-    "color_id": 71,
-    "quantity": 20,
+    "color_id": 272,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
     "part_num": "85984",
-    "color_id": 72,
-    "quantity": 1,
+    "color_id": 320,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "85984pr0006",
-    "color_id": 72,
-    "quantity": 4,
+    "part_num": "86996",
+    "color_id": 15,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "86208",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "86208",
-    "color_id": 72,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 15
   },
   {
     "part_num": "87079",
@@ -4796,94 +3844,108 @@
   },
   {
     "part_num": "87079",
-    "color_id": 71,
-    "quantity": 22,
+    "color_id": 4,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
     "part_num": "87079",
-    "color_id": 72,
+    "color_id": 84,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87079",
+    "color_id": 85,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87079",
+    "color_id": 191,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87079",
+    "color_id": 320,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87079",
+    "color_id": 484,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87087",
+    "color_id": 2,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87087",
+    "color_id": 70,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87580",
+    "color_id": 4,
     "quantity": 7,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "87081",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "87087",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "87087",
-    "color_id": 1,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 1
-  },
-  {
-    "part_num": "87087",
-    "color_id": 70,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "87087",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "87544",
-    "color_id": 71,
-    "quantity": 4,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "87552",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "87580",
-    "color_id": 28,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "87580",
-    "color_id": 71,
-    "quantity": 12,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
     "part_num": "87580",
     "color_id": 72,
-    "quantity": 5,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87580",
+    "color_id": 320,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "87618",
-    "color_id": 71,
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "87747",
+    "color_id": 0,
     "quantity": 12,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "87747",
+    "color_id": 19,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "87747",
+    "color_id": 27,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "87994",
@@ -4894,28 +3956,14 @@
   },
   {
     "part_num": "87994",
-    "color_id": 71,
-    "quantity": 65,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "88072",
-    "color_id": 70,
-    "quantity": 9,
+    "color_id": 297,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "88072",
-    "color_id": 71,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "88072",
-    "color_id": 72,
+    "color_id": 70,
     "quantity": 10,
     "ldraw_part_id": null,
     "ldraw_color_id": null
@@ -4928,126 +3976,63 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "88646",
-    "color_id": 71,
-    "quantity": 37,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "88930",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "88930pr0013",
-    "color_id": 71,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "90498",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "91501",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "91988",
-    "color_id": 0,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
-    "part_num": "91988",
-    "color_id": 19,
+    "part_num": "88704",
+    "color_id": 297,
     "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "92099",
-    "color_id": 28,
+    "part_num": "89201",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "89678",
+    "color_id": 4,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "89678",
+    "color_id": 72,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "92338",
+    "color_id": 72,
     "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "92099",
-    "color_id": 72,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "92280",
+    "part_num": "92402",
     "color_id": 0,
-    "quantity": 1,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
-    "part_num": "92280",
-    "color_id": 71,
-    "quantity": 18,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "92582",
-    "color_id": 71,
-    "quantity": 18,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "92593",
-    "color_id": 4,
-    "quantity": 8,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "92593",
-    "color_id": 28,
+    "part_num": "92589",
+    "color_id": 1103,
     "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "92593",
-    "color_id": 71,
-    "quantity": 14,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "92593",
-    "color_id": 72,
-    "quantity": 10,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "92690",
-    "color_id": 71,
-    "quantity": 1,
+    "color_id": 297,
+    "quantity": 4,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "92738",
+    "part_num": "92692",
     "color_id": 0,
     "quantity": 2,
     "ldraw_part_id": null,
@@ -5055,29 +4040,64 @@
   },
   {
     "part_num": "92738",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "92761pr0002",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "92947",
+    "color_id": 4,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "93095",
+    "color_id": 0,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "93247",
     "color_id": 179,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
-    "part_num": "92947",
-    "color_id": 71,
-    "quantity": 34,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
-    "part_num": "93059",
-    "color_id": 71,
-    "quantity": 1,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 71
-  },
-  {
     "part_num": "93273",
     "color_id": 72,
     "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "93273",
+    "color_id": 191,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "93274",
+    "color_id": 0,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
+  },
+  {
+    "part_num": "93606",
+    "color_id": 4,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -5089,20 +4109,6 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "95199",
-    "color_id": 72,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": null
-  },
-  {
-    "part_num": "95344",
-    "color_id": 0,
-    "quantity": 2,
-    "ldraw_part_id": null,
-    "ldraw_color_id": 0
-  },
-  {
     "part_num": "96874",
     "color_id": 3,
     "quantity": 1,
@@ -5110,11 +4116,11 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "96874",
-    "color_id": 25,
-    "quantity": 1,
+    "part_num": "98100",
+    "color_id": 0,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": null
+    "ldraw_color_id": 0
   },
   {
     "part_num": "98138",
@@ -5132,8 +4138,15 @@
   },
   {
     "part_num": "98138",
+    "color_id": 41,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "98138",
     "color_id": 71,
-    "quantity": 37,
+    "quantity": 3,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
@@ -5159,16 +4172,44 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "98286",
-    "color_id": 71,
-    "quantity": 4,
+    "part_num": "98138pr0018",
+    "color_id": 84,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "98138pr0364",
+    "color_id": 14,
+    "quantity": 3,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "98139",
+    "color_id": 297,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "98283",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "98313",
+    "color_id": 0,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
   },
   {
     "part_num": "98313",
     "color_id": 70,
-    "quantity": 9,
+    "quantity": 10,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -5180,23 +4221,23 @@
     "ldraw_color_id": null
   },
   {
-    "part_num": "98397",
-    "color_id": 71,
-    "quantity": 3,
+    "part_num": "98560",
+    "color_id": 72,
+    "quantity": 1,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "98585",
-    "color_id": 41,
+    "part_num": "98876",
+    "color_id": 72,
     "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
   {
     "part_num": "99206",
-    "color_id": 19,
-    "quantity": 8,
+    "color_id": 4,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
   },
@@ -5210,23 +4251,44 @@
   {
     "part_num": "99206",
     "color_id": 71,
-    "quantity": 10,
+    "quantity": 2,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
   },
   {
     "part_num": "99207",
     "color_id": 0,
-    "quantity": 3,
+    "quantity": 9,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "99207",
+    "color_id": 4,
+    "quantity": 1,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "99207",
     "color_id": 71,
-    "quantity": 13,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 71
+  },
+  {
+    "part_num": "99207",
+    "color_id": 72,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "99563",
+    "color_id": 0,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
   },
   {
     "part_num": "99563",
@@ -5237,24 +4299,66 @@
   },
   {
     "part_num": "99563",
-    "color_id": 71,
-    "quantity": 70,
+    "color_id": 72,
+    "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "99563",
+    "color_id": 179,
+    "quantity": 13,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "99563",
+    "color_id": 320,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   },
   {
     "part_num": "99780",
     "color_id": 0,
-    "quantity": 6,
+    "quantity": 1,
     "ldraw_part_id": null,
     "ldraw_color_id": 0
   },
   {
     "part_num": "99780",
-    "color_id": 72,
-    "quantity": 25,
+    "color_id": 19,
+    "quantity": 4,
     "ldraw_part_id": null,
     "ldraw_color_id": null
+  },
+  {
+    "part_num": "99780",
+    "color_id": 25,
+    "quantity": 2,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "99780",
+    "color_id": 71,
+    "quantity": 4,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 71
+  },
+  {
+    "part_num": "99780",
+    "color_id": 72,
+    "quantity": 6,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
+  },
+  {
+    "part_num": "99781",
+    "color_id": 0,
+    "quantity": 8,
+    "ldraw_part_id": null,
+    "ldraw_color_id": 0
   },
   {
     "part_num": "99781",
@@ -5265,16 +4369,23 @@
   },
   {
     "part_num": "99781",
-    "color_id": 71,
+    "color_id": 4,
     "quantity": 2,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": null
   },
   {
-    "part_num": "99784",
-    "color_id": 71,
-    "quantity": 3,
+    "part_num": "99781",
+    "color_id": 15,
+    "quantity": 6,
     "ldraw_part_id": null,
-    "ldraw_color_id": 71
+    "ldraw_color_id": 15
+  },
+  {
+    "part_num": "99781",
+    "color_id": 72,
+    "quantity": 5,
+    "ldraw_part_id": null,
+    "ldraw_color_id": null
   }
 ]

@@ -5,16 +5,106 @@
     "year": 2021,
     "theme_id": 769,
     "num_parts": 878,
-    "date_acquired": "2022-06-01",
+    "date_acquired": "",
     "notes": ""
   },
   {
-    "set_num": "75192-1",
-    "name": "Millennium Falcon",
-    "year": 2017,
-    "theme_id": 171,
-    "num_parts": 7541,
-    "date_acquired": "2023-12-25",
-    "notes": "Holiday gift"
+    "set_num": "71780-1",
+    "name": "Kai's Ninja Race Car EVO",
+    "year": 2023,
+    "theme_id": 435,
+    "num_parts": 94,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71826-1",
+    "name": "Dragon Spinjitzu Battle Pack",
+    "year": 2025,
+    "theme_id": 435,
+    "num_parts": 186,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71829-1",
+    "name": "Lloyd's Green Forest Dragon",
+    "year": 2025,
+    "theme_id": 435,
+    "num_parts": 128,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71831-1",
+    "name": "Ninja Spinjitzu Temple",
+    "year": 2025,
+    "theme_id": 435,
+    "num_parts": 160,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71838-1",
+    "name": "Kai's Motorcycle Speed Race",
+    "year": 2025,
+    "theme_id": 435,
+    "num_parts": 79,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71850-1",
+    "name": "Lloyd vs. Earth Monster Spinner",
+    "year": 2026,
+    "theme_id": 435,
+    "num_parts": 52,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71851-1",
+    "name": "Kai's Dragon Mech Battle Pack",
+    "year": 2026,
+    "theme_id": 435,
+    "num_parts": 85,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71854-1",
+    "name": "Cole's Mission Mech & Dragon Zane",
+    "year": 2026,
+    "theme_id": 435,
+    "num_parts": 364,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "71863-1",
+    "name": "Zilvar and Grimtak the Dragon Beast",
+    "year": 2026,
+    "theme_id": 435,
+    "num_parts": 232,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "75411-1",
+    "name": "Darth Maul Mech",
+    "year": 2025,
+    "theme_id": 158,
+    "num_parts": 143,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "75449-1",
+    "name": "Siege of Mandalore Battle Pack",
+    "year": 2026,
+    "theme_id": 158,
+    "num_parts": 116,
+    "date_acquired": "",
+    "notes": ""
   }
 ]
