@@ -54,6 +54,11 @@ def test_home_page_lists_owned_boxes_by_set_num_with_links_to_box_detail(page: P
     expect(boxes.nth(0).locator(".box-set-num")).to_have_text("10281-1")
     expect(boxes.nth(1).locator(".box-set-num")).to_have_text("75192-1")
 
+    # num_parts shown as a visible column (issue #16) — a cheap way to
+    # eyeball whether a Box is a small or large set without opening it.
+    expect(boxes.nth(0).locator(".box-num-parts")).to_have_text("878 parts")
+    expect(boxes.nth(1).locator(".box-num-parts")).to_have_text("7541 parts")
+
     falcon_link = boxes.nth(1).locator("a.box-name")
     expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
 
@@ -85,6 +90,10 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
     expect(page.locator("#box-official-link a")).to_have_attribute(
         "href", "https://www.lego.com/fr-fr/product/75192"
     )
+    expect(page.locator("#box-manual-link a")).to_have_text("Building instructions")
+    expect(page.locator("#box-manual-link a")).to_have_attribute(
+        "href", "https://rebrickable.com/sets/75192-1/#instructions"
+    )
 
     minifigs = page.locator("#box-minifigs .minifig")
     expect(minifigs).to_have_count(2)
@@ -96,6 +105,23 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
     # "4" alone would trivially match "Plate 2 x 4" too, so assert on the
     # quantity cell specifically rather than the row's full text.
     expect(parts.filter(has_text="Blue").locator("td").nth(2)).to_have_text("4")
+
+
+def test_box_detail_page_shows_a_spare_part_as_its_own_labeled_row_not_a_bare_duplicate(
+    page: Page, site_url_with_duplicate_spare_part: str
+):
+    """Regression for issue #16: a (part_num, color_id) with both a spare and
+    non-spare inventory_parts row (confirmed root cause: Bonsai Tree's
+    Frog/Bright Pink) used to render as two identical-looking rows with no
+    GROUP BY. Now it's one plain-quantity row for the non-spare build
+    quantity and one explicitly labeled "spare" row — not a silent duplicate.
+    """
+    page.goto(f"{site_url_with_duplicate_spare_part}/box.html?set_num=90001-1")
+
+    parts = page.locator("#box-parts tbody tr")
+    expect(parts).to_have_count(2)
+    expect(parts.nth(0).locator("td").nth(2)).to_have_text("1")
+    expect(parts.nth(1).locator("td").nth(2)).to_have_text("×1 spare")
 
 
 def test_box_detail_page_shows_the_procedural_render_and_its_coverage_when_no_photo_is_uploaded(
@@ -160,6 +186,7 @@ def test_discover_page_ranks_candidate_sets_by_buildability_with_a_link_to_its_o
     expect(candidates.nth(0)).to_contain_text("Ship in a Bottle")
     expect(candidates.nth(0)).to_contain_text("45.0%")
     expect(candidates.nth(0).locator(".box-set-num")).to_have_text("21331-1")
+    expect(candidates.nth(0).locator(".box-num-parts")).to_have_text("962 parts")
 
     official_link = candidates.nth(0).locator("a.box-link")
     expect(official_link).to_have_attribute("href", "https://www.lego.com/fr-fr/product/21331")
@@ -181,6 +208,8 @@ def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: 
 
     # set_num shown as a visible column on the anchor and each match (issue #15).
     expect(falcon_row.locator(".box-set-num").first).to_have_text("75192-1")
+    # num_parts shown the same way (issue #16).
+    expect(falcon_row.locator(".box-num-parts").first).to_have_text("7541 parts")
 
     falcon_matches = falcon_row.locator(".similarity-matches li")
     expect(falcon_matches).to_have_count(2)
@@ -189,9 +218,11 @@ def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: 
     expect(falcon_matches.nth(0)).to_contain_text("Ship in a Bottle")
     expect(falcon_matches.nth(0)).to_contain_text("36.0%")
     expect(falcon_matches.nth(0).locator(".box-set-num")).to_have_text("21331-1")
+    expect(falcon_matches.nth(0).locator(".box-num-parts")).to_have_text("962 parts")
     expect(falcon_matches.nth(1)).to_contain_text("Bonsai Tree")
     expect(falcon_matches.nth(1)).to_contain_text("22.7%")
     expect(falcon_matches.nth(1).locator(".box-set-num")).to_have_text("10281-1")
+    expect(falcon_matches.nth(1).locator(".box-num-parts")).to_have_text("878 parts")
 
 
 def test_similarity_scope_is_independent_of_the_buildability_floor(page: Page, site_url_with_floors: str):
@@ -245,6 +276,7 @@ def test_themes_page_groups_owned_and_candidate_sets_by_theme(page: Page, site_u
     expect(star_wars_sets.nth(0)).to_contain_text("Millennium Falcon")
     expect(star_wars_sets.nth(0).locator(".box-owned-badge")).to_have_text("Owned")
     expect(star_wars_sets.nth(0).locator(".box-set-num")).to_have_text("75192-1")
+    expect(star_wars_sets.nth(0).locator(".box-num-parts")).to_have_text("7541 parts")
     falcon_link = star_wars_sets.nth(0).locator("a.box-name")
     expect(falcon_link).to_have_attribute("href", "box.html?set_num=75192-1")
 
@@ -261,6 +293,7 @@ def test_themes_page_groups_owned_and_candidate_sets_by_theme(page: Page, site_u
     expect(ship.locator(".buildability-score")).to_contain_text("45.0%")
     expect(ship.locator("a.box-name")).to_have_count(0)
     expect(ship.locator(".box-set-num")).to_have_text("21331-1")
+    expect(ship.locator(".box-num-parts")).to_have_text("962 parts")
 
 
 def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url: str):

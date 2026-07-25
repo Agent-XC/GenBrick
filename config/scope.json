@@ -1,7 +1,8 @@
 {
   "universe_scope": "owned_themes",
   "render_candidates": false,
+  "require_numeric_candidate_set_num": true,
   "min_candidate_num_parts": 15,
-  "min_buildability_coverage_pct": 30,
-  "min_similarity_score_pct": 30
+  "min_buildability_coverage_pct": 15,
+  "min_similarity_score_pct": 15
 }

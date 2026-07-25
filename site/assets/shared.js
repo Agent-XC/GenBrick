@@ -45,6 +45,13 @@ function setNumMarkup(setNum) {
   return `<span class="box-set-num">${setNum}</span>`;
 }
 
+// Shared across every Box-listing page (Home, Discover, Similarity, Themes)
+// — lets a viewer eyeball whether a match is a small or large set without
+// opening it (issue #16), the same way setNumMarkup above does for set_num.
+function numPartsMarkup(numParts) {
+  return `<span class="box-num-parts">${numParts} parts</span>`;
+}
+
 // Never substitutes a fan-site link for LEGO's own. "retired" (a confirmed
 // 404) and "unchecked" (the checker hasn't confirmed either way) are kept
 // as distinct claims rather than folded into one "Retired" message.

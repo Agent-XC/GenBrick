@@ -5,10 +5,13 @@ import pytest
 from pipeline.scope import (
     determine_candidate_set_nums,
     filter_candidates_by_min_num_parts,
+    filter_candidates_by_numeric_set_num,
+    filter_candidates_by_retired_status,
     load_min_buildability_coverage_pct,
     load_min_candidate_num_parts,
     load_min_similarity_score_pct,
     load_render_candidates,
+    load_require_numeric_candidate_set_num,
 )
 
 # Mirrors tests/fixtures/raw/sets.csv: 75192-1 (theme 1) and 10281-1 (theme
@@ -126,3 +129,57 @@ def test_filter_candidates_by_min_num_parts_is_a_no_op_when_the_floor_is_zero():
     candidates = {"21331-1"}
 
     assert filter_candidates_by_min_num_parts(candidates, sets_rows, 0) == {"21331-1"}
+
+
+def test_load_require_numeric_candidate_set_num_defaults_false_when_key_is_absent(tmp_path):
+    """A config/scope.json predating this key must keep the old (wider)
+    behavior rather than raising, mirroring load_render_candidates' own
+    backward-compat default.
+    """
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes"}))
+
+    assert load_require_numeric_candidate_set_num(scope_config) is False
+
+
+def test_load_require_numeric_candidate_set_num_reads_true_when_flipped_on(tmp_path):
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes", "require_numeric_candidate_set_num": True}))
+
+    assert load_require_numeric_candidate_set_num(scope_config) is True
+
+
+def test_filter_candidates_by_numeric_set_num_drops_non_numeric_formats_when_required():
+    """BONSAI-1 (alphabetic) and L0002198-1 (alphanumeric) are the two
+    non-numeric formats issue #16 calls out as small-batch/promotional
+    releases; 21331-1's base (21331) is a standard 5-digit numeric set_num.
+    """
+    candidates = {"21331-1", "BONSAI-1", "L0002198-1"}
+
+    assert filter_candidates_by_numeric_set_num(candidates, True) == {"21331-1"}
+
+
+def test_filter_candidates_by_numeric_set_num_is_a_no_op_when_not_required():
+    candidates = {"21331-1", "BONSAI-1"}
+
+    assert filter_candidates_by_numeric_set_num(candidates, False) == candidates
+
+
+def test_filter_candidates_by_retired_status_drops_retired_candidates():
+    sets_rows = [
+        {"set_num": "21331-1", "official_url_status": "ok"},
+        {"set_num": "42100-1", "official_url_status": "retired"},
+    ]
+    candidates = {"21331-1", "42100-1"}
+
+    assert filter_candidates_by_retired_status(candidates, sets_rows) == {"21331-1"}
+
+
+def test_filter_candidates_by_retired_status_never_drops_a_non_candidate_owned_set():
+    """Only asked to narrow whatever candidate_set_nums it's given — an owned
+    Box's set_num is never passed in, so there's nothing here that could drop
+    it even if it happened to resolve retired.
+    """
+    sets_rows = [{"set_num": "75192-1", "official_url_status": "retired"}]
+
+    assert filter_candidates_by_retired_status(set(), sets_rows) == set()

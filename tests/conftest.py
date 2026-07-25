@@ -12,6 +12,15 @@ from pipeline.run import run_pipeline
 FIXTURE_RAW = Path(__file__).parent / "fixtures" / "raw"
 FIXTURE_OWNED_SETS = Path(__file__).parent / "fixtures" / "owned_sets.csv"
 FIXTURE_OWNED_BOX_PHOTOS = Path(__file__).parent / "fixtures" / "owned_box_photos.csv"
+# A single-set, single-part catalog dedicated to the box.js renderParts
+# duplicate-row regression (issue #16) — deliberately isolated from
+# FIXTURE_RAW above, whose sets all feed into other tests' exact
+# Buildability/Similarity percentage assertions; adding a duplicate
+# (part_num, color_id, is_spare) pair to any of THEM would perturb every one
+# of those. See tests/fixtures/raw_duplicate_spare_part/inventory_parts.csv.
+FIXTURE_RAW_DUPLICATE_SPARE_PART = Path(__file__).parent / "fixtures" / "raw_duplicate_spare_part"
+FIXTURE_OWNED_SETS_DUPLICATE_SPARE_PART = Path(__file__).parent / "fixtures" / "owned_sets_duplicate_spare_part.csv"
+FIXTURE_OWNED_BOX_PHOTOS_EMPTY = Path(__file__).parent / "fixtures" / "owned_box_photos_empty.csv"
 FIXTURE_LDRAW_PARTS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_parts_crosswalk.csv"
 FIXTURE_LDRAW_COLORS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_colors_crosswalk.csv"
 FIXTURE_LDRAW_OMR_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_omr_crosswalk.csv"
@@ -79,11 +88,25 @@ def _fake_fetch_omr_model(url: str) -> bytes:
     return b"fake-omr-model-bytes"
 
 
-def _stage_site(tmp_path_factory, **run_pipeline_kwargs):
+def _stage_site(
+    tmp_path_factory,
+    raw_dir=FIXTURE_RAW,
+    owned_sets_path=FIXTURE_OWNED_SETS,
+    owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS,
+    stage_falcon_photo=True,
+    **run_pipeline_kwargs,
+):
     """Shared by site_url and site_url_with_floors below: stages site/'s
     static files plus a fixture-built lego.sqlite and serves them over real
     HTTP. See site_url's own docstring for why a real HTTP server (not
     file://) is required.
+
+    raw_dir/owned_sets_path/owned_box_photos_path/stage_falcon_photo default
+    to the shared percentage-sensitive fixture set (see tests/test_pipeline.py
+    and tests/test_site.py, which assert exact Buildability/Similarity values
+    computed from it) — override them for a test that needs its own isolated
+    catalog instead of adding to the shared one, which would perturb those
+    exact-value assertions (see site_url_with_duplicate_spare_part below).
     """
     staging = tmp_path_factory.mktemp("site")
     for name in (
@@ -107,9 +130,9 @@ def _stage_site(tmp_path_factory, **run_pipeline_kwargs):
     db_path = tmp_path_factory.mktemp("db") / "lego.sqlite"
     render_dir = staging / "assets" / "ldraw-renders"
     run_pipeline(
-        raw_dir=FIXTURE_RAW,
-        owned_sets_path=FIXTURE_OWNED_SETS,
-        owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS,
+        raw_dir=raw_dir,
+        owned_sets_path=owned_sets_path,
+        owned_box_photos_path=owned_box_photos_path,
         ldraw_parts_crosswalk_path=FIXTURE_LDRAW_PARTS_CROSSWALK,
         ldraw_colors_crosswalk_path=FIXTURE_LDRAW_COLORS_CROSSWALK,
         ldraw_omr_crosswalk_path=FIXTURE_LDRAW_OMR_CROSSWALK,
@@ -126,15 +149,17 @@ def _stage_site(tmp_path_factory, **run_pipeline_kwargs):
     (staging / "data").mkdir()
     shutil.copyfile(db_path, staging / "data" / "lego.sqlite")
 
-    # tests/fixtures/owned_box_photos.csv points 75192-1 at this filename —
-    # staged separately from the real site/assets/owned-photos/ (which would
-    # only ever hold the collector's actual photos), so the fixture DB's
-    # image_path resolves to a real file instead of a broken image. 10281-1's
-    # procedural render was written straight into render_dir (staging's own
-    # assets/ldraw-renders/) by run_pipeline above, so it's already in place.
-    photo_dir = staging / "assets" / "owned-photos" / "75192-1"
-    photo_dir.mkdir(parents=True)
-    shutil.copyfile(FIXTURE_PHOTO, photo_dir / "falcon.jpg")
+    if stage_falcon_photo:
+        # tests/fixtures/owned_box_photos.csv points 75192-1 at this filename
+        # — staged separately from the real site/assets/owned-photos/ (which
+        # would only ever hold the collector's actual photos), so the fixture
+        # DB's image_path resolves to a real file instead of a broken image.
+        # 10281-1's procedural render was written straight into render_dir
+        # (staging's own assets/ldraw-renders/) by run_pipeline above, so
+        # it's already in place.
+        photo_dir = staging / "assets" / "owned-photos" / "75192-1"
+        photo_dir.mkdir(parents=True)
+        shutil.copyfile(FIXTURE_PHOTO, photo_dir / "falcon.jpg")
 
     handler = functools.partial(_SiteRequestHandler, directory=str(staging))
     httpd = socketserver.TCPServer(("127.0.0.1", 0), handler)
@@ -185,4 +210,23 @@ def site_url_with_floors(tmp_path_factory):
         min_candidate_num_parts=15,
         min_buildability_coverage_pct=50,
         min_similarity_score_pct=30,
+    )
+
+
+@pytest.fixture(scope="session")
+def site_url_with_duplicate_spare_part(tmp_path_factory):
+    """Same shape as site_url, but built from
+    tests/fixtures/raw_duplicate_spare_part/ instead: a single owned Set
+    (90001-1) with one (part_num, color_id) that has both a spare and a
+    non-spare inventory_parts row — the exact issue #16 repro (Bonsai Tree's
+    Frog/Bright Pink) — isolated in its own catalog so it doesn't touch
+    site_url's shared fixture and perturb its exact Buildability/Similarity
+    percentage assertions.
+    """
+    yield from _stage_site(
+        tmp_path_factory,
+        raw_dir=FIXTURE_RAW_DUPLICATE_SPARE_PART,
+        owned_sets_path=FIXTURE_OWNED_SETS_DUPLICATE_SPARE_PART,
+        owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS_EMPTY,
+        stage_falcon_photo=False,
     )

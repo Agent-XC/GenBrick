@@ -1,7 +1,7 @@
 function renderDiscover(db) {
   const list = document.getElementById("discover-list");
   const result = db.exec(`
-    SELECT sets.set_num, sets.name, sets.year, sets.official_url, sets.official_url_status, buildability.coverage_pct
+    SELECT sets.set_num, sets.name, sets.year, sets.num_parts, sets.official_url, sets.official_url_status, buildability.coverage_pct
     FROM buildability
     JOIN sets ON sets.set_num = buildability.set_num
     ORDER BY buildability.coverage_pct DESC, sets.name ASC
@@ -14,13 +14,14 @@ function renderDiscover(db) {
     return;
   }
 
-  for (const [setNum, name, year, officialUrl, officialUrlStatus, coveragePct] of result[0].values) {
+  for (const [setNum, name, year, numParts, officialUrl, officialUrlStatus, coveragePct] of result[0].values) {
     const item = document.createElement("li");
     item.className = "box";
     item.innerHTML = `
       <span class="box-name">${name}</span>
       ${setNumMarkup(setNum)}
       <span class="box-year">${year}</span>
+      ${numPartsMarkup(numParts)}
       <span class="buildability-score">${coveragePct.toFixed(1)}% buildable</span>
       ${officialLinkMarkup(officialUrl, officialUrlStatus)}
     `;

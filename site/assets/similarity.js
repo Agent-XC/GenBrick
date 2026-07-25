@@ -1,7 +1,7 @@
 function renderSimilarity(db) {
   const list = document.getElementById("similarity-list");
   const result = db.exec(`
-    SELECT sets.set_num, sets.name, similarity_topk.rank, other.set_num, other.name, similarity_topk.score
+    SELECT sets.set_num, sets.name, sets.num_parts, similarity_topk.rank, other.set_num, other.name, other.num_parts, similarity_topk.score
     FROM (
       SELECT set_num FROM owned_boxes
       UNION
@@ -30,16 +30,16 @@ function renderSimilarity(db) {
   // rank-ordered) top-10 matches from similarity_topk, rather than one
   // matches row per anchor/match pair.
   const bySetNum = new Map();
-  for (const [setNum, name, , otherSetNum, otherName, score] of result[0].values) {
+  for (const [setNum, name, numParts, , otherSetNum, otherName, otherNumParts, score] of result[0].values) {
     if (!bySetNum.has(setNum)) {
-      bySetNum.set(setNum, { name, matches: [] });
+      bySetNum.set(setNum, { name, numParts, matches: [] });
     }
     if (otherSetNum !== null) {
-      bySetNum.get(setNum).matches.push({ otherSetNum, otherName, score });
+      bySetNum.get(setNum).matches.push({ otherSetNum, otherName, otherNumParts, score });
     }
   }
 
-  for (const [anchorSetNum, { name, matches }] of bySetNum) {
+  for (const [anchorSetNum, { name, numParts, matches }] of bySetNum) {
     // A Set whose every candidate match scores below the floor has nothing
     // to say — skip its row entirely rather than rendering an anchor with
     // just the "No similar Sets yet." empty state (issue #15).
@@ -54,6 +54,7 @@ function renderSimilarity(db) {
           <li>
             <a href="box.html?set_num=${encodeURIComponent(m.otherSetNum)}">${m.otherName}</a>
             ${setNumMarkup(m.otherSetNum)}
+            ${numPartsMarkup(m.otherNumParts)}
             <span class="similarity-score">${m.score.toFixed(1)}%</span>
           </li>
         `
@@ -62,6 +63,7 @@ function renderSimilarity(db) {
     item.innerHTML = `
       <span class="box-name">${name}</span>
       ${setNumMarkup(anchorSetNum)}
+      ${numPartsMarkup(numParts)}
       <ol class="similarity-matches">${matchesMarkup}</ol>
     `;
     list.appendChild(item);

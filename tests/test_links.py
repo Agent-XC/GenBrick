@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, call, patch
 
 import pytest
 
-from pipeline.links import USER_AGENT, resolve_official_link
+from pipeline.links import USER_AGENT, construct_manual_url, resolve_official_link
 
 
 def test_a_live_page_resolves_as_ok():
@@ -11,6 +11,14 @@ def test_a_live_page_resolves_as_ok():
 
     assert url == "https://www.lego.com/fr-fr/product/75192"
     assert status == "ok"
+
+
+def test_construct_manual_url_uses_the_full_set_num_unlike_construct_official_url():
+    """Unlike construct_official_url (base set number only, LEGO.com's own
+    URL shape), Rebrickable's per-set page uses the full set_num including
+    the "-N" version suffix.
+    """
+    assert construct_manual_url("75192-1") == "https://rebrickable.com/sets/75192-1/#instructions"
 
 
 def test_a_404_status_resolves_as_retired():

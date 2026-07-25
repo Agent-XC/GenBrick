@@ -6,11 +6,16 @@ from pipeline.buildability import compute_coverage_pct, pool_quantities
 from pipeline.csvutil import read_csv, write_csv
 from pipeline.ldraw import render_with_ldview as _render_with_ldview
 from pipeline.ldraw import resolve_ldraw_procedural_render
-from pipeline.links import construct_official_url
+from pipeline.links import construct_manual_url, construct_official_url
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
 from pipeline.omr import resolve_ldraw_omr_render
-from pipeline.scope import determine_candidate_set_nums, filter_candidates_by_min_num_parts
+from pipeline.scope import (
+    determine_candidate_set_nums,
+    filter_candidates_by_min_num_parts,
+    filter_candidates_by_numeric_set_num,
+    filter_candidates_by_retired_status,
+)
 from pipeline.similarity import compute_similarity_topk
 
 
@@ -28,6 +33,7 @@ def intermediate_to_primary(
     fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
     universe_scope: str = "owned_themes",
     render_candidates: bool = False,
+    require_numeric_candidate_set_num: bool = False,
     min_candidate_num_parts: int = 0,
     min_buildability_coverage_pct: float = 0.0,
     min_similarity_score_pct: float = 0.0,
@@ -74,6 +80,12 @@ def intermediate_to_primary(
 
     sets_rows = read_csv(intermediate_dir / "sets.csv")
     known_set_nums = {row["set_num"] for row in sets_rows}
+    # manual_url (issue #16): a naive construction, no network, populated for
+    # the whole catalog regardless of universe_scope — cheap unlike
+    # official_url's live check, so there's no reason to gate it the way
+    # resolve_official_link is gated to owned ∪ Candidate sets below.
+    for row in sets_rows:
+        row["manual_url"] = construct_manual_url(row["set_num"])
 
     owned_rows = read_csv(owned_sets_path)
     for row in owned_rows:
@@ -114,6 +126,10 @@ def intermediate_to_primary(
             row["official_url"], row["official_url_status"] = resolve_official_link(row["set_num"])
 
     candidate_set_nums = determine_candidate_set_nums(universe_scope, sets_rows, owned_set_nums)
+    # config/scope.json's set_num format restriction (issue #16): drops
+    # non-numeric-format Candidates (small-batch/promotional releases) before
+    # anything below (rendering, Buildability, Similarity) ever sees them.
+    candidate_set_nums = filter_candidates_by_numeric_set_num(candidate_set_nums, require_numeric_candidate_set_num)
     # config/scope.json's noise floor (issue #15): drops gear, keychains and
     # micro battle-figure packs from the Candidate set before anything below
     # (rendering, Buildability, Similarity) ever sees them.
@@ -135,9 +151,19 @@ def intermediate_to_primary(
                 row["official_url"] = construct_official_url(row["set_num"])
                 row["official_url_status"] = "unchecked"
 
+    # config/scope.json's retired-status filter (issue #16): a Candidate
+    # whose official_url_status resolved to 'retired' can't actually be
+    # bought, so it doesn't fit Discover's or Similarity's purpose. Applied
+    # here (once official_url_status is resolved above) rather than
+    # alongside the numeric-format/min-parts filters above, which run before
+    # any link is checked. Doesn't narrow materialized_set_nums/render_set_nums
+    # above — a retired Candidate's inventory/render still gets materialized,
+    # just never surfaced by Buildability or Similarity below.
+    visible_candidate_set_nums = filter_candidates_by_retired_status(candidate_set_nums, sets_rows)
+
     write_csv(
         primary_dir / "sets.csv",
-        ["set_num", "name", "year", "theme_id", "num_parts", "official_url", "official_url_status"],
+        ["set_num", "name", "year", "theme_id", "num_parts", "official_url", "official_url_status", "manual_url"],
         sets_rows,
     )
     materialized_inventories_rows = _latest_inventory_per_set(
@@ -248,7 +274,7 @@ def intermediate_to_primary(
     # asks it for a part-count and score floor, not this one — see
     # similarity.js's own comment on why it reads `inventories` instead.
     buildability_rows = []
-    for set_num in sorted(candidate_set_nums):
+    for set_num in sorted(visible_candidate_set_nums):
         coverage_pct = compute_coverage_pct(_own_pool(set_num), owned_pool)
         if coverage_pct < min_buildability_coverage_pct:
             continue
@@ -262,9 +288,11 @@ def intermediate_to_primary(
     write_csv(primary_dir / "buildability.csv", ["set_num", "coverage_pct", "computed_at"], buildability_rows)
 
     # Similarity is symmetric and independent of ownership, so it's computed
-    # across owned ∪ Candidate sets (materialized_set_nums) rather than
-    # owned-pool-vs-candidate like Buildability above.
-    pools_by_set_num = {set_num: _own_pool(set_num) for set_num in materialized_set_nums}
+    # across owned ∪ Candidate sets rather than owned-pool-vs-candidate like
+    # Buildability above. Uses visible_candidate_set_nums (not the wider
+    # materialized_set_nums) so a retired Candidate never appears as an
+    # anchor or a match — see the retired-status filter comment above.
+    pools_by_set_num = {set_num: _own_pool(set_num) for set_num in owned_set_nums | visible_candidate_set_nums}
     similarity_topk_rows = []
     for set_num, topk in compute_similarity_topk(pools_by_set_num).items():
         for rank, (other_set_num, score) in enumerate(topk, start=1):

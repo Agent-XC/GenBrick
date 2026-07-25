@@ -35,6 +35,21 @@ def construct_official_url(set_num: str) -> str:
     return f"https://www.lego.com/fr-fr/product/{base_set_number}"
 
 
+def construct_manual_url(set_num: str) -> str:
+    """Naively construct a Rebrickable set page URL, with an #instructions
+    fragment aimed at its Instructions section (issue #16). Unlike
+    construct_official_url, this uses the full set_num (including the "-N"
+    version suffix) since that's Rebrickable's own per-set URL shape, and
+    every set_num in this project's catalog is itself sourced from
+    Rebrickable, so the page itself reliably exists. The #instructions
+    fragment landing on that exact section is an unverified assumption, not
+    a confirmed fact — like official_url, this is never checked against a
+    live request (resolve_official_link's job for the LEGO.com link), so a
+    wrong fragment would still resolve, just scrolled to the wrong spot.
+    """
+    return f"https://rebrickable.com/sets/{set_num}/#instructions"
+
+
 def _navigate_and_get_status(page: Page, url: str) -> int:
     """Real navigation via a Playwright Page, returning the main-frame
     response's HTTP status. Unlike urllib, Playwright doesn't raise on a

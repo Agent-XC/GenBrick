@@ -1,0 +1,3 @@
+inventory_id,part_num,color_id,quantity,is_spare
+1,3641,5,1,false
+1,3641,5,1,true

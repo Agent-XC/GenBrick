@@ -38,6 +38,8 @@ CREATE TABLE minifigs (
     num_parts INTEGER NOT NULL
 );
 
+-- manual_url: naive Rebrickable instructions-page construction (issue #16),
+-- always populated (unlike official_url, never network-checked/nullable).
 CREATE TABLE sets (
     set_num TEXT PRIMARY KEY,
     name TEXT NOT NULL,
@@ -45,7 +47,8 @@ CREATE TABLE sets (
     theme_id INTEGER NOT NULL,
     num_parts INTEGER NOT NULL,
     official_url TEXT,
-    official_url_status TEXT NOT NULL
+    official_url_status TEXT NOT NULL,
+    manual_url TEXT NOT NULL
 );
 
 CREATE TABLE owned_boxes (
@@ -184,7 +187,16 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
             conn,
             primary_dir / "sets.csv",
             table="sets",
-            columns=["set_num", "name", "year", "theme_id", "num_parts", "official_url", "official_url_status"],
+            columns=[
+                "set_num",
+                "name",
+                "year",
+                "theme_id",
+                "num_parts",
+                "official_url",
+                "official_url_status",
+                "manual_url",
+            ],
             to_row=lambda r: (
                 r["set_num"],
                 r["name"],
@@ -193,6 +205,7 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
                 int(r["num_parts"]),
                 r["official_url"],
                 r["official_url_status"],
+                r["manual_url"],
             ),
         )
         _insert_csv(

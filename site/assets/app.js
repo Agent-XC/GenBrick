@@ -1,7 +1,7 @@
 function renderOwnedBoxes(db) {
   const list = document.getElementById("owned-boxes");
   const result = db.exec(`
-    SELECT sets.set_num, sets.name, sets.year, sets.official_url, sets.official_url_status, set_renders.image_path
+    SELECT sets.set_num, sets.name, sets.year, sets.num_parts, sets.official_url, sets.official_url_status, set_renders.image_path
     FROM owned_boxes
     JOIN sets ON sets.set_num = owned_boxes.set_num
     LEFT JOIN set_renders ON set_renders.set_num = owned_boxes.set_num
@@ -15,7 +15,7 @@ function renderOwnedBoxes(db) {
     return;
   }
 
-  for (const [setNum, name, year, officialUrl, officialUrlStatus, imagePath] of result[0].values) {
+  for (const [setNum, name, year, numParts, officialUrl, officialUrlStatus, imagePath] of result[0].values) {
     const item = document.createElement("li");
     item.className = "box";
     item.innerHTML = `
@@ -23,6 +23,7 @@ function renderOwnedBoxes(db) {
       <a class="box-name" href="box.html?set_num=${encodeURIComponent(setNum)}">${name}</a>
       ${setNumMarkup(setNum)}
       <span class="box-year">${year}</span>
+      ${numPartsMarkup(numParts)}
       ${officialLinkMarkup(officialUrl, officialUrlStatus)}
     `;
     list.appendChild(item);

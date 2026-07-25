@@ -28,6 +28,7 @@ def _run(
     fetch_omr_model=_fake_fetch_omr_model,
     universe_scope="owned_themes",
     render_candidates=False,
+    require_numeric_candidate_set_num=False,
     min_candidate_num_parts=0,
     min_buildability_coverage_pct=0.0,
     min_similarity_score_pct=0.0,
@@ -50,6 +51,7 @@ def _run(
         fetch_omr_model=fetch_omr_model,
         universe_scope=universe_scope,
         render_candidates=render_candidates,
+        require_numeric_candidate_set_num=require_numeric_candidate_set_num,
         min_candidate_num_parts=min_candidate_num_parts,
         min_buildability_coverage_pct=min_buildability_coverage_pct,
         min_similarity_score_pct=min_similarity_score_pct,
@@ -127,6 +129,25 @@ def test_official_link_resolution_covers_the_whole_catalog_under_retail_scope(tm
     _run(tmp_path, resolve_official_link=spy_resolve_official_link, universe_scope="retail")
 
     assert set(checked_set_nums) == {"10281-1", "75192-1", "21331-1", "42100-1"}
+
+
+def test_manual_url_is_populated_for_the_whole_catalog_regardless_of_scope(tmp_path):
+    """manual_url (issue #16) is a naive, unchecked construction — unlike
+    official_url it's populated for every catalog set under the default
+    owned_themes scope, including 42100-1, which is neither owned nor a
+    Candidate under that scope (see test_sets_table_carries_every_catalog_set_*
+    above for the equivalent official_url behavior).
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute("SELECT set_num, manual_url FROM sets ORDER BY set_num").fetchall()
+    conn.close()
+
+    assert rows == [
+        ("10281-1", "https://rebrickable.com/sets/10281-1/#instructions"),
+        ("21331-1", "https://rebrickable.com/sets/21331-1/#instructions"),
+        ("42100-1", "https://rebrickable.com/sets/42100-1/#instructions"),
+        ("75192-1", "https://rebrickable.com/sets/75192-1/#instructions"),
+    ]
 
 
 def test_themes_table_is_carried_through(tmp_path):
@@ -406,6 +427,68 @@ def test_min_similarity_score_pct_floor_drops_low_scoring_pairs(tmp_path):
         ("21331-1", "75192-1", pytest.approx(9 / 25 * 100)),
         ("75192-1", "21331-1", pytest.approx(9 / 25 * 100)),
     ]
+
+
+def test_require_numeric_candidate_set_num_is_a_no_op_for_the_standard_numeric_fixture(tmp_path):
+    """tests/fixtures/raw/sets.csv's only owned_themes-scope Candidate,
+    21331-1, is already a standard numeric set_num — turning the flag on
+    must not wrongly exclude it. Non-numeric-format exclusion itself is
+    covered directly by tests/test_scope.py's
+    test_filter_candidates_by_numeric_set_num_drops_non_numeric_formats_when_required,
+    since injecting a non-numeric set_num into this fixture would ripple
+    through every other test's exact Buildability/Similarity assertions.
+    """
+    conn = sqlite3.connect(_run(tmp_path, require_numeric_candidate_set_num=True))
+    rows = conn.execute("SELECT set_num FROM buildability").fetchall()
+    conn.close()
+
+    assert rows == [("21331-1",)]
+
+
+def test_retired_official_url_status_drops_a_candidate_from_buildability_and_similarity(tmp_path):
+    """21331-1 is the only owned_themes-scope Candidate (tests/fixtures/raw/sets.csv)
+    — if its official link resolves retired, issue #16 says it can't be
+    bought, so it must not appear in either Discover (buildability) or
+    Similarity (similarity_topk), for itself as an anchor or as anyone
+    else's match.
+    """
+
+    def resolve_official_link(set_num):
+        if set_num == "21331-1":
+            return "https://www.lego.com/fr-fr/product/21331", "retired"
+        return _fake_resolve_official_link(set_num)
+
+    conn = sqlite3.connect(_run(tmp_path, resolve_official_link=resolve_official_link))
+
+    buildability = conn.execute("SELECT set_num FROM buildability").fetchall()
+    assert buildability == []
+
+    similarity_rows = conn.execute(
+        "SELECT set_num, other_set_num FROM similarity_topk WHERE set_num = '21331-1' OR other_set_num = '21331-1'"
+    ).fetchall()
+    assert similarity_rows == []
+
+    conn.close()
+
+
+def test_retired_candidate_still_gets_its_inventory_materialized_and_rendered(tmp_path):
+    """The retired filter narrows Buildability/Similarity's *display* scope
+    only (see pipeline/primary.py's visible_candidate_set_nums) — it doesn't
+    retroactively shrink what's already materialized/rendered earlier in the
+    same run, so 21331-1's inventory is still present even though it's
+    hidden from buildability/similarity_topk above.
+    """
+
+    def resolve_official_link(set_num):
+        if set_num == "21331-1":
+            return "https://www.lego.com/fr-fr/product/21331", "retired"
+        return _fake_resolve_official_link(set_num)
+
+    conn = sqlite3.connect(_run(tmp_path, resolve_official_link=resolve_official_link))
+    inventories = conn.execute("SELECT set_num FROM inventories WHERE set_num = '21331-1'").fetchall()
+    conn.close()
+
+    assert inventories == [("21331-1",)]
 
 
 def test_owned_sets_seed_referencing_an_unknown_set_num_is_rejected(tmp_path):

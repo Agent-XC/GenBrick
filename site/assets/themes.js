@@ -1,7 +1,7 @@
 function renderThemes(db) {
   const container = document.getElementById("themes-list");
   const result = db.exec(`
-    SELECT themes.name, sets.set_num, sets.name, sets.year, sets.official_url, sets.official_url_status,
+    SELECT themes.name, sets.set_num, sets.name, sets.year, sets.num_parts, sets.official_url, sets.official_url_status,
            owned_boxes.set_num IS NOT NULL AS is_owned, buildability.coverage_pct
     FROM (
       SELECT set_num FROM owned_boxes
@@ -31,6 +31,7 @@ function renderThemes(db) {
     setNum,
     name,
     year,
+    numParts,
     officialUrl,
     officialUrlStatus,
     isOwned,
@@ -39,7 +40,7 @@ function renderThemes(db) {
     if (!byTheme.has(themeName)) {
       byTheme.set(themeName, []);
     }
-    byTheme.get(themeName).push({ setNum, name, year, officialUrl, officialUrlStatus, isOwned, coveragePct });
+    byTheme.get(themeName).push({ setNum, name, year, numParts, officialUrl, officialUrlStatus, isOwned, coveragePct });
   }
 
   for (const [themeName, sets] of byTheme) {
@@ -60,6 +61,7 @@ function renderThemes(db) {
             ${nameMarkup}
             ${setNumMarkup(s.setNum)}
             <span class="box-year">${s.year}</span>
+            ${numPartsMarkup(s.numParts)}
             ${statusMarkup}
             ${officialLinkMarkup(s.officialUrl, s.officialUrlStatus)}
           </li>

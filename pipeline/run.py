@@ -15,6 +15,7 @@ from pipeline.scope import (
     load_min_candidate_num_parts,
     load_min_similarity_score_pct,
     load_render_candidates,
+    load_require_numeric_candidate_set_num,
     load_universe_scope,
 )
 
@@ -36,6 +37,7 @@ def run_pipeline(
     fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
     universe_scope: str = "owned_themes",
     render_candidates: bool = False,
+    require_numeric_candidate_set_num: bool = False,
     min_candidate_num_parts: int = 0,
     min_buildability_coverage_pct: float = 0.0,
     min_similarity_score_pct: float = 0.0,
@@ -55,6 +57,7 @@ def run_pipeline(
         fetch_omr_model=fetch_omr_model,
         universe_scope=universe_scope,
         render_candidates=render_candidates,
+        require_numeric_candidate_set_num=require_numeric_candidate_set_num,
         min_candidate_num_parts=min_candidate_num_parts,
         min_buildability_coverage_pct=min_buildability_coverage_pct,
         min_similarity_score_pct=min_similarity_score_pct,
@@ -85,6 +88,9 @@ if __name__ == "__main__":
             resolve_official_link=resolve_official_link,
             universe_scope=load_universe_scope(repo_root / "config" / "scope.json"),
             render_candidates=load_render_candidates(repo_root / "config" / "scope.json"),
+            require_numeric_candidate_set_num=load_require_numeric_candidate_set_num(
+                repo_root / "config" / "scope.json"
+            ),
             min_candidate_num_parts=load_min_candidate_num_parts(repo_root / "config" / "scope.json"),
             min_buildability_coverage_pct=load_min_buildability_coverage_pct(repo_root / "config" / "scope.json"),
             min_similarity_score_pct=load_min_similarity_score_pct(repo_root / "config" / "scope.json"),

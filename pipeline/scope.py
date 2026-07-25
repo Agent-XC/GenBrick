@@ -1,5 +1,11 @@
 import json
+import re
 from pathlib import Path
+
+# A standard retail set_num's base (before the "-N" version suffix) is 5-6
+# digits (issue #16) — non-numeric formats like "BONSAI-1" or "L0002198-1"
+# tend to be small-batch/promotional releases instead.
+_NUMERIC_SET_NUM_BASE = re.compile(r"^\d{5,6}$")
 
 # Expansion order per CONTEXT.md's Universe scope definition: owned_themes is
 # the narrowest starting point, all is the whole Rebrickable catalog.
@@ -35,6 +41,14 @@ def load_render_candidates(scope_config_path: Path) -> bool:
 # behavior — same backward-compat rule as load_render_candidates above.
 
 
+def load_require_numeric_candidate_set_num(scope_config_path: Path) -> bool:
+    """Config-driven set_num format restriction for Candidate sets (issue
+    #16): off by default so a config/scope.json predating this key keeps its
+    old (wider) behavior, same backward-compat rule as load_render_candidates.
+    """
+    return bool(_load_scope_config(scope_config_path).get("require_numeric_candidate_set_num", False))
+
+
 def load_min_candidate_num_parts(scope_config_path: Path) -> int:
     """Config-driven part-count floor for Candidate sets (issue #15): drops
     gear, keychains, book/catalog entries and micro battle-figure packs from
@@ -47,6 +61,13 @@ def load_min_buildability_coverage_pct(scope_config_path: Path) -> float:
     """Config-driven Buildability floor (issue #15): a Candidate below this
     `buildability.coverage_pct` isn't written to the buildability table at
     all, so it drops out of Discover and Themes alike.
+
+    Issue #16 flagged the original 30% starting value as skewing results
+    toward small boxes matching mostly on minifigs/small vehicles, without
+    proposing a replacement number of its own ("needs a decision, not just a
+    number swap"). config/scope.json now sets this to 15% as that decision —
+    still just a starting value, not a claim that 15% is the right number
+    long-term, but a deliberate answer rather than a default left untouched.
     """
     return float(_load_scope_config(scope_config_path).get("min_buildability_coverage_pct", 0))
 
@@ -55,6 +76,9 @@ def load_min_similarity_score_pct(scope_config_path: Path) -> float:
     """Config-driven Similarity floor (issue #15): a pair scoring below this
     `similarity_topk.score` isn't written to the similarity_topk table at
     all, so it drops out of the Similarity page's results.
+
+    Lowered from 30% to 15% in config/scope.json for the same issue #16
+    reason as load_min_buildability_coverage_pct above — see its docstring.
     """
     return float(_load_scope_config(scope_config_path).get("min_similarity_score_pct", 0))
 
@@ -81,7 +105,14 @@ def determine_candidate_set_nums(
         # No dedicated "currently buyable" flag in the Rebrickable dump — the
         # official_url_status resolved by pipeline/links.py (a real LEGO.com
         # check) is the closest available signal: "retired" means LEGO.com
-        # itself no longer serves a product page for that set.
+        # itself no longer serves a product page for that set. Deliberately
+        # inline rather than calling filter_candidates_by_retired_status
+        # below: that function runs post-hoc, after determine_candidate_set_nums
+        # has already returned, on official_url_status resolved for the
+        # already-determined candidate set (see primary.py's
+        # visible_candidate_set_nums) — here, "retail" needs the same check
+        # baked into candidate determination itself, on the whole catalog's
+        # eagerly-resolved status (see primary.py's resolve_links_eagerly).
         return {row["set_num"] for row in non_owned_rows if row["official_url_status"] != "retired"}
 
     # owned_themes: candidates are limited to themes the owner already has at
@@ -104,3 +135,29 @@ def filter_candidates_by_min_num_parts(
     return {
         set_num for set_num in candidate_set_nums if num_parts_by_set_num.get(set_num, 0) >= min_num_parts
     }
+
+
+def filter_candidates_by_numeric_set_num(
+    candidate_set_nums: set[str], require_numeric_set_num: bool
+) -> set[str]:
+    """Applies config/scope.json's require_numeric_candidate_set_num toggle
+    (issue #16) to an already-determined candidate set. Never applied to
+    owned Boxes — an owned Box stays a Box regardless of its set_num's shape.
+    """
+    if not require_numeric_set_num:
+        return candidate_set_nums
+    return {
+        set_num for set_num in candidate_set_nums if _NUMERIC_SET_NUM_BASE.match(set_num.split("-")[0])
+    }
+
+
+def filter_candidates_by_retired_status(candidate_set_nums: set[str], sets_rows: list[dict]) -> set[str]:
+    """Drops official_url_status == 'retired' Candidates (issue #16): a
+    retired set can't actually be bought, so it doesn't fit Discover's or
+    Similarity's purpose. Unlike the two filters above, this isn't
+    config-gated — it's a correctness fix for what "Candidate" means, not a
+    tunable noise floor. Never applied to owned Boxes, which stay Boxes
+    regardless of whether LEGO.com still sells them.
+    """
+    retired_set_nums = {row["set_num"] for row in sets_rows if row["official_url_status"] == "retired"}
+    return candidate_set_nums - retired_set_nums

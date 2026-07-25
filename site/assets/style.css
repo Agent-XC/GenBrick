@@ -91,6 +91,10 @@ body {
   font-size: 0.9em;
 }
 
+.box-num-parts {
+  color: #777;
+}
+
 .box-link-retired,
 .box-link-unchecked {
   color: #999;
