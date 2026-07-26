@@ -36,18 +36,16 @@ def construct_official_url(set_num: str) -> str:
 
 
 def construct_manual_url(set_num: str) -> str:
-    """Naively construct a Rebrickable set page URL, with an #instructions
-    fragment aimed at its Instructions section (issue #16). Unlike
-    construct_official_url, this uses the full set_num (including the "-N"
-    version suffix) since that's Rebrickable's own per-set URL shape, and
-    every set_num in this project's catalog is itself sourced from
-    Rebrickable, so the page itself reliably exists. The #instructions
-    fragment landing on that exact section is an unverified assumption, not
-    a confirmed fact — like official_url, this is never checked against a
-    live request (resolve_official_link's job for the LEGO.com link), so a
-    wrong fragment would still resolve, just scrolled to the wrong spot.
+    """Naively construct Rebrickable's dedicated per-set instructions page
+    URL (issue #16), confirmed against https://rebrickable.com/instructions/75192-1/.
+    Rebrickable never hosts the official PDF itself — this page either links
+    onward to LEGO's own official instructions hosting (if LEGO has
+    published one for this set) or shows nothing, so this is never checked
+    against a live request the way resolve_official_link checks the
+    LEGO.com link: a set with no published instructions still gets a URL
+    here, just one that resolves to an empty page rather than 404ing.
     """
-    return f"https://rebrickable.com/sets/{set_num}/#instructions"
+    return f"https://rebrickable.com/instructions/{set_num}/"
 
 
 def _navigate_and_get_status(page: Page, url: str) -> int:

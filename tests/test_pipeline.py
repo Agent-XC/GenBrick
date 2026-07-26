@@ -143,10 +143,10 @@ def test_manual_url_is_populated_for_the_whole_catalog_regardless_of_scope(tmp_p
     conn.close()
 
     assert rows == [
-        ("10281-1", "https://rebrickable.com/sets/10281-1/#instructions"),
-        ("21331-1", "https://rebrickable.com/sets/21331-1/#instructions"),
-        ("42100-1", "https://rebrickable.com/sets/42100-1/#instructions"),
-        ("75192-1", "https://rebrickable.com/sets/75192-1/#instructions"),
+        ("10281-1", "https://rebrickable.com/instructions/10281-1/"),
+        ("21331-1", "https://rebrickable.com/instructions/21331-1/"),
+        ("42100-1", "https://rebrickable.com/instructions/42100-1/"),
+        ("75192-1", "https://rebrickable.com/instructions/75192-1/"),
     ]
 
 

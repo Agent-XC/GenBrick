@@ -92,7 +92,7 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
     )
     expect(page.locator("#box-manual-link a")).to_have_text("Building instructions")
     expect(page.locator("#box-manual-link a")).to_have_attribute(
-        "href", "https://rebrickable.com/sets/75192-1/#instructions"
+        "href", "https://rebrickable.com/instructions/75192-1/"
     )
 
     minifigs = page.locator("#box-minifigs .minifig")

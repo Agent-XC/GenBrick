@@ -16,3 +16,7 @@ data/08_reporting/
 
 # scripts/preview_site.py's staging output — see docs/agents/local-preview.md
 .preview/
+
+# Private research notes not meant to be public yet — see the note at the
+# top of the file itself for context.
+docs/research/

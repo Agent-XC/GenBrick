@@ -15,10 +15,10 @@ def test_a_live_page_resolves_as_ok():
 
 def test_construct_manual_url_uses_the_full_set_num_unlike_construct_official_url():
     """Unlike construct_official_url (base set number only, LEGO.com's own
-    URL shape), Rebrickable's per-set page uses the full set_num including
-    the "-N" version suffix.
+    URL shape), Rebrickable's per-set instructions page uses the full
+    set_num including the "-N" version suffix.
     """
-    assert construct_manual_url("75192-1") == "https://rebrickable.com/sets/75192-1/#instructions"
+    assert construct_manual_url("75192-1") == "https://rebrickable.com/instructions/75192-1/"
 
 
 def test_a_404_status_resolves_as_retired():
