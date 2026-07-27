@@ -5,7 +5,7 @@ Catalogs an owned LEGO collection, aggregates it into one brick pool, and surfac
 ## Language
 
 **Buildability**:
-The % of a candidate set's required `(part_num, color_id, quantity)` covered by the owned brick pool. Schema field: `buildability.coverage_pct`.
+The % of a candidate set's required `(part_num, color_id, quantity)` covered by the owned brick pool. Schema field: `buildability.coverage_pct`. Scoped to catalog Sets only — scoring the owned pool against a Phase 2 generatively-produced (not catalog) Graph is a distinct, not-yet-named concept and must not reuse this term or field name.
 _Avoid_: coverage (alone — ambiguous with render coverage)
 
 **Render coverage**:
