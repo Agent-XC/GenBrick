@@ -5,6 +5,46 @@ async function loadDatabase() {
   return new SQL.Database(new Uint8Array(buffer));
 }
 
+function getSetNumFromUrl() {
+  return new URLSearchParams(window.location.search).get("set_num");
+}
+
+// Shared by box.html and candidate.html — a Set's minifigs don't depend on
+// ownership (inventory_minifigs is materialized the same way for owned
+// Boxes and Candidates alike), so the query and rendering are identical;
+// only the target list element and its empty-state wording differ.
+function renderMinifigs(db, setNum, listElementId, emptyMessage) {
+  const list = document.getElementById(listElementId);
+  const result = db.exec(
+    `
+    SELECT minifigs.name, minifigs.num_parts, inventory_minifigs.quantity
+    FROM inventory_minifigs
+    JOIN inventories ON inventories.id = inventory_minifigs.inventory_id
+    JOIN minifigs ON minifigs.fig_num = inventory_minifigs.fig_num
+    WHERE inventories.set_num = ?
+    ORDER BY minifigs.name
+  `,
+    [setNum]
+  );
+
+  list.innerHTML = "";
+
+  if (result.length === 0) {
+    list.innerHTML = `<li class="empty">${emptyMessage}</li>`;
+    return;
+  }
+
+  for (const [figName, numParts, quantity] of result[0].values) {
+    const item = document.createElement("li");
+    item.className = "minifig";
+    item.innerHTML = `
+      <span class="minifig-name">${figName}</span>
+      <span class="minifig-quantity">&times;${quantity}</span>
+    `;
+    list.appendChild(item);
+  }
+}
+
 // Deterministic per-Set color so placeholders are visually distinct rather
 // than one flat gray block repeated down the list — same input always maps
 // to the same hue, with no server-side state needed.

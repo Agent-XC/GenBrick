@@ -17,11 +17,16 @@ function renderDiscover(db) {
   for (const [setNum, name, year, numParts, officialUrl, officialUrlStatus, coveragePct] of result[0].values) {
     const item = document.createElement("li");
     item.className = "box";
+    // Every row here is a Candidate (this query's whole scope is
+    // `buildability`), so — unlike numPartsMarkup's plain-text use on the
+    // other Box-listing pages — the parts count links through to
+    // candidate.html's Part/Color/Quantity/Owned-pool drill-down (issue
+    // #16 backlog: "Buildability drill-down page").
     item.innerHTML = `
       <span class="box-name">${name}</span>
       ${setNumMarkup(setNum)}
       <span class="box-year">${year}</span>
-      ${numPartsMarkup(numParts)}
+      <a class="box-num-parts" href="candidate.html?set_num=${encodeURIComponent(setNum)}">${numParts} parts</a>
       <span class="buildability-score">${coveragePct.toFixed(1)}% buildable</span>
       ${officialLinkMarkup(officialUrl, officialUrlStatus)}
     `;

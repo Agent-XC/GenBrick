@@ -40,6 +40,7 @@ STAGING_DIR = REPO_ROOT / ".preview"
 _STATIC_ENTRIES = (
     "index.html",
     "box.html",
+    "candidate.html",
     "collection.html",
     "figurines.html",
     "discover.html",

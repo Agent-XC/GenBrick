@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GenBrick</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header>
+    <p><a href="discover.html">&larr; Discover</a></p>
+    <h1 id="candidate-name">Loading…</h1>
+    <p class="tagline" id="candidate-meta"></p>
+  </header>
+
+  <main>
+    <div id="candidate-photo"></div>
+    <div id="candidate-photo-caption"></div>
+    <p id="candidate-buildability"></p>
+    <p id="candidate-official-link"></p>
+    <p id="candidate-manual-link"></p>
+
+    <h2>Minifigs</h2>
+    <ul id="candidate-minifigs" class="minifig-list"><li class="loading">Loading…</li></ul>
+
+    <h2>Parts</h2>
+    <table id="candidate-parts" class="parts-table">
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Color</th>
+          <th>Quantity</th>
+          <th>Owned pool</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="4" class="loading">Loading…</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <p>
+      This is a <strong>fan project, not affiliated with or endorsed by the LEGO Group</strong>.
+      LEGO® is a trademark of the LEGO Group. Catalog data from
+      <a href="https://rebrickable.com/" target="_blank" rel="noopener">Rebrickable</a>. Procedural
+      renders use the open <a href="https://www.ldraw.org/" target="_blank" rel="noopener">LDraw</a>
+      parts library.
+    </p>
+  </footer>
+
+  <script src="vendor/sql.js/sql-wasm.js"></script>
+  <script src="assets/shared.js"></script>
+  <script src="assets/candidate.js"></script>
+</body>
+</html>

@@ -178,6 +178,19 @@ body {
   font-weight: 600;
 }
 
+.part-owned-full {
+  color: #2a7a2a;
+  font-weight: 600;
+}
+
+.part-owned-partial {
+  color: #8a6a1a;
+}
+
+.part-owned-none {
+  color: #999;
+}
+
 .color-swatch {
   display: inline-block;
   width: 0.85rem;

@@ -1,7 +1,3 @@
-function getSetNumFromUrl() {
-  return new URLSearchParams(window.location.search).get("set_num");
-}
-
 function renderBox(db, setNum) {
   const boxResult = db.exec(
     `
@@ -31,40 +27,8 @@ function renderBox(db, setNum) {
   document.getElementById("box-manual-link").innerHTML =
     `<a class="box-link" href="${manualUrl}" target="_blank" rel="noopener">Building instructions</a>`;
 
-  renderMinifigs(db, setNum);
+  renderMinifigs(db, setNum, "box-minifigs", "No minifigs in this Box.");
   renderParts(db, setNum);
-}
-
-function renderMinifigs(db, setNum) {
-  const list = document.getElementById("box-minifigs");
-  const result = db.exec(
-    `
-    SELECT minifigs.name, minifigs.num_parts, inventory_minifigs.quantity
-    FROM inventory_minifigs
-    JOIN inventories ON inventories.id = inventory_minifigs.inventory_id
-    JOIN minifigs ON minifigs.fig_num = inventory_minifigs.fig_num
-    WHERE inventories.set_num = ?
-    ORDER BY minifigs.name
-  `,
-    [setNum]
-  );
-
-  list.innerHTML = "";
-
-  if (result.length === 0) {
-    list.innerHTML = '<li class="empty">No minifigs in this Box.</li>';
-    return;
-  }
-
-  for (const [figName, numParts, quantity] of result[0].values) {
-    const item = document.createElement("li");
-    item.className = "minifig";
-    item.innerHTML = `
-      <span class="minifig-name">${figName}</span>
-      <span class="minifig-quantity">&times;${quantity}</span>
-    `;
-    list.appendChild(item);
-  }
 }
 
 function renderParts(db, setNum) {

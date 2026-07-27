@@ -28,6 +28,7 @@ def console_errors(page: Page) -> list[str]:
         "/similarity.html",
         "/themes.html",
         "/box.html?set_num=75192-1",
+        "/candidate.html?set_num=21331-1",
     ],
 )
 def test_page_loads_without_console_errors(page: Page, site_url: str, console_errors: list[str], path: str):
@@ -190,6 +191,103 @@ def test_discover_page_ranks_candidate_sets_by_buildability_with_a_link_to_its_o
 
     official_link = candidates.nth(0).locator("a.box-link")
     expect(official_link).to_have_attribute("href", "https://www.lego.com/fr-fr/product/21331")
+
+    num_parts_link = candidates.nth(0).locator("a.box-num-parts")
+    expect(num_parts_link).to_have_attribute("href", "candidate.html?set_num=21331-1")
+
+    num_parts_link.click()
+    expect(page.locator("#candidate-name")).to_have_text("Ship in a Bottle")
+
+
+def test_candidate_page_shows_parts_with_owned_pool_coverage_per_part(page: Page, site_url: str):
+    """Regression for issue #16's backlog "Buildability drill-down page":
+    box.html 404s for any set_num outside owned_boxes by design, so a
+    Candidate's own parts breakdown needs its own page. Coverage math here
+    mirrors test_discover's 21331-1 -> 45.0% (min(4,10)+min(0,5)+min(25,5)
+    over 20 required) — same three (part_num, color_id) pairs, just shown
+    per-row instead of aggregated.
+    """
+    page.goto(f"{site_url}/candidate.html?set_num=21331-1")
+
+    expect(page.locator("#candidate-name")).to_have_text("Ship in a Bottle")
+    expect(page.locator("#candidate-meta")).to_have_text("21331-1 · 2022")
+    expect(page.locator("#candidate-buildability")).to_contain_text("45.0%")
+
+    expect(page.locator("#candidate-official-link a")).to_have_text("Official page")
+    expect(page.locator("#candidate-official-link a")).to_have_attribute(
+        "href", "https://www.lego.com/fr-fr/product/21331"
+    )
+    expect(page.locator("#candidate-manual-link a")).to_have_text("Building instructions")
+    expect(page.locator("#candidate-manual-link a")).to_have_attribute(
+        "href", "https://rebrickable.com/instructions/21331-1/"
+    )
+
+    rows = page.locator("#candidate-parts tbody tr")
+    expect(rows).to_have_count(3)
+
+    # 3020/Blue: required 10, owned_brick_pool only has 4 (from 75192-1) —
+    # partial coverage, both numbers shown so the shortfall is visible.
+    blue_row = rows.filter(has_text="Blue")
+    expect(blue_row.locator("td").nth(2)).to_have_text("10")
+    expect(blue_row.locator(".part-owned-partial")).to_have_text("4 of 10 owned")
+
+    # 3001/Light Bluish Gray: required 5, owned_brick_pool has none — the
+    # only owned 3001/71 came from 10281-1's superseded inventory version
+    # (dropped by primary.py's latest-version-only rule), so it's genuinely
+    # zero in the current pool.
+    lbg_row = rows.filter(has_text="Light Bluish Gray")
+    expect(lbg_row.locator("td").nth(2)).to_have_text("5")
+    expect(lbg_row.locator(".part-owned-none")).to_have_text("Not owned")
+
+    # 3001/Black: required 5, owned_brick_pool has 25 (10 from 75192-1 + 15
+    # from 10281-1's latest version) — fully covered.
+    black_row = rows.filter(has_text="Black")
+    expect(black_row.locator("td").nth(2)).to_have_text("5")
+    expect(black_row.locator(".part-owned-full")).to_have_text("Owned")
+
+
+def test_candidate_page_does_not_double_count_owned_pool_across_a_spare_and_non_spare_row(
+    page: Page, site_url_with_candidate_duplicate_spare_part: str
+):
+    """Regression: owned_brick_pool is keyed by (part_num, color_id) only
+    (see pipeline/buildability.py's pool_quantities), the same as
+    Buildability's own required-quantity pooling — it doesn't distinguish
+    spare vs non-spare rows. Comparing that one pooled owned quantity
+    independently against a candidate's non-spare row *and* its spare row
+    (two rows for the same (part_num, color_id), split for box.js-style
+    display — see tests/fixtures/raw_candidate_duplicate_spare_part) would
+    double-count the same physical parts as covering both requirements. The
+    owned pool here (3) must instead be consumed non-spare-first: 2 of it
+    covers the non-spare row in full, leaving 1 of 2 for the spare row.
+    """
+    page.goto(f"{site_url_with_candidate_duplicate_spare_part}/candidate.html?set_num=90102-1")
+
+    expect(page.locator("#candidate-name")).to_have_text("Test Candidate")
+
+    rows = page.locator("#candidate-parts tbody tr")
+    expect(rows).to_have_count(2)
+
+    non_spare_row = rows.nth(0)
+    expect(non_spare_row.locator("td").nth(2)).to_have_text("2")
+    expect(non_spare_row.locator(".part-owned-full")).to_have_text("Owned")
+
+    spare_row = rows.nth(1)
+    expect(spare_row.locator("td").nth(2)).to_have_text("×2 spare")
+    expect(spare_row.locator(".part-owned-partial")).to_have_text("1 of 2 owned")
+
+
+def test_candidate_page_reports_not_found_for_a_set_num_thats_not_a_candidate(page: Page, site_url: str):
+    # 75192-1 is owned, not a Candidate — buildability.csv has no row for it.
+    page.goto(f"{site_url}/candidate.html?set_num=75192-1")
+
+    expect(page.locator("#candidate-name")).to_have_text("Candidate not found")
+    expect(page.locator("#candidate-meta")).to_contain_text("75192-1")
+
+
+def test_candidate_page_prompts_for_a_set_num_when_none_is_given(page: Page, site_url: str):
+    page.goto(f"{site_url}/candidate.html")
+
+    expect(page.locator("#candidate-name")).to_have_text("No set_num given")
 
 
 def test_similarity_page_ranks_each_sets_matches_independent_of_ownership(page: Page, site_url: str):

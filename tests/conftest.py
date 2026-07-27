@@ -20,6 +20,17 @@ FIXTURE_OWNED_BOX_PHOTOS = Path(__file__).parent / "fixtures" / "owned_box_photo
 # of those. See tests/fixtures/raw_duplicate_spare_part/inventory_parts.csv.
 FIXTURE_RAW_DUPLICATE_SPARE_PART = Path(__file__).parent / "fixtures" / "raw_duplicate_spare_part"
 FIXTURE_OWNED_SETS_DUPLICATE_SPARE_PART = Path(__file__).parent / "fixtures" / "owned_sets_duplicate_spare_part.csv"
+# A Candidate (not owned) with the same spare/non-spare split as
+# raw_duplicate_spare_part above, but this time paired with an owned Set
+# whose pool only partially covers the combined (non-spare + spare)
+# requirement — isolated in its own catalog for the same reason as that
+# fixture, and to exercise candidate.html's per-row Owned pool column
+# rather than box.js's row-labeling (see
+# tests/fixtures/raw_candidate_duplicate_spare_part/inventory_parts.csv).
+FIXTURE_RAW_CANDIDATE_DUPLICATE_SPARE_PART = Path(__file__).parent / "fixtures" / "raw_candidate_duplicate_spare_part"
+FIXTURE_OWNED_SETS_CANDIDATE_DUPLICATE_SPARE_PART = (
+    Path(__file__).parent / "fixtures" / "owned_sets_candidate_duplicate_spare_part.csv"
+)
 FIXTURE_OWNED_BOX_PHOTOS_EMPTY = Path(__file__).parent / "fixtures" / "owned_box_photos_empty.csv"
 FIXTURE_LDRAW_PARTS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_parts_crosswalk.csv"
 FIXTURE_LDRAW_COLORS_CROSSWALK = Path(__file__).parent / "fixtures" / "ldraw_colors_crosswalk.csv"
@@ -112,6 +123,7 @@ def _stage_site(
     for name in (
         "index.html",
         "box.html",
+        "candidate.html",
         "collection.html",
         "figurines.html",
         "discover.html",
@@ -227,6 +239,27 @@ def site_url_with_duplicate_spare_part(tmp_path_factory):
         tmp_path_factory,
         raw_dir=FIXTURE_RAW_DUPLICATE_SPARE_PART,
         owned_sets_path=FIXTURE_OWNED_SETS_DUPLICATE_SPARE_PART,
+        owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS_EMPTY,
+        stage_falcon_photo=False,
+    )
+
+
+@pytest.fixture(scope="session")
+def site_url_with_candidate_duplicate_spare_part(tmp_path_factory):
+    """Same shape as site_url, but built from
+    tests/fixtures/raw_candidate_duplicate_spare_part/ instead: one owned Set
+    (90101-1, 3x Frog/Bright Pink) and one Candidate (90102-1, needing 2
+    non-spare + 2 spare of the same part/color — 4 total) in the same theme.
+    The owned pool (3) only partially covers the Candidate's combined
+    requirement, so this exercises candidate.html's Owned pool column
+    correctly *not* comparing the same 3-unit pool against each row
+    independently (which would double-count and show both rows as fully
+    "Owned").
+    """
+    yield from _stage_site(
+        tmp_path_factory,
+        raw_dir=FIXTURE_RAW_CANDIDATE_DUPLICATE_SPARE_PART,
+        owned_sets_path=FIXTURE_OWNED_SETS_CANDIDATE_DUPLICATE_SPARE_PART,
         owned_box_photos_path=FIXTURE_OWNED_BOX_PHOTOS_EMPTY,
         stage_falcon_photo=False,
     )
