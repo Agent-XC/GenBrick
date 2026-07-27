@@ -2,13 +2,13 @@
 name = "genbrick"
 version = "0.1.0"
 requires-python = ">=3.11"
-dependencies = ["playwright"]
+dependencies = ["playwright", "bricknet"]
 
 [project.optional-dependencies]
 test = ["pytest", "pytest-playwright"]
 
 [tool.setuptools]
-packages = ["pipeline"]
+packages = ["pipeline", "space"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
