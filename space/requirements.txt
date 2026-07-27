@@ -1,0 +1,9 @@
+# Runtime deps for space/predict.py's real (non-stubbed) generation path —
+# kept out of the repo's own pyproject.toml (shared with the lightweight
+# pipeline/site tooling) since these are only needed where predict() is
+# actually run: a Python shell, a manual demo, or (per issue #21) the
+# deployed Space itself.
+bricknet
+torch
+transformers
+peft
