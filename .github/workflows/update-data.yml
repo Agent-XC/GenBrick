@@ -15,6 +15,13 @@ on:
     - cron: "0 6 * * 1" # Every Monday at 06:00 UTC
   workflow_dispatch:
 
+# Only one refresh run pushes to main at a time. Doesn't cancel an
+# in-progress run (its ~20-25min pipeline output shouldn't be thrown away
+# for a newly-queued duplicate) — see issue #23.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
@@ -93,11 +100,37 @@ jobs:
           git add exports/ site/data/ site/assets/ldraw-renders/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            git commit -m "Weekly data refresh"
-            git push
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+          git commit -m "Weekly data refresh"
+
+          # The checkout at the top of this job can be ~20-25min stale by the
+          # time this step runs (Rebrickable fetch + full pipeline), so an
+          # unrelated push to main in the meantime makes a bare `git push`
+          # rejected as non-fast-forward (issue #23). Rebase onto the latest
+          # main and retry — our commit only touches exports/, site/data/,
+          # and site/assets/ldraw-renders/, so it's unlikely to conflict with
+          # unrelated doc/code commits.
+          max_attempts=3
+          for attempt in $(seq 1 "$max_attempts"); do
+            if git push; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [ "$attempt" -eq "$max_attempts" ]; then
+              echo "::error::git push failed after $attempt attempts"
+              exit 1
+            fi
+            echo "Push rejected (attempt $attempt/$max_attempts), rebasing onto origin/main and retrying..."
+            # fetch and rebase are chained with || so a transient fetch
+            # failure lands in the same abort-and-report path below instead
+            # of killing the step outright via this script's implicit `-e`.
+            if ! git fetch origin main || ! git rebase origin/main; then
+              git rebase --abort 2>/dev/null || true
+              echo "::error::fetch/rebase onto origin/main failed, needs manual resolution"
+              exit 1
+            fi
+          done
 
       - name: Upload site/ as a Pages artifact
         uses: actions/upload-pages-artifact@v3
