@@ -10,6 +10,13 @@ name: Deploy Hugging Face Space
 # - Secret HF_TOKEN: a Hugging Face access token with write access to the
 #   target Space.
 # - Variable HF_SPACE_REPO: the target Space's "owner/space-name".
+#
+# Don't configure either until issue #19 (BrickNet adapter license) actually
+# resolves — per PHASE2_PROJECT_SPEC.md §7 and issue #18's adapter-license
+# gate, this Space serves kulits/BrickNet-0.6B-SFT and mustn't go publicly
+# reachable before that license is confirmed usable (or app.py is swapped to
+# the BrickGPT/LegoGPT fallback if it isn't). Setting HF_SPACE_REPO is what
+# makes this workflow able to actually push a live deployment; it's the gate.
 
 on:
   push:
@@ -21,6 +28,9 @@ on:
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
