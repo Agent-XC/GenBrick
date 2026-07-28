@@ -12,9 +12,24 @@ except ImportError:
     from predict import predict
 
 import gradio as gr
+import spaces
+
+# PHASE2_PROJECT_SPEC.md's cost model assumed a plain free CPU tier; at
+# deploy time HF no longer offered CPU basic for Gradio Spaces, only
+# ZeroGPU's shared, dynamically-allocated GPU pool (still $0/month, just a
+# different mechanism). ZeroGPU statically scans app.py at startup and
+# refuses to run unless it finds a function decorated with @spaces.GPU, so
+# that decorator lives here rather than on predict.py itself — predict.py
+# stays a plain, Space-agnostic function per its own docstring.
+
+
+@spaces.GPU
+def _generate(caption: str) -> dict:
+    return predict(caption)
+
 
 demo = gr.Interface(
-    fn=predict,
+    fn=_generate,
     inputs=gr.Textbox(label="Caption", placeholder="a small red car"),
     outputs=gr.JSON(label="Generated design"),
     title="GenBrick — BrickNet caption-to-design generation",

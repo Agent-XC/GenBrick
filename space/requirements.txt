@@ -12,3 +12,4 @@ torch
 transformers
 peft
 gradio
+spaces
