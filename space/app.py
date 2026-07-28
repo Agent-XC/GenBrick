@@ -25,7 +25,15 @@ import spaces
 
 @spaces.GPU
 def _generate(caption: str) -> dict:
-    return predict(caption)
+    # Gradio redacts uncaught exception messages from API/UI callers by
+    # default, showing only the exception's class name — re-raising as
+    # gr.Error(str(e)) is Gradio's supported way to surface the real message
+    # instead (issue #18's frontend user story 6 wants a clear inline error,
+    # not a generic one, so this also serves the eventual frontend caller).
+    try:
+        return predict(caption)
+    except Exception as e:
+        raise gr.Error(str(e)) from e
 
 
 demo = gr.Interface(
