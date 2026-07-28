@@ -1,9 +1,14 @@
-# Runtime deps for space/predict.py's real (non-stubbed) generation path —
-# kept out of the repo's own pyproject.toml (shared with the lightweight
-# pipeline/site tooling) since these are only needed where predict() is
-# actually run: a Python shell, a manual demo, or (per issue #21) the
-# deployed Space itself.
+# Runtime deps for space/predict.py's real (non-stubbed) generation path and
+# space/app.py's Gradio wrapper — kept out of the repo's own pyproject.toml
+# (shared with the lightweight pipeline/site tooling) since these are only
+# needed where predict() is actually run: a Python shell, a manual demo, or
+# (per issue #21) the deployed Space itself.
+#
+# gradio is listed here for local parity (e.g. running app.py outside HF)
+# even though the deployed Space's "gradio" SDK also provisions its own
+# gradio runtime per space/README.md's sdk_version front matter.
 bricknet
 torch
 transformers
 peft
+gradio

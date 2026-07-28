@@ -1,0 +1,64 @@
+name: Deploy Hugging Face Space
+
+# Syncs space/ (this repo's version-controlled Gradio Space source, issue
+# #21) to the live HF Space on every push to main that touches it. HF Spaces
+# read app.py / requirements.txt / README.md (with its YAML metadata block)
+# from the repo root, so this flattens space/'s contents into the HF Space
+# git repo's root rather than mirroring this repo's own space/<file> layout.
+#
+# Requires two repo-level settings this workflow doesn't itself configure:
+# - Secret HF_TOKEN: a Hugging Face access token with write access to the
+#   target Space.
+# - Variable HF_SPACE_REPO: the target Space's "owner/space-name".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "space/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Push space/ to the Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE_REPO: ${{ vars.HF_SPACE_REPO }}
+        run: |
+          if [ -z "$HF_SPACE_REPO" ]; then
+            echo "::error::HF_SPACE_REPO repository variable is not set (expected owner/space-name)"
+            exit 1
+          fi
+          if [ -z "$HF_TOKEN" ]; then
+            echo "::error::HF_TOKEN repository secret is not set"
+            exit 1
+          fi
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          rm -rf /tmp/hf-space
+          git clone "https://user:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE_REPO}" /tmp/hf-space
+
+          # Flatten this repo's space/ into the HF Space repo's root, keeping
+          # the cloned repo's own .git.
+          find /tmp/hf-space -mindepth 1 -maxdepth 1 -not -name ".git" -exec rm -rf {} +
+          cp -r space/. /tmp/hf-space/
+          rm -rf /tmp/hf-space/__pycache__ /tmp/hf-space/__init__.py
+
+          cd /tmp/hf-space
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to deploy."
+            exit 0
+          fi
+          git commit -m "Sync from ${{ github.repository }}@${{ github.sha }}"
+          git push
