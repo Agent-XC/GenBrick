@@ -29,6 +29,7 @@ def console_errors(page: Page) -> list[str]:
         "/themes.html",
         "/box.html?set_num=75192-1",
         "/candidate.html?set_num=21331-1",
+        "/generate.html",
     ],
 )
 def test_page_loads_without_console_errors(page: Page, site_url: str, console_errors: list[str], path: str):
@@ -405,3 +406,68 @@ def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url:
     # sums parts, so this is 2, not two separate rows of 1.
     expect(figurines.filter(has_text="Han Solo")).to_contain_text("×2")
     expect(figurines.filter(has_text="Luke Skywalker")).to_contain_text("×1")
+
+
+def test_generate_page_renders_the_returned_ldr_text_from_a_stubbed_space_response(page: Page, site_url: str):
+    """Stubs the deployed Space's two-step Gradio "call" API (issue #22) —
+    a POST that hands back an event_id, then a GET that streams back an SSE
+    "complete" event — so this exercises assets/generate.js's request/parse
+    logic without a real network call to the live Space.
+    """
+
+    def handle_post(route):
+        route.fulfill(json={"event_id": "test-event-id"})
+
+    def handle_get(route):
+        body = 'event: complete\ndata: [{"ldr": "1 4 0 0 0 1 0 0 0 0 1 0 0 0 0 1 3001.dat\\n"}]\n\n'
+        route.fulfill(status=200, content_type="text/event-stream", body=body)
+
+    page.route(re.compile(r"/gradio_api/call/_generate$"), handle_post)
+    page.route(re.compile(r"/gradio_api/call/_generate/"), handle_get)
+
+    page.goto(f"{site_url}/generate.html")
+    page.fill("#caption-input", "a small red car")
+    page.click("#generate-button")
+
+    expect(page.locator("#generate-result")).to_contain_text("1 4 0 0 0 1 0 0 0 0 1 0 0 0 0 1 3001.dat")
+    expect(page.locator("#generate-status")).to_have_text("")
+
+
+def test_generate_page_shows_an_inline_error_when_the_space_request_fails(page: Page, site_url: str):
+    page.route(re.compile(r"/gradio_api/call/_generate$"), lambda route: route.fulfill(status=500, body="boom"))
+
+    page.goto(f"{site_url}/generate.html")
+    page.fill("#caption-input", "a small red car")
+    page.click("#generate-button")
+
+    expect(page.locator("#generate-status")).to_have_class("status-error")
+    expect(page.locator("#generate-status")).to_contain_text("Space request failed (500)")
+    expect(page.locator("#generate-result")).to_have_text("")
+
+
+def test_generate_page_surfaces_the_spaces_own_gr_error_message(page: Page, site_url: str):
+    """Regression check for the real shape gr.Error takes once it reaches
+    this SSE stream (confirmed against the live Space deployed in issue #21):
+    an "error" event whose data is {"error": "<message>", ...}, not a bare
+    string — space/app.py's _generate re-raises predict()'s exception this
+    way so the real message (not just the exception class name) reaches the
+    frontend.
+    """
+
+    def handle_post(route):
+        route.fulfill(json={"event_id": "test-event-id"})
+
+    def handle_get(route):
+        body = 'event: error\ndata: {"error": "could not parse generated path text", "duration": 10, "visible": true, "title": "Error"}\n\n'
+        route.fulfill(status=200, content_type="text/event-stream", body=body)
+
+    page.route(re.compile(r"/gradio_api/call/_generate$"), handle_post)
+    page.route(re.compile(r"/gradio_api/call/_generate/"), handle_get)
+
+    page.goto(f"{site_url}/generate.html")
+    page.fill("#caption-input", "a small red car")
+    page.click("#generate-button")
+
+    expect(page.locator("#generate-status")).to_have_class("status-error")
+    expect(page.locator("#generate-status")).to_have_text("could not parse generated path text")
+    expect(page.locator("#generate-result")).to_have_text("")

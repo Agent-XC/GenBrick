@@ -129,6 +129,7 @@ def _stage_site(
         "discover.html",
         "similarity.html",
         "themes.html",
+        "generate.html",
         "assets",
         "vendor",
     ):

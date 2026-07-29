@@ -201,6 +201,38 @@ body {
   vertical-align: middle;
 }
 
+.generate-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.caption-input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.generate-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.status-error {
+  color: #b00020;
+}
+
+.generate-result {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #f2f2f2;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+}
+
+.generate-result:empty {
+  display: none;
+}
+
 footer {
   margin-top: 3rem;
   padding-top: 1rem;

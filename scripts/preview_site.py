@@ -46,6 +46,7 @@ _STATIC_ENTRIES = (
     "discover.html",
     "similarity.html",
     "themes.html",
+    "generate.html",
     "assets",
     "vendor",
 )
