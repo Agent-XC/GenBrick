@@ -56,12 +56,20 @@ function renderThemes(db) {
         const statusMarkup = s.isOwned
           ? '<span class="box-owned-badge">Owned</span>'
           : `<span class="buildability-score">${s.coveragePct.toFixed(1)}% buildable</span>`;
+        // Candidates link their part count into candidate.html's
+        // Part/Color/Quantity/Owned-pool drill-down, exactly mirroring
+        // discover.js (its whole scope is Candidates). Owned sets keep the
+        // plain-text numPartsMarkup(); they already link through the set
+        // name to box.html, which has its own equivalent drill-down.
+        const numPartsMarkupForRow = s.isOwned
+          ? numPartsMarkup(s.numParts)
+          : `<a class="box-num-parts" href="candidate.html?set_num=${encodeURIComponent(s.setNum)}">${s.numParts} parts</a>`;
         return `
           <li class="box">
             ${nameMarkup}
             ${setNumMarkup(s.setNum)}
             <span class="box-year">${s.year}</span>
-            ${numPartsMarkup(s.numParts)}
+            ${numPartsMarkupForRow}
             ${statusMarkup}
             ${officialLinkMarkup(s.officialUrl, s.officialUrlStatus)}
           </li>

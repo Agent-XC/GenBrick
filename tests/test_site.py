@@ -387,12 +387,25 @@ def test_themes_page_groups_owned_and_candidate_sets_by_theme(page: Page, site_u
     expect(bonsai.locator(".box-owned-badge")).to_have_text("Owned")
 
     # 21331-1 is a Candidate, not owned — shown with its Buildability score
-    # and no link to box.html (box.html 404s for non-owned set_nums).
+    # and no link to box.html (box.html 404s for non-owned set_nums), but its
+    # part count links into candidate.html's drill-down, mirroring
+    # discover.js (see test_discover_page_ranks_candidate_sets...'s
+    # equivalent num_parts_link assertion).
     ship = icons_sets.filter(has_text="Ship in a Bottle")
     expect(ship.locator(".buildability-score")).to_contain_text("45.0%")
     expect(ship.locator("a.box-name")).to_have_count(0)
     expect(ship.locator(".box-set-num")).to_have_text("21331-1")
     expect(ship.locator(".box-num-parts")).to_have_text("962 parts")
+    ship_num_parts_link = ship.locator("a.box-num-parts")
+    expect(ship_num_parts_link).to_have_attribute("href", "candidate.html?set_num=21331-1")
+
+    # Bonsai Tree is owned — its part count stays plain text (no link).
+    expect(bonsai.locator("a.box-num-parts")).to_have_count(0)
+
+    # Click through, mirroring test_discover_page_ranks_candidate_sets...'s
+    # equivalent click assertion — lands on the same candidate.html drill-down.
+    ship_num_parts_link.click()
+    expect(page.locator("#candidate-name")).to_have_text("Ship in a Bottle")
 
 
 def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url: str):
