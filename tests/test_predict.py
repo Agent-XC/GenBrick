@@ -1,8 +1,10 @@
 import re
 
 import pytest
+import torch
 
-from space.predict import path_text_to_ldr, predict
+import space.predict as predict_module
+from space.predict import generate_path_text, path_text_to_ldr, predict
 
 # A minimal, valid single-node path-text sample (bricknet's grammar: a
 # "node" line alone is a complete sample) — stands in for a real model's
@@ -46,3 +48,36 @@ def test_path_text_to_ldr_converts_a_single_node_sample():
 
     assert LDR_PART_LINE.match(ldr_text.splitlines()[0])
     assert ldr_text.endswith(".dat\n")
+
+
+class _FakeTokenizer:
+    def encode(self, text, add_special_tokens=False):
+        return [1]
+
+    def decode(self, ids, skip_special_tokens=True):
+        return VALID_PATH_TEXT
+
+
+class _FakeModel:
+    def __init__(self, call_order):
+        self._call_order = call_order
+
+    def generate(self, input_ids, **kwargs):
+        self._call_order.append("generate")
+        return torch.tensor([[1, 1, 2]])
+
+
+def test_generate_path_text_reseeds_torch_rng_before_sampling(monkeypatch):
+    # Regression test for issue #24: a ZeroGPU worker forked from a stale
+    # parent RNG state must not sample from that inherited state.
+    call_order = []
+    monkeypatch.setattr(torch, "seed", lambda: call_order.append("seed"))
+    monkeypatch.setattr(
+        predict_module,
+        "_get_model_and_tokenizer",
+        lambda: (_FakeModel(call_order), _FakeTokenizer()),
+    )
+
+    generate_path_text("a red brick")
+
+    assert call_order == ["seed", "generate"]

@@ -63,6 +63,15 @@ def generate_path_text(caption: str) -> str:
     """
     import torch
 
+    # ZeroGPU (space/app.py's @spaces.GPU) runs each call in a forked worker
+    # process, and forks inherit the parent's torch RNG state verbatim
+    # rather than seeding fresh from OS entropy (spaces/zero/torch's own
+    # worker init never reseeds). Left unseeded, every freshly-forked worker
+    # starts do_sample=True generation from the same RNG state, so repeat
+    # calls with the same caption produce byte-identical output (issue #24).
+    # torch.seed() draws a real seed from the OS, breaking that inheritance.
+    torch.seed()
+
     model, tokenizer = _get_model_and_tokenizer()
     newline_id = tokenizer.encode("\n", add_special_tokens=False)[0]
     prompt_ids = tokenizer.encode(caption, add_special_tokens=False) + [newline_id]
