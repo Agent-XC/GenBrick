@@ -39,13 +39,21 @@ function renderParts(db, setNum) {
   // across is_spare would silently fold a spare into the main build
   // quantity, so each is kept as its own row and the spare one is labeled
   // explicitly instead (issue #16).
+  // part_num/color_id are selected (not just joined on) so this row shape
+  // matches candidate.js's renderParts, which already needs them for its
+  // owned-pool bookkeeping (issue #33).
   const result = db.exec(
     `
-    SELECT parts.name, colors.name, colors.rgb, inventory_parts.is_spare, SUM(inventory_parts.quantity) AS quantity
+    SELECT inventory_parts.part_num, inventory_parts.color_id,
+           parts.name, colors.name, colors.rgb, inventory_parts.is_spare, SUM(inventory_parts.quantity) AS quantity,
+           part_renders.image_path
     FROM inventory_parts
     JOIN inventories ON inventories.id = inventory_parts.inventory_id
     JOIN parts ON parts.part_num = inventory_parts.part_num
     JOIN colors ON colors.id = inventory_parts.color_id
+    LEFT JOIN part_renders
+      ON part_renders.part_num = inventory_parts.part_num
+     AND part_renders.color_id = inventory_parts.color_id
     WHERE inventories.set_num = ?
     GROUP BY inventory_parts.part_num, inventory_parts.color_id, inventory_parts.is_spare
     ORDER BY parts.name, colors.name, inventory_parts.is_spare
@@ -56,14 +64,15 @@ function renderParts(db, setNum) {
   tbody.innerHTML = "";
 
   if (result.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" class="empty">No parts recorded for this Box.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" class="empty">No parts recorded for this Box.</td></tr>';
     return;
   }
 
-  for (const [partName, colorName, colorRgb, isSpare, quantity] of result[0].values) {
+  for (const [partNum, colorId, partName, colorName, colorRgb, isSpare, quantity, imagePath] of result[0].values) {
     const row = document.createElement("tr");
     const quantityMarkup = isSpare ? `&times;${quantity} spare` : `${quantity}`;
     row.innerHTML = `
+      <td>${partThumbnailMarkup(imagePath, partName)}</td>
       <td>${partName}</td>
       <td><span class="color-swatch" style="background-color: #${colorRgb}"></span>${colorName}</td>
       <td>${quantityMarkup}</td>

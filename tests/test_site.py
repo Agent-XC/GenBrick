@@ -106,7 +106,14 @@ def test_box_detail_page_shows_full_contents_and_official_link(page: Page, site_
     expect(parts).to_have_count(2)
     # "4" alone would trivially match "Plate 2 x 4" too, so assert on the
     # quantity cell specifically rather than the row's full text.
-    expect(parts.filter(has_text="Blue").locator("td").nth(2)).to_have_text("4")
+    expect(parts.filter(has_text="Blue").locator("td").nth(3)).to_have_text("4")
+
+    # Both 3001/Black and 3020/Blue resolve via the fixture LDraw crosswalk
+    # (issue #33), so each row's first cell is a rendered thumbnail, not the
+    # "no photo yet" placeholder.
+    expect(parts.filter(has_text="Blue").locator("img.part-thumbnail")).to_have_attribute(
+        "src", re.compile(r"^assets/ldraw-renders/parts/3020_1/")
+    )
 
 
 def test_box_detail_page_shows_a_spare_part_as_its_own_labeled_row_not_a_bare_duplicate(
@@ -122,8 +129,8 @@ def test_box_detail_page_shows_a_spare_part_as_its_own_labeled_row_not_a_bare_du
 
     parts = page.locator("#box-parts tbody tr")
     expect(parts).to_have_count(2)
-    expect(parts.nth(0).locator("td").nth(2)).to_have_text("1")
-    expect(parts.nth(1).locator("td").nth(2)).to_have_text("×1 spare")
+    expect(parts.nth(0).locator("td").nth(3)).to_have_text("1")
+    expect(parts.nth(1).locator("td").nth(3)).to_have_text("×1 spare")
 
 
 def test_box_detail_page_shows_the_procedural_render_and_its_coverage_when_no_photo_is_uploaded(
@@ -140,6 +147,31 @@ def test_box_detail_page_shows_the_procedural_render_and_its_coverage_when_no_ph
     )
     expect(page.locator("#box-photo-caption .render-caption")).to_have_text(
         "Procedural LDraw render — 37.5% of parts resolved"
+    )
+
+
+def test_box_detail_page_falls_back_to_a_placeholder_thumbnail_for_a_part_with_no_ldraw_crosswalk_match(
+    page: Page, site_url: str
+):
+    """issue #33 acceptance criteria: a part with no resolved LDraw render
+    falls back gracefully, not to a broken image. 10281-1's 3001/White (color
+    15) has no entry in the fixture LDraw colors crosswalk (see
+    test_ldraw_crosswalk_is_populated_opportunistically_and_null_where_missing
+    in test_pipeline.py), so it gets no part_renders row at all, while its
+    3001/Black row (color 0) resolves fine.
+    """
+    page.goto(f"{site_url}/box.html?set_num=10281-1")
+
+    parts = page.locator("#box-parts tbody tr")
+    expect(parts).to_have_count(2)
+
+    white_row = parts.filter(has_text="White")
+    expect(white_row.locator("td").nth(0).locator("img")).to_have_count(0)
+    expect(white_row.locator(".part-thumbnail-placeholder")).to_be_visible()
+
+    black_row = parts.filter(has_text="Black")
+    expect(black_row.locator("img.part-thumbnail")).to_have_attribute(
+        "src", re.compile(r"^assets/ldraw-renders/parts/3001_0/")
     )
 
 
@@ -229,21 +261,24 @@ def test_candidate_page_shows_parts_with_owned_pool_coverage_per_part(page: Page
     # 3020/Blue: required 10, owned_brick_pool only has 4 (from 75192-1) —
     # partial coverage, both numbers shown so the shortfall is visible.
     blue_row = rows.filter(has_text="Blue")
-    expect(blue_row.locator("td").nth(2)).to_have_text("10")
+    expect(blue_row.locator("td").nth(3)).to_have_text("10")
     expect(blue_row.locator(".part-owned-partial")).to_have_text("4 of 10 owned")
+    expect(blue_row.locator("img.part-thumbnail")).to_have_attribute(
+        "src", re.compile(r"^assets/ldraw-renders/parts/3020_1/")
+    )
 
     # 3001/Light Bluish Gray: required 5, owned_brick_pool has none — the
     # only owned 3001/71 came from 10281-1's superseded inventory version
     # (dropped by primary.py's latest-version-only rule), so it's genuinely
     # zero in the current pool.
     lbg_row = rows.filter(has_text="Light Bluish Gray")
-    expect(lbg_row.locator("td").nth(2)).to_have_text("5")
+    expect(lbg_row.locator("td").nth(3)).to_have_text("5")
     expect(lbg_row.locator(".part-owned-none")).to_have_text("Not owned")
 
     # 3001/Black: required 5, owned_brick_pool has 25 (10 from 75192-1 + 15
     # from 10281-1's latest version) — fully covered.
     black_row = rows.filter(has_text="Black")
-    expect(black_row.locator("td").nth(2)).to_have_text("5")
+    expect(black_row.locator("td").nth(3)).to_have_text("5")
     expect(black_row.locator(".part-owned-full")).to_have_text("Owned")
 
 
@@ -269,11 +304,11 @@ def test_candidate_page_does_not_double_count_owned_pool_across_a_spare_and_non_
     expect(rows).to_have_count(2)
 
     non_spare_row = rows.nth(0)
-    expect(non_spare_row.locator("td").nth(2)).to_have_text("2")
+    expect(non_spare_row.locator("td").nth(3)).to_have_text("2")
     expect(non_spare_row.locator(".part-owned-full")).to_have_text("Owned")
 
     spare_row = rows.nth(1)
-    expect(spare_row.locator("td").nth(2)).to_have_text("×2 spare")
+    expect(spare_row.locator("td").nth(3)).to_have_text("×2 spare")
     expect(spare_row.locator(".part-owned-partial")).to_have_text("1 of 2 owned")
 
 

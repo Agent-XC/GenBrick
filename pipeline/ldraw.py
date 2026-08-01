@@ -8,6 +8,12 @@ from pathlib import Path
 # owned_box_photos' assets/owned-photos/ (see primary.py's set_renders resolution).
 RENDER_WEB_ROOT = "assets/ldraw-renders"
 
+# Nested under RENDER_WEB_ROOT rather than a sibling top-level directory —
+# per-part-color thumbnails (issue #33) share the same render_dir/render()
+# seam as whole-Set renders, just keyed by (part_num, color_id) instead of
+# set_num.
+PART_RENDER_WEB_ROOT = f"{RENDER_WEB_ROOT}/parts"
+
 
 def resolve_ldraw_lines(
     inventory_parts_rows: Iterable[Mapping],
@@ -192,3 +198,92 @@ def resolve_ldraw_procedural_render(
         "render_coverage_pct": render_coverage_pct(resolved_quantity, total_quantity),
         "rendered_at": rendered_at,
     }
+
+
+def resolve_ldraw_part_render(
+    part_num: str,
+    color_id: int,
+    ldraw_part_id: str,
+    ldraw_color_id: int,
+    render_dir: Path,
+    rendered_at: str,
+    render: Callable[[Path, Path], None] = render_with_ldview,
+) -> dict | None:
+    """One (part_num, color_id) pair's own thumbnail render — issue #33.
+    Mirrors resolve_ldraw_procedural_render's shape (synthetic .ldr ->
+    LDView -> content-hash-cached PNG), but lays out a single part instance
+    via build_ldr_layout instead of a whole Set's pile.
+
+    Unlike set_renders, part_renders (see reporting.py's schema) carries no
+    'none' row for a failed render: the pair is simply omitted here, and the
+    caller (resolve_part_renders) does the same for a pair whose crosswalk
+    doesn't resolve at all — box.js/candidate.js's LEFT JOIN on part_renders
+    falls back to the same "no photo yet" placeholder either way, so there's
+    nothing distinct a 'none' row would communicate.
+
+    Cached by content hash of the single (ldraw_part_id, ldraw_color_id)
+    pair — unchanged across a pipeline run (the crosswalk didn't move), no
+    re-render.
+    """
+    resolved = [(ldraw_part_id, ldraw_color_id, 1)]
+    digest = content_hash(resolved)
+    part_render_dir = render_dir / "parts" / f"{part_num}_{color_id}"
+    png_path = part_render_dir / f"{digest}.png"
+
+    if not png_path.exists():
+        part_render_dir.mkdir(parents=True, exist_ok=True)
+        ldr_path = part_render_dir / f"{digest}.ldr"
+        ldr_path.write_text(build_ldr_layout(resolved))
+        try:
+            render(ldr_path, png_path)
+        except Exception:
+            return None
+        if not png_path.exists():
+            return None
+
+    return {
+        "part_num": part_num,
+        "color_id": color_id,
+        "image_path": f"{PART_RENDER_WEB_ROOT}/{part_num}_{color_id}/{digest}.png",
+        "rendered_at": rendered_at,
+    }
+
+
+def resolve_part_renders(
+    inventory_parts_rows: Iterable[Mapping],
+    ldraw_part_id_by_part_num: Mapping[str, str | None],
+    ldraw_color_id_by_color_id: Mapping[int, int | None],
+    render_dir: Path,
+    rendered_at: str,
+    render: Callable[[Path, Path], None] = render_with_ldview,
+) -> list[dict]:
+    """Every distinct (part_num, color_id) pair across inventory_parts_rows
+    -> its own part_renders row (issue #33). One row per pair regardless of
+    how many Sets or how much quantity reference it — a part thumbnail is
+    set-independent, unlike set_renders' per-Set procedural pile.
+
+    A pair missing either half of the crosswalk is dropped, not guessed at
+    (mirrors resolve_ldraw_lines above), same as a pair whose render fails
+    (mirrors resolve_ldraw_part_render's own None return).
+    """
+    seen: set[tuple[str, int]] = set()
+    rows: list[dict] = []
+    for row in inventory_parts_rows:
+        part_num = row["part_num"]
+        color_id = int(row["color_id"])
+        pair = (part_num, color_id)
+        if pair in seen:
+            continue
+        seen.add(pair)
+
+        ldraw_part_id = ldraw_part_id_by_part_num.get(part_num)
+        ldraw_color_id = ldraw_color_id_by_color_id.get(color_id)
+        if ldraw_part_id is None or ldraw_color_id is None:
+            continue
+
+        part_row = resolve_ldraw_part_render(
+            part_num, color_id, ldraw_part_id, ldraw_color_id, render_dir, rendered_at, render=render
+        )
+        if part_row is not None:
+            rows.append(part_row)
+    return rows

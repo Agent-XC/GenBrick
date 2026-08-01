@@ -80,6 +80,19 @@ CREATE TABLE set_renders (
     rendered_at TEXT NOT NULL
 );
 
+-- One row per distinct (part_num, color_id) pair that has a resolved
+-- thumbnail (issue #33) — sparse, unlike set_renders: a pair whose
+-- crosswalk didn't resolve or whose render failed simply has no row here,
+-- rather than a 'none' placeholder row (box.js/candidate.js's LEFT JOIN
+-- falls back to the same "no photo yet" placeholder either way).
+CREATE TABLE part_renders (
+    part_num TEXT NOT NULL,
+    color_id INTEGER NOT NULL,
+    image_path TEXT NOT NULL,
+    rendered_at TEXT NOT NULL,
+    PRIMARY KEY (part_num, color_id)
+);
+
 CREATE TABLE inventories (
     id INTEGER PRIMARY KEY,
     version INTEGER NOT NULL,
@@ -234,6 +247,13 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
                 float(r["render_coverage_pct"]) if r["render_coverage_pct"] else None,
                 r["rendered_at"],
             ),
+        )
+        _insert_csv(
+            conn,
+            primary_dir / "part_renders.csv",
+            table="part_renders",
+            columns=["part_num", "color_id", "image_path", "rendered_at"],
+            to_row=lambda r: (r["part_num"], int(r["color_id"]), r["image_path"], r["rendered_at"]),
         )
         _insert_csv(
             conn,

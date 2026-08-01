@@ -36,6 +36,19 @@ def load_render_candidates(scope_config_path: Path) -> bool:
     return bool(_load_scope_config(scope_config_path).get("render_candidates", False))
 
 
+def load_render_parts(scope_config_path: Path) -> bool:
+    """Whether the per-(part_num, color_id) thumbnail render step (issue
+    #33) runs at all, mirroring load_render_candidates' gate above. Defaults
+    to false: issue #29's go-ahead for this feature was conditional on "a
+    deliberate one-time backfill strategy rather than folding the full
+    backfill into a regular weekly run" (~10,410 pairs, ~4.4h at a naive
+    1.7s/render) — this key stays off in config/scope.json until that
+    backfill is triggered on purpose, after which per-pair content-hash
+    caching keeps steady-state weekly cost under a minute.
+    """
+    return bool(_load_scope_config(scope_config_path).get("render_parts", False))
+
+
 # Every min_* floor below defaults to 0 (no floor), both as the documented
 # starting value and so a config/scope.json predating that key keeps its old
 # behavior — same backward-compat rule as load_render_candidates above.

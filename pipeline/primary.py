@@ -5,7 +5,7 @@ from pathlib import Path
 from pipeline.buildability import compute_coverage_pct, pool_quantities
 from pipeline.csvutil import read_csv, write_csv
 from pipeline.ldraw import render_with_ldview as _render_with_ldview
-from pipeline.ldraw import resolve_ldraw_procedural_render
+from pipeline.ldraw import resolve_ldraw_procedural_render, resolve_part_renders
 from pipeline.links import construct_manual_url, construct_official_url
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
@@ -33,6 +33,7 @@ def intermediate_to_primary(
     fetch_omr_model: Callable[[str], bytes] = _fetch_omr_model_bytes,
     universe_scope: str = "owned_themes",
     render_candidates: bool = False,
+    render_parts: bool = False,
     require_numeric_candidate_set_num: bool = False,
     min_candidate_num_parts: int = 0,
     min_buildability_coverage_pct: float = 0.0,
@@ -246,6 +247,33 @@ def intermediate_to_primary(
         primary_dir / "set_renders.csv",
         ["set_num", "image_source", "image_path", "render_coverage_pct", "rendered_at"],
         set_renders_rows,
+    )
+
+    # Per-(part_num, color_id) thumbnails (issue #33): every distinct pair
+    # across owned ∪ Candidate inventory when on, regardless of
+    # render_candidates — unlike the whole-Box procedural render above, this
+    # is a small, flat per-pair budget (see #29's measurement) rather than
+    # one that grows with how many Candidate Sets get their own full render.
+    # render_parts (config/scope.json) still gates it, though: #29's go-ahead
+    # was conditional on a deliberate one-time backfill rather than the full
+    # ~10,410-pair, ~4.4h naive pass landing inside a regular weekly run, so
+    # this starts off until that backfill is triggered on purpose.
+    part_renders_rows = (
+        resolve_part_renders(
+            materialized_inventory_parts_rows,
+            ldraw_part_id_by_part_num,
+            ldraw_color_id_by_color_id,
+            render_dir,
+            computed_at,
+            render=render,
+        )
+        if render_parts
+        else []
+    )
+    write_csv(
+        primary_dir / "part_renders.csv",
+        ["part_num", "color_id", "image_path", "rendered_at"],
+        part_renders_rows,
     )
 
     owned_inventory_ids = {

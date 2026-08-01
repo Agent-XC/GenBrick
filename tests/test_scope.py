@@ -11,6 +11,7 @@ from pipeline.scope import (
     load_min_candidate_num_parts,
     load_min_similarity_score_pct,
     load_render_candidates,
+    load_render_parts,
     load_require_numeric_candidate_set_num,
 )
 
@@ -82,6 +83,25 @@ def test_load_render_candidates_reads_true_when_flipped_on(tmp_path):
     scope_config.write_text(json.dumps({"universe_scope": "owned_themes", "render_candidates": True}))
 
     assert load_render_candidates(scope_config) is True
+
+
+def test_load_render_parts_defaults_false_when_key_is_absent(tmp_path):
+    """config/scope.json shipped before this flag existed (issue #33) had no
+    render_parts key at all — an old config on disk must still resolve to
+    the documented starting default (false) rather than raising, mirroring
+    load_render_candidates' own backward-compat default.
+    """
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes"}))
+
+    assert load_render_parts(scope_config) is False
+
+
+def test_load_render_parts_reads_true_when_flipped_on(tmp_path):
+    scope_config = tmp_path / "scope.json"
+    scope_config.write_text(json.dumps({"universe_scope": "owned_themes", "render_parts": True}))
+
+    assert load_render_parts(scope_config) is True
 
 
 @pytest.mark.parametrize(

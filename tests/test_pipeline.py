@@ -28,6 +28,7 @@ def _run(
     fetch_omr_model=_fake_fetch_omr_model,
     universe_scope="owned_themes",
     render_candidates=False,
+    render_parts=False,
     require_numeric_candidate_set_num=False,
     min_candidate_num_parts=0,
     min_buildability_coverage_pct=0.0,
@@ -51,6 +52,7 @@ def _run(
         fetch_omr_model=fetch_omr_model,
         universe_scope=universe_scope,
         render_candidates=render_candidates,
+        render_parts=render_parts,
         require_numeric_candidate_set_num=require_numeric_candidate_set_num,
         min_candidate_num_parts=min_candidate_num_parts,
         min_buildability_coverage_pct=min_buildability_coverage_pct,
@@ -675,3 +677,57 @@ def test_set_renders_still_covers_owned_boxes_when_render_candidates_is_on(tmp_p
     conn.close()
 
     assert rows == [("10281-1",), ("21331-1",), ("75192-1",)]
+
+
+def test_part_renders_table_is_empty_when_render_parts_is_off(tmp_path):
+    """render_parts defaults false (config/scope.json): issue #29's go-ahead
+    for this feature was conditional on a deliberate one-time backfill
+    rather than the full ~10,410-pair naive pass landing inside a regular
+    weekly run, so nothing renders until it's explicitly flipped on.
+    """
+    conn = sqlite3.connect(_run(tmp_path, render_parts=False))
+    rows = conn.execute("SELECT * FROM part_renders").fetchall()
+    conn.close()
+
+    assert rows == []
+
+
+def test_part_renders_has_one_row_per_distinct_part_color_pair_across_owned_and_candidate_sets(tmp_path):
+    """issue #33: with render_parts on, unlike set_renders, part_renders is
+    populated regardless of render_candidates (a per-pair thumbnail is a
+    small, flat budget, not one that grows with a full Candidate render —
+    see #29's measurement). 75192-1 has (3001,0)/(3020,1); 10281-1's latest
+    inventory has (3001,15)/(3001,0) but 15 (White) has no ldraw_color_id in
+    the fixture crosswalk so it's dropped; 21331-1 (Candidate) has
+    (3020,1)/(3001,71)/(3001,0). Deduped and crosswalk-resolved, that's
+    exactly three pairs.
+    """
+    conn = sqlite3.connect(_run(tmp_path, render_candidates=False, render_parts=True))
+    rows = conn.execute("SELECT part_num, color_id FROM part_renders ORDER BY part_num, color_id").fetchall()
+    conn.close()
+
+    assert rows == [("3001", 0), ("3001", 71), ("3020", 1)]
+
+
+def test_part_renders_image_path_is_content_hash_cached_under_the_parts_subdirectory(tmp_path):
+    conn = sqlite3.connect(_run(tmp_path, render_parts=True))
+    row = conn.execute(
+        "SELECT image_path, rendered_at FROM part_renders WHERE part_num = '3001' AND color_id = 0"
+    ).fetchone()
+    conn.close()
+
+    assert row[0].startswith("assets/ldraw-renders/parts/3001_0/")
+    assert row[0].endswith(".png")
+    assert row[1] is not None
+
+
+def test_part_renders_omits_a_pair_missing_either_half_of_the_crosswalk(tmp_path):
+    """10281-1's latest inventory includes 3001/White (color_id 15), which
+    tests/fixtures/ldraw_colors_crosswalk.csv deliberately omits — dropped
+    here, not guessed at, same as set_renders' render_coverage_pct math.
+    """
+    conn = sqlite3.connect(_run(tmp_path, render_parts=True))
+    row = conn.execute("SELECT * FROM part_renders WHERE part_num = '3001' AND color_id = 15").fetchone()
+    conn.close()
+
+    assert row is None

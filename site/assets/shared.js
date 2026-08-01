@@ -67,6 +67,15 @@ function boxPhotoMarkup(imagePath, altName, className = "box-photo") {
   return `<span class="${className}-placeholder" style="background-color: ${background}">No photo yet</span>`;
 }
 
+// Same null-image fallback as boxPhotoMarkup, sized for a parts-table cell
+// instead of a list row or detail-page hero image — a (part_num, color_id)
+// with no crosswalk match or a failed render has no part_renders row at all
+// (issue #33), so imagePath is simply undefined/null here, same shape as a
+// Box with no photo yet.
+function partThumbnailMarkup(imagePath, partName) {
+  return boxPhotoMarkup(imagePath, partName, "part-thumbnail");
+}
+
 // Only the procedural render's partial coverage is worth surfacing — a
 // user_photo is always 100% (nothing was procedurally resolved/omitted) and
 // 'none' has no image to caption at all.

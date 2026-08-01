@@ -157,6 +157,11 @@ def _stage_site(
         resolve_official_link=_fake_resolve_official_link,
         render=_fake_render,
         fetch_omr_model=_fake_fetch_omr_model,
+        # render_parts defaults false in production (config/scope.json —
+        # issue #29's one-time-backfill condition), but every site test
+        # needs part_renders populated to exercise box.js/candidate.js's
+        # thumbnail markup, so it's on here unless a fixture overrides it.
+        render_parts=run_pipeline_kwargs.pop("render_parts", True),
         **run_pipeline_kwargs,
     )
     (staging / "data").mkdir()

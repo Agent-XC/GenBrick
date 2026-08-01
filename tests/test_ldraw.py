@@ -3,7 +3,9 @@ from pipeline.ldraw import (
     content_hash,
     render_coverage_pct,
     resolve_ldraw_lines,
+    resolve_ldraw_part_render,
     resolve_ldraw_procedural_render,
+    resolve_part_renders,
 )
 from tests.conftest import FakeRenderer
 
@@ -188,3 +190,100 @@ def test_resolve_ldraw_procedural_render_re_renders_when_the_resolved_part_list_
 
     assert len(renderer.calls) == 2
     assert first["image_path"] != second["image_path"]
+
+
+def test_resolve_ldraw_part_render_succeeds_for_a_single_part_color_pair(tmp_path):
+    renderer = FakeRenderer()
+
+    row = resolve_ldraw_part_render(
+        "3001", 0, "3001", 0, tmp_path, "2024-01-01T00:00:00Z", render=renderer
+    )
+
+    assert row == {
+        "part_num": "3001",
+        "color_id": 0,
+        "image_path": row["image_path"],
+        "rendered_at": "2024-01-01T00:00:00Z",
+    }
+    assert row["image_path"].startswith("assets/ldraw-renders/parts/3001_0/")
+    assert row["image_path"].endswith(".png")
+    assert len(renderer.calls) == 1
+
+
+def test_resolve_ldraw_part_render_returns_none_without_crashing_when_the_renderer_fails(tmp_path):
+    renderer = FakeRenderer(should_fail=True)
+
+    row = resolve_ldraw_part_render(
+        "3001", 0, "3001", 0, tmp_path, "2024-01-01T00:00:00Z", render=renderer
+    )
+
+    assert row is None
+    assert len(renderer.calls) == 1
+
+
+def test_resolve_ldraw_part_render_skips_a_second_render_call_when_the_pair_is_unchanged(tmp_path):
+    renderer = FakeRenderer()
+
+    first = resolve_ldraw_part_render("3001", 0, "3001", 0, tmp_path, "2024-01-01T00:00:00Z", render=renderer)
+    second = resolve_ldraw_part_render("3001", 0, "3001", 0, tmp_path, "2024-02-01T00:00:00Z", render=renderer)
+
+    assert len(renderer.calls) == 1
+    assert first["image_path"] == second["image_path"]
+
+
+def test_resolve_ldraw_part_render_re_renders_when_the_crosswalks_ldraw_ids_change(tmp_path):
+    renderer = FakeRenderer()
+
+    first = resolve_ldraw_part_render("3001", 0, "3001", 0, tmp_path, "2024-01-01T00:00:00Z", render=renderer)
+    second = resolve_ldraw_part_render("3001", 0, "3001", 1, tmp_path, "2024-02-01T00:00:00Z", render=renderer)
+
+    assert len(renderer.calls) == 2
+    assert first["image_path"] != second["image_path"]
+
+
+def test_resolve_part_renders_produces_one_row_per_distinct_part_color_pair(tmp_path):
+    renderer = FakeRenderer()
+    rows = [
+        {"part_num": "3001", "color_id": "0", "quantity": "10"},
+        {"part_num": "3001", "color_id": "0", "quantity": "5"},  # Same pair again — deduped, not re-rendered.
+        {"part_num": "3020", "color_id": "1", "quantity": "4"},
+    ]
+
+    part_renders = resolve_part_renders(
+        rows, LDRAW_PART_ID_BY_PART_NUM, LDRAW_COLOR_ID_BY_COLOR_ID, tmp_path, "2024-01-01T00:00:00Z", render=renderer
+    )
+
+    assert {(row["part_num"], row["color_id"]) for row in part_renders} == {("3001", 0), ("3020", 1)}
+    assert len(renderer.calls) == 2
+
+
+def test_resolve_part_renders_omits_a_pair_missing_either_half_of_the_crosswalk(tmp_path):
+    renderer = FakeRenderer()
+
+    part_renders = resolve_part_renders(
+        INVENTORY_PARTS_ROWS,
+        LDRAW_PART_ID_BY_PART_NUM,
+        LDRAW_COLOR_ID_BY_COLOR_ID,
+        tmp_path,
+        "2024-01-01T00:00:00Z",
+        render=renderer,
+    )
+
+    # 9999 has no crosswalk entry at all (see INVENTORY_PARTS_ROWS above) —
+    # dropped, not guessed at, same as resolve_ldraw_lines.
+    assert {(row["part_num"], row["color_id"]) for row in part_renders} == {("3001", 0), ("3020", 1)}
+
+
+def test_resolve_part_renders_omits_a_pair_whose_render_fails(tmp_path):
+    renderer = FakeRenderer(should_fail=True)
+
+    part_renders = resolve_part_renders(
+        INVENTORY_PARTS_ROWS,
+        LDRAW_PART_ID_BY_PART_NUM,
+        LDRAW_COLOR_ID_BY_COLOR_ID,
+        tmp_path,
+        "2024-01-01T00:00:00Z",
+        render=renderer,
+    )
+
+    assert part_renders == []

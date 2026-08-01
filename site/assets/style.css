@@ -191,6 +191,30 @@ body {
   color: #999;
 }
 
+.part-thumbnail,
+.part-thumbnail-placeholder {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border-radius: 0.25rem;
+}
+
+.part-thumbnail {
+  object-fit: cover;
+}
+
+.part-thumbnail-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2f2f2;
+  border: 1px dashed #ccc;
+  color: #999;
+  font-size: 0.4rem;
+  text-align: center;
+  line-height: 1.1;
+}
+
 .color-swatch {
   display: inline-block;
   width: 0.85rem;
