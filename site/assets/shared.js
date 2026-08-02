@@ -76,6 +76,14 @@ function partThumbnailMarkup(imagePath, partName) {
   return boxPhotoMarkup(imagePath, partName, "part-thumbnail");
 }
 
+// Same null-image fallback as boxPhotoMarkup/partThumbnailMarkup, sized for
+// the Figurines list row. A minifig with no own inventory materialized or a
+// crosswalk miss has no minifig_renders row at all (issue #34), so imagePath
+// is simply undefined/null here, same shape as those two.
+function minifigThumbnailMarkup(imagePath, figName) {
+  return boxPhotoMarkup(imagePath, figName, "minifig-thumbnail");
+}
+
 // Only the procedural render's partial coverage is worth surfacing — a
 // user_photo is always 100% (nothing was procedurally resolved/omitted) and
 // 'none' has no image to caption at all.

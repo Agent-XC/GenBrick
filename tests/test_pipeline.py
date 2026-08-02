@@ -731,3 +731,43 @@ def test_part_renders_omits_a_pair_missing_either_half_of_the_crosswalk(tmp_path
     conn.close()
 
     assert row is None
+
+
+def test_minifig_renders_has_one_row_per_owned_fig_num_with_resolvable_parts(tmp_path):
+    """issue #34/spike #30: a minifig's own Rebrickable inventory (matched by
+    inventories.set_num == fig_num, see tests/fixtures/raw/inventories.csv'
+    inventory ids 5/6) resolves through the same crosswalk as a Set's. No
+    render_parts-style flag gates this — Figurines is bounded by the owned
+    minifig count, not full-catalog scale.
+
+    fig-000001's own inventory (id 5) is 3001/Black + 3020/Blue, both
+    crosswalk-resolvable, so it gets a row. fig-000002's own inventory (id 6)
+    is 3001/White (color_id 15), which tests/fixtures/ldraw_colors_crosswalk.csv
+    deliberately omits (same gap 10281-1's own White part hits above) — no
+    row, not a crash.
+    """
+    conn = sqlite3.connect(_run(tmp_path))
+    rows = conn.execute("SELECT fig_num FROM minifig_renders ORDER BY fig_num").fetchall()
+    conn.close()
+
+    assert rows == [("fig-000001",)]
+
+
+def test_minifig_renders_image_path_is_content_hash_cached_under_the_minifigs_subdirectory(tmp_path):
+    conn = sqlite3.connect(_run(tmp_path))
+    row = conn.execute(
+        "SELECT image_path, rendered_at FROM minifig_renders WHERE fig_num = 'fig-000001'"
+    ).fetchone()
+    conn.close()
+
+    assert row[0].startswith("assets/ldraw-renders/minifigs/fig-000001/")
+    assert row[0].endswith(".png")
+    assert row[1] is not None
+
+
+def test_minifig_renders_omits_a_minifig_whose_own_parts_miss_the_crosswalk(tmp_path):
+    conn = sqlite3.connect(_run(tmp_path))
+    row = conn.execute("SELECT * FROM minifig_renders WHERE fig_num = 'fig-000002'").fetchone()
+    conn.close()
+
+    assert row is None

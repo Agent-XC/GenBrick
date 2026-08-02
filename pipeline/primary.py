@@ -5,7 +5,7 @@ from pathlib import Path
 from pipeline.buildability import compute_coverage_pct, pool_quantities
 from pipeline.csvutil import read_csv, write_csv
 from pipeline.ldraw import render_with_ldview as _render_with_ldview
-from pipeline.ldraw import resolve_ldraw_procedural_render, resolve_part_renders
+from pipeline.ldraw import resolve_ldraw_procedural_render, resolve_minifig_render, resolve_part_renders
 from pipeline.links import construct_manual_url, construct_official_url
 from pipeline.links import resolve_official_link as _resolve_official_link
 from pipeline.omr import fetch_omr_model_bytes as _fetch_omr_model_bytes
@@ -167,26 +167,34 @@ def intermediate_to_primary(
         ["set_num", "name", "year", "theme_id", "num_parts", "official_url", "official_url_status", "manual_url"],
         sets_rows,
     )
-    materialized_inventories_rows = _latest_inventory_per_set(
-        read_csv(intermediate_dir / "inventories.csv"), materialized_set_nums
-    )
+    # Read once, reused below for both the real-Set lookup here and the
+    # fig_num-keyed lookup minifig rendering needs further down (issue #34) —
+    # Rebrickable's own inventories.csv carries both under the same set_num
+    # column (see spike #30's findings on #17).
+    all_inventories_rows = read_csv(intermediate_dir / "inventories.csv")
+    materialized_inventories_rows = _latest_inventory_per_set(all_inventories_rows, materialized_set_nums)
     write_csv(primary_dir / "inventories.csv", ["id", "version", "set_num"], materialized_inventories_rows)
 
     inventory_id_by_set_num = {row["set_num"]: row["id"] for row in materialized_inventories_rows}
     materialized_inventory_ids = {row["id"] for row in materialized_inventories_rows}
 
-    materialized_inventory_parts_rows = _rows_for_inventories(
-        read_csv(intermediate_dir / "inventory_parts.csv"), materialized_inventory_ids
-    )
+    # Read once, reused below the same way as all_inventories_rows above —
+    # a minifig's own inventory_parts rows (issue #34) live in this same
+    # intermediate file, just under a different inventory_id.
+    all_inventory_parts_rows = read_csv(intermediate_dir / "inventory_parts.csv")
+    materialized_inventory_parts_rows = _rows_for_inventories(all_inventory_parts_rows, materialized_inventory_ids)
     write_csv(
         primary_dir / "inventory_parts.csv",
         ["inventory_id", "part_num", "color_id", "quantity", "is_spare"],
         materialized_inventory_parts_rows,
     )
+    materialized_inventory_minifigs_rows = _rows_for_inventories(
+        read_csv(intermediate_dir / "inventory_minifigs.csv"), materialized_inventory_ids
+    )
     write_csv(
         primary_dir / "inventory_minifigs.csv",
         ["inventory_id", "fig_num", "quantity"],
-        _rows_for_inventories(read_csv(intermediate_dir / "inventory_minifigs.csv"), materialized_inventory_ids),
+        materialized_inventory_minifigs_rows,
     )
 
     inventory_parts_by_inventory_id = _group_by_inventory_id(materialized_inventory_parts_rows)
@@ -279,6 +287,50 @@ def intermediate_to_primary(
     owned_inventory_ids = {
         inventory_id_by_set_num[set_num] for set_num in owned_set_nums if set_num in inventory_id_by_set_num
     }
+
+    # Per-fig_num thumbnails (issue #34, spike #30): a minifig has its own
+    # Rebrickable inventory (inventories.set_num == fig_num), reachable
+    # through the same set_num -> inventory_id -> inventory_parts path as a
+    # Set's own inventory (spike #30's findings on #17) — just resolved here
+    # rather than materialized into the inventories.csv/inventory_parts.csv
+    # tables above, since nothing outside this render step needs a minifig's
+    # own parts breakdown (unlike a Box's, which box.js's parts table
+    # displays). Scoped to owned minifigs only — Figurines has no Candidate
+    # concept the way Buildability/Similarity do — so this is bounded by the
+    # collection's own minifig count, not full-catalog scale, unlike
+    # part_renders' render_parts gate (issue #29); no config flag needed.
+    inventory_minifigs_by_inventory_id = _group_by_inventory_id(materialized_inventory_minifigs_rows)
+    owned_fig_nums = {
+        row["fig_num"]
+        for inventory_id in owned_inventory_ids
+        for row in inventory_minifigs_by_inventory_id.get(inventory_id, [])
+    }
+    fig_inventories_rows = _latest_inventory_per_set(all_inventories_rows, owned_fig_nums)
+    fig_inventory_id_by_fig_num = {row["set_num"]: row["id"] for row in fig_inventories_rows}
+    fig_inventory_parts_by_inventory_id = _group_by_inventory_id(
+        _rows_for_inventories(all_inventory_parts_rows, {row["id"] for row in fig_inventories_rows})
+    )
+
+    minifig_renders_rows = []
+    for fig_num in sorted(owned_fig_nums):
+        inventory_id = fig_inventory_id_by_fig_num.get(fig_num)
+        minifig_row = resolve_minifig_render(
+            fig_num,
+            fig_inventory_parts_by_inventory_id.get(inventory_id, []),
+            ldraw_part_id_by_part_num,
+            ldraw_color_id_by_color_id,
+            render_dir,
+            computed_at,
+            render=render,
+        )
+        if minifig_row is not None:
+            minifig_renders_rows.append(minifig_row)
+    write_csv(
+        primary_dir / "minifig_renders.csv",
+        ["fig_num", "image_path", "rendered_at"],
+        minifig_renders_rows,
+    )
+
     owned_pool = pool_quantities(
         row for inventory_id in owned_inventory_ids for row in inventory_parts_by_inventory_id.get(inventory_id, [])
     )

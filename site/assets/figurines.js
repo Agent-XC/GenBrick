@@ -1,9 +1,15 @@
 function renderFigurines(db) {
   const list = document.getElementById("figurines");
+  // fig_num is selected (not just joined on) so this row carries the same
+  // identifier its thumbnail render is keyed by (issue #34), mirroring
+  // box.js's renderParts selecting part_num/color_id alongside the columns
+  // it displays.
   const result = db.exec(`
-    SELECT minifigs.name, minifigs.num_parts, owned_minifigs.quantity
+    SELECT owned_minifigs.fig_num, minifigs.name, minifigs.num_parts, owned_minifigs.quantity,
+           minifig_renders.image_path
     FROM owned_minifigs
     JOIN minifigs ON minifigs.fig_num = owned_minifigs.fig_num
+    LEFT JOIN minifig_renders ON minifig_renders.fig_num = owned_minifigs.fig_num
     ORDER BY minifigs.name
   `);
 
@@ -14,10 +20,11 @@ function renderFigurines(db) {
     return;
   }
 
-  for (const [figName, numParts, quantity] of result[0].values) {
+  for (const [, figName, numParts, quantity, imagePath] of result[0].values) {
     const item = document.createElement("li");
     item.className = "minifig";
     item.innerHTML = `
+      ${minifigThumbnailMarkup(imagePath, figName)}
       <span class="minifig-name">${figName}</span>
       <span class="minifig-quantity">&times;${quantity}</span>
     `;

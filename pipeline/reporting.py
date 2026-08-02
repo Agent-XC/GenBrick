@@ -93,6 +93,17 @@ CREATE TABLE part_renders (
     PRIMARY KEY (part_num, color_id)
 );
 
+-- One row per fig_num with a resolvable thumbnail (issue #34) — sparse like
+-- part_renders above: a minifig whose own Rebrickable inventory has zero
+-- crosswalk-resolved parts, or whose render failed, simply has no row here,
+-- rather than a 'none' placeholder row (figurines.js's LEFT JOIN falls back
+-- to the same "no photo yet" placeholder either way).
+CREATE TABLE minifig_renders (
+    fig_num TEXT PRIMARY KEY REFERENCES minifigs (fig_num),
+    image_path TEXT NOT NULL,
+    rendered_at TEXT NOT NULL
+);
+
 CREATE TABLE inventories (
     id INTEGER PRIMARY KEY,
     version INTEGER NOT NULL,
@@ -254,6 +265,13 @@ def primary_to_reporting(primary_dir: Path, db_path: Path) -> None:
             table="part_renders",
             columns=["part_num", "color_id", "image_path", "rendered_at"],
             to_row=lambda r: (r["part_num"], int(r["color_id"]), r["image_path"], r["rendered_at"]),
+        )
+        _insert_csv(
+            conn,
+            primary_dir / "minifig_renders.csv",
+            table="minifig_renders",
+            columns=["fig_num", "image_path", "rendered_at"],
+            to_row=lambda r: (r["fig_num"], r["image_path"], r["rendered_at"]),
         )
         _insert_csv(
             conn,

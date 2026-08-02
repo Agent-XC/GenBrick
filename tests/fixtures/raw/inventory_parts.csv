@@ -7,3 +7,6 @@ inventory_id,part_num,color_id,quantity,is_spare
 3,3020,1,10,false
 3,3001,71,5,false
 3,3001,0,5,false
+5,3001,0,1,false
+5,3020,1,1,false
+6,3001,15,1,false

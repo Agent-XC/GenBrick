@@ -114,7 +114,7 @@ body {
 .minifig {
   display: flex;
   gap: 0.75rem;
-  align-items: baseline;
+  align-items: center;
   padding: 0.4rem 0;
   border-bottom: 1px solid #ddd;
 }
@@ -126,6 +126,30 @@ body {
 
 .minifig-quantity {
   color: #777;
+}
+
+.minifig-thumbnail,
+.minifig-thumbnail-placeholder {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 0.25rem;
+}
+
+.minifig-thumbnail {
+  object-fit: cover;
+}
+
+.minifig-thumbnail-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2f2f2;
+  border: 1px dashed #ccc;
+  color: #999;
+  font-size: 0.45rem;
+  text-align: center;
+  line-height: 1.1;
 }
 
 .parts-table {

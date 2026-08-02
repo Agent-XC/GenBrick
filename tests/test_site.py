@@ -456,6 +456,32 @@ def test_figurines_page_lists_minifigs_summed_across_boxes(page: Page, site_url:
     expect(figurines.filter(has_text="Luke Skywalker")).to_contain_text("×1")
 
 
+def test_figurines_page_shows_a_render_thumbnail_per_minifig_and_falls_back_gracefully_without_one(
+    page: Page, site_url: str
+):
+    """issue #34: fig-000001 (Han Solo)'s own Rebrickable inventory (3001/Black
+    + 3020/Blue, see tests/fixtures/raw/inventory_parts.csv's inventory_id 5)
+    resolves fully via the fixture LDraw crosswalk, so it gets a rendered
+    thumbnail. fig-000002 (Luke Skywalker)'s own inventory (3001/White, color
+    15 — inventory_id 6) has no ldraw_color_id in the fixture colors
+    crosswalk, so it has no minifig_renders row at all — the acceptance
+    criteria's "falls back gracefully" case: a placeholder, not a broken
+    <img>.
+    """
+    page.goto(f"{site_url}/figurines.html")
+
+    figurines = page.locator("#figurines .minifig")
+
+    han_solo_row = figurines.filter(has_text="Han Solo")
+    expect(han_solo_row.locator("img.minifig-thumbnail")).to_have_attribute(
+        "src", re.compile(r"^assets/ldraw-renders/minifigs/fig-000001/")
+    )
+
+    luke_row = figurines.filter(has_text="Luke Skywalker")
+    expect(luke_row.locator("img")).to_have_count(0)
+    expect(luke_row.locator(".minifig-thumbnail-placeholder")).to_be_visible()
+
+
 def test_generate_page_renders_the_returned_ldr_text_from_a_stubbed_space_response(page: Page, site_url: str):
     """Stubs the deployed Space's two-step Gradio "call" API (issue #22) —
     a POST that hands back an event_id, then a GET that streams back an SSE

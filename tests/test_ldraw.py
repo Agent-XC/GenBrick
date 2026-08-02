@@ -5,6 +5,7 @@ from pipeline.ldraw import (
     resolve_ldraw_lines,
     resolve_ldraw_part_render,
     resolve_ldraw_procedural_render,
+    resolve_minifig_render,
     resolve_part_renders,
 )
 from tests.conftest import FakeRenderer
@@ -287,3 +288,90 @@ def test_resolve_part_renders_omits_a_pair_whose_render_fails(tmp_path):
     )
 
     assert part_renders == []
+
+
+def test_resolve_minifig_render_succeeds_for_a_minifigs_own_resolved_parts(tmp_path):
+    renderer = FakeRenderer()
+
+    row = resolve_minifig_render(
+        "fig-000001",
+        INVENTORY_PARTS_ROWS,
+        LDRAW_PART_ID_BY_PART_NUM,
+        LDRAW_COLOR_ID_BY_COLOR_ID,
+        tmp_path,
+        "2024-01-01T00:00:00Z",
+        render=renderer,
+    )
+
+    assert row == {
+        "fig_num": "fig-000001",
+        "image_path": row["image_path"],
+        "rendered_at": "2024-01-01T00:00:00Z",
+    }
+    assert row["image_path"].startswith("assets/ldraw-renders/minifigs/fig-000001/")
+    assert row["image_path"].endswith(".png")
+    assert len(renderer.calls) == 1
+
+
+def test_resolve_minifig_render_returns_none_without_crashing_when_no_parts_resolve(tmp_path):
+    """A minifig with no own inventory materialized (empty rows) or whose own
+    parts all miss the crosswalk resolves to nothing — dropped, not guessed
+    at, same as resolve_ldraw_procedural_render/resolve_ldraw_part_render.
+    """
+    renderer = FakeRenderer()
+
+    row = resolve_minifig_render(
+        "fig-000003",
+        [],
+        LDRAW_PART_ID_BY_PART_NUM,
+        LDRAW_COLOR_ID_BY_COLOR_ID,
+        tmp_path,
+        "2024-01-01T00:00:00Z",
+        render=renderer,
+    )
+
+    assert row is None
+    assert len(renderer.calls) == 0
+
+
+def test_resolve_minifig_render_returns_none_without_crashing_when_the_renderer_fails(tmp_path):
+    renderer = FakeRenderer(should_fail=True)
+
+    row = resolve_minifig_render(
+        "fig-000001",
+        INVENTORY_PARTS_ROWS,
+        LDRAW_PART_ID_BY_PART_NUM,
+        LDRAW_COLOR_ID_BY_COLOR_ID,
+        tmp_path,
+        "2024-01-01T00:00:00Z",
+        render=renderer,
+    )
+
+    assert row is None
+    assert len(renderer.calls) == 1
+
+
+def test_resolve_minifig_render_skips_a_second_render_call_when_the_parts_are_unchanged(tmp_path):
+    renderer = FakeRenderer()
+
+    first = resolve_minifig_render(
+        "fig-000001",
+        INVENTORY_PARTS_ROWS,
+        LDRAW_PART_ID_BY_PART_NUM,
+        LDRAW_COLOR_ID_BY_COLOR_ID,
+        tmp_path,
+        "2024-01-01T00:00:00Z",
+        render=renderer,
+    )
+    second = resolve_minifig_render(
+        "fig-000001",
+        INVENTORY_PARTS_ROWS,
+        LDRAW_PART_ID_BY_PART_NUM,
+        LDRAW_COLOR_ID_BY_COLOR_ID,
+        tmp_path,
+        "2024-02-01T00:00:00Z",
+        render=renderer,
+    )
+
+    assert len(renderer.calls) == 1
+    assert first["image_path"] == second["image_path"]

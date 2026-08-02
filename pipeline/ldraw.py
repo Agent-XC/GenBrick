@@ -14,6 +14,11 @@ RENDER_WEB_ROOT = "assets/ldraw-renders"
 # set_num.
 PART_RENDER_WEB_ROOT = f"{RENDER_WEB_ROOT}/parts"
 
+# Same nesting rationale as PART_RENDER_WEB_ROOT above — per-minifig
+# thumbnails (issue #34) share the same render_dir/render() seam, keyed by
+# fig_num instead.
+MINIFIG_RENDER_WEB_ROOT = f"{RENDER_WEB_ROOT}/minifigs"
+
 
 def resolve_ldraw_lines(
     inventory_parts_rows: Iterable[Mapping],
@@ -287,3 +292,53 @@ def resolve_part_renders(
         if part_row is not None:
             rows.append(part_row)
     return rows
+
+
+def resolve_minifig_render(
+    fig_num: str,
+    inventory_parts_rows: Iterable[Mapping],
+    ldraw_part_id_by_part_num: Mapping[str, str | None],
+    ldraw_color_id_by_color_id: Mapping[int, int | None],
+    render_dir: Path,
+    rendered_at: str,
+    render: Callable[[Path, Path], None] = render_with_ldview,
+) -> dict | None:
+    """One minifig's own thumbnail render (issue #34/spike #30): a minifig
+    gets its own inventory_parts rows via Rebrickable's fig_num-keyed
+    `inventories` row (`inventories.set_num == fig_num`), the same
+    (part_num, color_id, quantity) triple shape a Set's inventory has — so
+    this reuses resolve_ldraw_lines/build_ldr_layout unchanged, producing a
+    small pile of the minifig's own head/torso/legs/etc (#30's "pile render"
+    scope, not an assembled standing figure — no per-part-role orientation
+    data exists anywhere in this pipeline's inputs to build that).
+
+    Mirrors resolve_ldraw_part_render's sparse-row shape: no 'none' row for a
+    minifig with zero resolved parts (no own inventory materialized, or a
+    crosswalk miss) or a failed render — the caller simply gets nothing
+    written to minifig_renders, and figurines.js's LEFT JOIN falls back to
+    the same "no photo yet" placeholder either way.
+    """
+    resolved, _, _ = resolve_ldraw_lines(inventory_parts_rows, ldraw_part_id_by_part_num, ldraw_color_id_by_color_id)
+    if not resolved:
+        return None
+
+    digest = content_hash(resolved)
+    minifig_render_dir = render_dir / "minifigs" / fig_num
+    png_path = minifig_render_dir / f"{digest}.png"
+
+    if not png_path.exists():
+        minifig_render_dir.mkdir(parents=True, exist_ok=True)
+        ldr_path = minifig_render_dir / f"{digest}.ldr"
+        ldr_path.write_text(build_ldr_layout(resolved))
+        try:
+            render(ldr_path, png_path)
+        except Exception:
+            return None
+        if not png_path.exists():
+            return None
+
+    return {
+        "fig_num": fig_num,
+        "image_path": f"{MINIFIG_RENDER_WEB_ROOT}/{fig_num}/{digest}.png",
+        "rendered_at": rendered_at,
+    }
