@@ -17,6 +17,15 @@ SFT_ADAPTER_ID = "kulits/BrickNet-0.6B-SFT"
 # The deployed Space's stack (issue #21): PT then SFT, both merged in.
 DEPLOYED_ADAPTER_IDS = (PT_ADAPTER_ID, SFT_ADAPTER_ID)
 
+# The three adapter stacks issue #25's local generation and issue #26's
+# cross-stack comparison choose between: no adapters, PT-only, or the
+# deployed PT+SFT stack.
+ADAPTER_STACKS: dict[str, Sequence[str]] = {
+    "none": (),
+    "pt": (PT_ADAPTER_ID,),
+    "pt+sft": DEPLOYED_ADAPTER_IDS,
+}
+
 # scripts/generate.py's own defaults for its conditional (SFT, prompts_file)
 # generation mode.
 MAX_NEW_TOKENS = 4096

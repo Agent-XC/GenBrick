@@ -18,13 +18,7 @@ Usage:
 
 import argparse
 
-from space.predict import DEPLOYED_ADAPTER_IDS, PT_ADAPTER_ID, generate_path_text_locally
-
-ADAPTER_STACKS = {
-    "none": (),
-    "pt": (PT_ADAPTER_ID,),
-    "pt+sft": DEPLOYED_ADAPTER_IDS,
-}
+from space.predict import ADAPTER_STACKS, generate_path_text_locally
 
 
 def main() -> None:
