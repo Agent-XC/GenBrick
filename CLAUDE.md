@@ -15,3 +15,7 @@ Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/do
 ### Local site preview
 
 To look at `site/` in a browser, run `.venv/bin/python scripts/preview_site.py` — don't re-derive the staging/serving steps by hand. See `docs/agents/local-preview.md`.
+
+### Code review
+
+Use the `mattpocock-skills:code-review` skill for any code review, not the built-in `code-review` skill.
