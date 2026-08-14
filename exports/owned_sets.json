@@ -108,11 +108,29 @@
     "notes": ""
   },
   {
+    "set_num": "71862-1",
+    "name": "Lloyd's Dragon Mech Battle Pack",
+    "year": 2026,
+    "theme_id": 435,
+    "num_parts": 81,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
     "set_num": "71863-1",
     "name": "Zilvar and Grimtak the Dragon Beast",
     "year": 2026,
     "theme_id": 435,
     "num_parts": 232,
+    "date_acquired": "",
+    "notes": ""
+  },
+  {
+    "set_num": "72156-1",
+    "name": "Trainer's Buggy Adventure with Squirtle",
+    "year": 2026,
+    "theme_id": 776,
+    "num_parts": 320,
     "date_acquired": "",
     "notes": ""
   },
