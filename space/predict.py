@@ -5,7 +5,7 @@ future Space's app.py wraps (see issue #21). Collision-mesh fetching/scoring
 (`bricknet fetch-meshes`, `bricknet score`) is deliberately not wired in.
 """
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 
 from bricknet.graph import graph_to_ldr, tree_to_graph
 from bricknet.tree import parse_sample
@@ -13,6 +13,9 @@ from bricknet.tree import parse_sample
 BASE_MODEL_ID = "Qwen/Qwen3-0.6B"
 PT_ADAPTER_ID = "kulits/BrickNet-0.6B-PT"
 SFT_ADAPTER_ID = "kulits/BrickNet-0.6B-SFT"
+
+# The deployed Space's stack (issue #21): PT then SFT, both merged in.
+DEPLOYED_ADAPTER_IDS = (PT_ADAPTER_ID, SFT_ADAPTER_ID)
 
 # scripts/generate.py's own defaults for its conditional (SFT, prompts_file)
 # generation mode.
@@ -24,18 +27,22 @@ TOP_P = 0.95
 _model_and_tokenizer = None
 
 
-def _load_model_and_tokenizer():
-    """Loads the base model plus both LoRA adapters, PT then SFT, merging
-    each in turn (scripts/generate.py's --lora order for conditional
-    generation) so inference runs against a single merged model rather than
-    paying PEFT's adapter-swap overhead per request.
+def _load_model_and_tokenizer(adapter_ids: Sequence[str] = DEPLOYED_ADAPTER_IDS):
+    """Loads the base model plus the given LoRA adapters, merging each in
+    turn (scripts/generate.py's --lora order for conditional generation) so
+    inference runs against a single merged model rather than paying PEFT's
+    adapter-swap overhead per request.
+
+    `adapter_ids` defaults to the deployed Space's PT+SFT stack; pass a
+    shorter (or empty) list to compare against PT-only or no-adapter
+    generation (issue #25).
     """
     import torch
     from peft import PeftModel
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     model = AutoModelForCausalLM.from_pretrained(BASE_MODEL_ID, dtype=torch.bfloat16)
-    for adapter_id in (PT_ADAPTER_ID, SFT_ADAPTER_ID):
+    for adapter_id in adapter_ids:
         model = PeftModel.from_pretrained(model, adapter_id)
         model = model.merge_and_unload()
     model.eval()
@@ -56,23 +63,13 @@ def _get_model_and_tokenizer():
     return _model_and_tokenizer
 
 
-def generate_path_text(caption: str) -> str:
+def _generate_from_model(model, tokenizer, caption: str) -> str:
     """One caption -> one generated path-text sample (num_samples=1): the
     conditional/SFT branch of scripts/generate.py's generation logic, minus
     the multi-GPU/multi-sample batching a live Space request doesn't need.
     """
     import torch
 
-    # ZeroGPU (space/app.py's @spaces.GPU) runs each call in a forked worker
-    # process, and forks inherit the parent's torch RNG state verbatim
-    # rather than seeding fresh from OS entropy (spaces/zero/torch's own
-    # worker init never reseeds). Left unseeded, every freshly-forked worker
-    # starts do_sample=True generation from the same RNG state, so repeat
-    # calls with the same caption produce byte-identical output (issue #24).
-    # torch.seed() draws a real seed from the OS, breaking that inheritance.
-    torch.seed()
-
-    model, tokenizer = _get_model_and_tokenizer()
     newline_id = tokenizer.encode("\n", add_special_tokens=False)[0]
     prompt_ids = tokenizer.encode(caption, add_special_tokens=False) + [newline_id]
     input_ids = torch.tensor([prompt_ids])
@@ -87,6 +84,45 @@ def generate_path_text(caption: str) -> str:
             top_p=TOP_P,
         )
     return tokenizer.decode(output[0][len(prompt_ids) :], skip_special_tokens=True)
+
+
+def generate_path_text(caption: str) -> str:
+    """The deployed Space's generation path: caption -> one generated
+    path-text sample, using the process-wide singleton PT+SFT model.
+    """
+    import torch
+
+    # ZeroGPU (space/app.py's @spaces.GPU) runs each call in a forked worker
+    # process, and forks inherit the parent's torch RNG state verbatim
+    # rather than seeding fresh from OS entropy (spaces/zero/torch's own
+    # worker init never reseeds). Left unseeded, every freshly-forked worker
+    # starts do_sample=True generation from the same RNG state, so repeat
+    # calls with the same caption produce byte-identical output (issue #24).
+    # torch.seed() draws a real seed from the OS, breaking that inheritance.
+    torch.seed()
+
+    model, tokenizer = _get_model_and_tokenizer()
+    return _generate_from_model(model, tokenizer, caption)
+
+
+def generate_path_text_locally(caption: str, adapter_ids: Sequence[str], seed: int) -> str:
+    """Local (CPU, no ZeroGPU quota or HF_TOKEN needed) generation for
+    comparing adapter stacks (issue #25): loads a fresh model merged with
+    exactly `adapter_ids` — pass `()` for the raw base model, `(PT_ADAPTER_ID,)`
+    for PT-only, or `DEPLOYED_ADAPTER_IDS` to match the live Space — and
+    seeds torch deterministically from `seed` instead of reseeding from OS
+    entropy.
+
+    This is the opposite of generate_path_text's #24 fix: that reseeds every
+    call so repeat requests diverge, while this seeds explicitly so the same
+    seed can be reused across different adapter stacks for the same caption,
+    isolating the adapter's effect from do_sample=True sampling noise.
+    """
+    import torch
+
+    torch.manual_seed(seed)
+    model, tokenizer = _load_model_and_tokenizer(adapter_ids)
+    return _generate_from_model(model, tokenizer, caption)
 
 
 def path_text_to_ldr(path_text: str) -> str:
